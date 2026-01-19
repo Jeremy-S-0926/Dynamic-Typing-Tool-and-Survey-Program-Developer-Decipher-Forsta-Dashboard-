@@ -7,18 +7,18 @@
 
 ## Test Scenario Overview
 
-| # | Scenario | Type | XSEG_ASSIGNED | XQINSTYPE | ESI_OPEN | MA_OPEN | Expected XRANDOMPICK | Expected ROUTER_STATUS | Notes |
-|---|----------|------|---------------|-----------|----------|---------|----------------------|----------------------|-------|
-| 1 | Both open, odd segment | Happy path | 5 (odd) | 2 (ESI) | 30 | 25 | 1 (ESI) | SUCCESS_ESI | Tie-break: mod-based |
-| 2 | Both open, even segment | Happy path | 6 (even) | 2 (ESI) | 30 | 25 | 2 (MA) | SUCCESS_MA | Tie-break: mod-based |
-| 3 | ESI only open | Happy path | 7 | 2 (ESI) | 25 | 0 | 1 (ESI) | SUCCESS_ESI | MA full; ESI available |
-| 4 | MA only open | Happy path | 8 | 0 (MA) | 0 | 20 | 2 (MA) | SUCCESS_MA | ESI full; MA available |
-| 5 | Both full | Overquota | 9 | 2 (ESI) | 0 | 0 | UNSET | OVERQUOTA_NO_ALLOCATION | No quota available |
-| 6 | XQINSTYPE=Other | Overquota | 10 | 3 (Other) | INF | INF | UNSET | OVERQUOTA_NO_ALLOCATION | Other type not routable |
-| 7 | XSEG_ASSIGNED missing | Error | NULL | 2 (ESI) | 25 | 20 | UNSET | TYPING_INCOMPLETE | Typing module failed |
-| 8 | QINSTYPE=r99 | Error | 11 | INVALID | N/A | N/A | UNSET | ERROR_INVALID_INSURANCE | Hard screenout |
-| 9 | MA flag, ESI marginal | Boundary | 12 (even) | 0 (MA) | 1 | 50 | 2 (MA) | SUCCESS_MA | ESI at 1 (edge case) |
-| 10 | Traditional Medicare | Insurance logic | 13 | 1 (Traditional) | 0 | 30 | 2 (MA) | SUCCESS_MA | XQINSTYPE=1 eligible for MA |
+| #   | Scenario                | Type            | XSEG_ASSIGNED | XQINSTYPE       | ESI_OPEN | MA_OPEN | Expected XRANDOMPICK | Expected ROUTER_STATUS  | Notes                       |
+| --- | ----------------------- | --------------- | ------------- | --------------- | -------- | ------- | -------------------- | ----------------------- | --------------------------- |
+| 1   | Both open, odd segment  | Happy path      | 5 (odd)       | 2 (ESI)         | 30       | 25      | 1 (ESI)              | SUCCESS_ESI             | Tie-break: mod-based        |
+| 2   | Both open, even segment | Happy path      | 6 (even)      | 2 (ESI)         | 30       | 25      | 2 (MA)               | SUCCESS_MA              | Tie-break: mod-based        |
+| 3   | ESI only open           | Happy path      | 7             | 2 (ESI)         | 25       | 0       | 1 (ESI)              | SUCCESS_ESI             | MA full; ESI available      |
+| 4   | MA only open            | Happy path      | 8             | 0 (MA)          | 0        | 20      | 2 (MA)               | SUCCESS_MA              | ESI full; MA available      |
+| 5   | Both full               | Overquota       | 9             | 2 (ESI)         | 0        | 0       | UNSET                | OVERQUOTA_NO_ALLOCATION | No quota available          |
+| 6   | XQINSTYPE=Other         | Overquota       | 10            | 3 (Other)       | INF      | INF     | UNSET                | OVERQUOTA_NO_ALLOCATION | Other type not routable     |
+| 7   | XSEG_ASSIGNED missing   | Error           | NULL          | 2 (ESI)         | 25       | 20      | UNSET                | TYPING_INCOMPLETE       | Typing module failed        |
+| 8   | QINSTYPE=r99            | Error           | 11            | INVALID         | N/A      | N/A     | UNSET                | ERROR_INVALID_INSURANCE | Hard screenout              |
+| 9   | MA flag, ESI marginal   | Boundary        | 12 (even)     | 0 (MA)          | 1        | 50      | 2 (MA)               | SUCCESS_MA              | ESI at 1 (edge case)        |
+| 10  | Traditional Medicare    | Insurance logic | 13            | 1 (Traditional) | 0        | 30      | 2 (MA)               | SUCCESS_MA              | XQINSTYPE=1 eligible for MA |
 
 ---
 
