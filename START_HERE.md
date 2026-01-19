@@ -1,8 +1,8 @@
 # 📋 WORKSPACE GUIDE — START HERE
 
-**Last Updated:** Jan 19, 2026 (Cleanup Complete)  
-**Phase:** Discovery & Analysis (Steps 1a–1d Complete ✅)  
-**Status:** Workspace cleaned; ready for Steps 1e–1h (Due Jan 20)  
+**Last Updated:** Jan 20, 2026  
+**Phase:** Discovery & Analysis COMPLETE ✅ (All Steps 1a–1h)  
+**Status:** Ready for Phase 2 - Router XML Implementation  
 
 ---
 
@@ -22,11 +22,10 @@ All findings organized in [`discovery/`](discovery/) folder:
 | [`Step_1c_Quota_Status.md`](discovery/Step_1c_Quota_Status.md) | ✅ | Quota sheets unblocked + open questions |
 | [`Quota_Map.md`](discovery/Quota_Map.md) | ✅ | Sheet → Decipher tag mapping + numeric caps |
 | [`Step_1d_Insurance_Logic.md`](discovery/Step_1d_Insurance_Logic.md) | ✅ | Insurance classification + XQINSTYPE + XRANDOMPICK |
-| [`Step_1e_Termination_Redirect.md`](discovery/Step_1e_Termination_Redirect.md) | 🚧 | (Due Jan 20) Exit codes + panel constraints |
-| [`Step_1f_Router_Logic.md`](discovery/Step_1f_Router_Logic.md) | 🚧 | (Due Jan 20) Pseudocode + flowchart |
-| [`Output_Schema.md`](discovery/Output_Schema.md) | 🚧 | (Due Jan 20) Hidden variables for export + QA |
-| [`Test_Scenarios.md`](discovery/Test_Scenarios.md) | 🚧 | (Due Jan 20) 5–10 test cases |
-| [`README.md`](discovery/README.md) | ✅ | Index of all discovery docs (reference guide) |
+| [`Step_1e_Termination_Redirect.md`](discovery/Step_1e_Termination_Redirect.md) | ✅ | Exit codes + panel constraints + soft-term strategy |
+| [`Step_1f_Router_Logic.md`](discovery/Step_1f_Router_Logic.md) | ✅ | Complete pseudocode + flowchart + tie-break logic |
+| [`Step_1g_Output_Schema.md`](discovery/Step_1g_Output_Schema.md) | ✅ | Hidden variables + data export schema + Decipher XML setup |
+| [`Step_1h_Test_Scenarios.md`](discovery/Step_1h_Test_Scenarios.md) | ✅ | 10 test cases covering all router paths |
 
 ### 💬 Client Communications
 - [`chats/COMMUNICATIONS_SUMMARY.md`](chats/COMMUNICATIONS_SUMMARY.md) — Consolidated from 3 chat logs (Jan 12–18)

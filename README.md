@@ -5,24 +5,22 @@
 **Client:** Bryan Dumont, Reservoir Communications  
 **System:** PRISM - Healthcare Policy Segmentation Research Platform  
 **Stack:** Decipher/Forsta (XML + JavaScript), DisplayR Dashboards  
-**Status:** Week 1 - Step 1 Discovery (1d Complete, ~16 hrs logged)  
-**Timeline:** Jan 19–24 (MVP), Jan 31 (go-live)  
+**Status:** Week 1 - Step 1 Discovery COMPLETE ✅ (All 8 steps, ~25 hrs)  
+**Timeline:** Jan 19–24 (MVP router implementation), Jan 31 (go-live)  
 
 ---
 
-## Current Phase: Week 1 Discovery & Analysis
+## Current Phase: Week 1 Discovery & Analysis (COMPLETE)
 
-### ✅ Completed (Jan 19)
+### ✅ Completed Steps 1a-1h (Jan 19-20)
 - **Step 1a:** Reviewed PRISM XMLs → identified `XSEG_ASSIGNED` (16 segments, stable)
 - **Step 1b:** Mapped segment definitions → GOP (10) + DEM (6) scoring logic
 - **Step 1c:** Parsed quota sheets → MA/ESI caps, GLP1 segment caps, all other quotas open (`inf`)
 - **Step 1d:** Mapped insurance logic → QINSTYPE → XQINSTYPE → INS_MA_FLAG, INS_ESI_FLAG, INS_OTHER_FLAG
-
-### 🚧 In Progress (Jan 20)
-- **Step 1e:** Termination/redirect codes + panel constraints
-- **Step 1f:** Router decision tree pseudocode + flowchart
-- **Step 1g:** Hidden variable schema (XSEG_ASSIGNED, ROUTER_STATUS, decision logs)
-- **Step 1h:** Test scenarios (5–10 cases)
+- **Step 1e:** Termination/redirect codes + panel constraints (soft-term strategy)
+- **Step 1f:** Router decision tree pseudocode + flowchart (deterministic tie-break)
+- **Step 1g:** Hidden variable schema (ROUTER_STATUS, ROUTER_DECISION_LOG, export format)
+- **Step 1h:** Test scenarios (10 test cases covering all paths)
 
 ---
 
@@ -60,10 +58,10 @@
 │   ├── Step_1c_Quota_Status.md         # ✅ Quota sheets unblocked
 │   ├── Quota_Map.md                    # ✅ Sheet → tag mapping + caps
 │   ├── Step_1d_Insurance_Logic.md      # ✅ QINSTYPE + XQINSTYPE + XRANDOMPICK
-│   ├── Step_1e_Termination_Redirect.md # 🚧 Codes + panel constraints
-│   ├── Step_1f_Router_Logic.md         # 🚧 Pseudocode + flowchart
-│   ├── Output_Schema.md                # 🚧 Hidden variables
-│   └── Test_Scenarios.md               # 🚧 5–10 test cases
+│   ├── Step_1e_Termination_Redirect.md # ✅ Codes + panel constraints
+│   ├── Step_1f_Router_Logic.md         # ✅ Pseudocode + flowchart
+│   ├── Step_1g_Output_Schema.md        # ✅ Hidden variables
+│   └── Step_1h_Test_Scenarios.md       # ✅ Test cases (10 scenarios)
 ├── router/                             # Router implementation (Phase 2)
 │   └── (to be created)
 └── .gitignore
