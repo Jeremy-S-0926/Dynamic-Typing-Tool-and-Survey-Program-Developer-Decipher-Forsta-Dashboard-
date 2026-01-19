@@ -39,6 +39,15 @@
   <row label="r6">ERROR_INVALID_INSURANCE</row>
 </radio>
 
+<radio label="XRANDOMPICK"
+       optional="1"
+       where="execute,survey,report">
+  <title>MA/ESI Route Selector</title>
+  <comment>Random picker for MA vs ESI when both are open (matches source XML behavior)</comment>
+  <row label="r1">ESI</row>
+  <row label="r2">MA</row>
+</radio>
+
 <radio label="ROUTER_ALLOCATION_REASON"
        optional="1"
        where="execute,survey,report">
@@ -53,7 +62,7 @@
 <text label="ROUTER_DECISION_LOG"
       optional="1"
       where="execute,survey,report"
-      size="25">
+      size="250">
   <title>Router Decision Audit Trail</title>
   <comment>Semicolon-delimited log: timestamp; XSEG; XQINS; ESI_OPEN; MA_OPEN; GLP1_OPEN; DECISION; ROUTE; STATUS</comment>
 </text>
@@ -100,11 +109,14 @@
 
 <!-- Verify typing completed (Step 1h test case 7: XSEG_ASSIGNED missing) -->
 <exec>
+# Import required modules
+from datetime import datetime
+
 if not XSEG_ASSIGNED.val:
     # Typing failed or incomplete
     ROUTER_STATUS.val = "r5"  # TYPING_INCOMPLETE
     ROUTER_ALLOCATION_REASON.val = "r4"  # TYPING_FAILED
-    ROUTER_DECISION_LOG.val = f"{datetime.now()}; XSEG=NULL; DECISION=ERROR; STATUS=TYPING_INCOMPLETE"
+    ROUTER_DECISION_LOG.val = "{}; XSEG=NULL; DECISION=ERROR; STATUS=TYPING_INCOMPLETE".format(datetime.now().strftime("%Y%m%d-%H%M%S"))
     # Soft-term (do not hard-terminate)
     # Jump to exit block (defined below)
 </exec>
@@ -127,7 +139,10 @@ if not XSEG_ASSIGNED.val:
 if QINSTYPE.r99:
     # Hard screenout per existing XML behavior
     ROUTER_STATUS.val = "r6"  # ERROR_INVALID_INSURANCE
-    ROUTER_DECISION_LOG.val = f"{datetime.now()}; XSEG={XSEG_ASSIGNED.val}; QINSTYPE=r99; DECISION=SCREENOUT; STATUS=ERROR_INVALID_INSURANCE"
+    ROUTER_DECISION_LOG.val = "{}; XSEG={}; QINSTYPE=r99; DECISION=SCREENOUT; STATUS=ERROR_INVALID_INSURANCE".format(
+      datetime.now().strftime("%Y%m%d-%H%M%S"),
+      XSEG_ASSIGNED.val
+    )
     # Route to term_QINSTYPE (existing termination logic)
 
 # XQINSTYPE derivation already exists in source XMLs (lines 2584-2602 PRISM_MA_ESI.xml)
@@ -150,7 +165,9 @@ if QINSTYPE.r99:
 
 # Read respondent profile
 xseg = XSEG_ASSIGNED.val  # 1-16
-xqins = XQINSTYPE.val  # r1 (MA), r2 (Traditional), r3 (ESI), r4 (Other)
+# XQINSTYPE stores value as integer 0-3, but rows are r1-r4
+# Use .selected.index to get 0-based index (matches source XML behavior at line 2612)
+xqins = XQINSTYPE.selected.index if XQINSTYPE.val is not None else None
 
 # Initialize availability flags
 esi_open = 0
@@ -161,9 +178,10 @@ glp1_open = 0
 # ========================================
 # STEP 4a: Derive insurance eligibility flags (Step 1d)
 # ========================================
-ins_ma_flag = (xqins in ["r1", "r2"])  # Medicare Advantage or Traditional
-ins_esi_flag = (xqins == "r3")  # Employer-Sponsored Insurance
-ins_other_flag = (xqins == "r4")  # Other/no insurance
+# XQINSTYPE.selected.index returns: 0=MA, 1=Traditional, 2=ESI, 3=Other
+ins_ma_flag = (xqins in [0, 1])  # Medicare Advantage (0) or Traditional (1)
+ins_esi_flag = (xqins == 2)  # Employer-Sponsored Insurance
+ins_other_flag = (xqins == 3)  # Other/no insurance
 
 # ========================================
 # STEP 4b: Check MA/ESI quotas (if eligible)
@@ -230,19 +248,23 @@ if ins_ma_flag or ins_esi_flag:
         if xseg % 2 == 1:  # odd segments → ESI
             route_block = "r1"  # ROI_ESI_FINAL
             router_status = "r2"  # SUCCESS_ESI
+                    xrandompick = "r1"  # ESI
         else:  # even segments → MA
             route_block = "r2"  # ROI_MA_FINAL
             router_status = "r1"  # SUCCESS_MA
+                    xrandompick = "r2"  # MA
         allocation_reason = "r1"  # QUOTA_AVAILABLE
         
     elif esi_open > 0:
         # ESI only open (Step 1h test case 3)
+          xrandompick = "r1"  # ESI
         route_block = "r1"  # ROI_ESI_FINAL
         router_status = "r2"  # SUCCESS_ESI
         allocation_reason = "r1"  # QUOTA_AVAILABLE
         
     elif ma_open > 0:
         # MA only open (Step 1h test case 4, 9, 10)
+          xrandompick = "r2"  # MA
         route_block = "r2"  # ROI_MA_FINAL
         router_status = "r1"  # SUCCESS_MA
         allocation_reason = "r1"  # QUOTA_AVAILABLE
@@ -251,17 +273,21 @@ if ins_ma_flag or ins_esi_flag:
         # MA/ESI full, fallback to GLP1
         route_block = "r3"  # ROI_GLP1_FINAL
         router_status = "r3"  # SUCCESS_GLP1
+          xrandompick = None  # No MA/ESI allocation
         allocation_reason = "r1"  # QUOTA_AVAILABLE (GLP1 available)
         
     else:
         # All quotas full (Step 1h test case 5)
         route_block = "r4"  # NONE
         router_status = "r4"  # OVERQUOTA_NO_ALLOCATION
+          xrandompick = None  # No allocation
         allocation_reason = "r2"  # QUOTA_FULL
 
 elif ins_other_flag:
     # XQINSTYPE=Other: only eligible for GLP1 (Step 1h test case 6)
     if glp1_open > 0:
+          xrandompick = None  # No MA/ESI allocation
+          xrandompick = None  # No allocation
         route_block = "r3"  # ROI_GLP1_FINAL
         router_status = "r3"  # SUCCESS_GLP1
         allocation_reason = "r1"  # QUOTA_AVAILABLE
@@ -277,10 +303,20 @@ elif ins_other_flag:
 ROUTE_BLOCK_INTERNAL.val = route_block
 ROUTER_STATUS.val = router_status
 ROUTER_ALLOCATION_REASON.val = allocation_reason
+XRANDOMPICK.val = xrandompick
 
 # Build decision log (Step 1g audit trail)
-timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-log_entry = f"{timestamp}; XSEG={xseg}; XQINS={xqins}; ESI_OPEN={esi_open}; MA_OPEN={ma_open}; GLP1_OPEN={glp1_open}; DECISION={'ROUTE' if route_block != 'r4' else 'OVERQUOTA'}; ROUTE={route_block}; STATUS={router_status}"
+log_entry = "{}; XSEG={}; XQINS={}; ESI_OPEN={}; MA_OPEN={}; GLP1_OPEN={}; DECISION={}; ROUTE={}; STATUS={}".format(
+  datetime.now().strftime("%Y%m%d-%H%M%S"),
+  xseg,
+  xqins,
+  esi_open,
+  ma_open,
+  glp1_open,
+  'ROUTE' if route_block != 'r4' else 'OVERQUOTA',
+  route_block,
+  router_status
+)
 ROUTER_DECISION_LOG.val = log_entry
 
 </exec>
@@ -294,20 +330,19 @@ ROUTER_DECISION_LOG.val = log_entry
      ======================================== -->
 
 <!-- Route to assigned study block -->
-<block label="b_router_dispatch">
-  <condition cond="ROUTE_BLOCK_INTERNAL.r1">Route to ESI</condition>
-  <goto block="ROI_ESI_FINAL"/>
-</block>
-
-<block label="b_router_dispatch_ma">
-  <condition cond="ROUTE_BLOCK_INTERNAL.r2">Route to MA</condition>
-  <goto block="ROI_MA_FINAL"/>
-</block>
-
-<block label="b_router_dispatch_glp1">
-  <condition cond="ROUTE_BLOCK_INTERNAL.r3">Route to GLP1</condition>
-  <goto block="ROI_GLP1_FINAL"/>
-</block>
+<exec>
+# Dispatch to appropriate study block based on routing decision
+# Uses skipTo() to jump to correct block (matches Decipher flow control)
+if ROUTE_BLOCK_INTERNAL.r1:
+    # Continue to ROI_ESI_FINAL (falls through to next block)
+    pass
+elif ROUTE_BLOCK_INTERNAL.r2:
+    skipTo("ROI_MA_FINAL")
+elif ROUTE_BLOCK_INTERNAL.r3:
+    skipTo("ROI_GLP1_FINAL")
+elif ROUTE_BLOCK_INTERNAL.r4:
+    skipTo("b_router_softterm")
+</exec>
 
 <!-- Soft-term if no allocation available (Step 1e) -->
 <block label="b_router_softterm">
