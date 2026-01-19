@@ -1,0 +1,5284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<survey 
+  alt="PRISM: Medicare Advantage"
+  autosaveKey="psid"
+  browserDupes=""
+  builder:wizardCompleted="1"
+  builderCompatible="1"
+  compat="146"
+  delphi="1"
+  extraVariables="ipAddress,source,record,decLang,list,userAgent,md"
+  fir="on"
+  html:showNumber="0"
+  mobile="compat"
+  mobileDevices="smartphone,tablet,desktop"
+  name="Survey"
+  remerged="20260106_19:16"
+  secure="1"
+  setup="term,decLang,quota,time"
+  ss:disableBackButton="1"
+  ss:enableNavigation="0"
+  ss:hideProgressBar="1"
+  state="live"
+  theme="frozen:user/116957/dpi_project_temp"
+  version="7">
+
+<res label="sys_check-error-atLeast-sing-column">You have left question(s) unanswered. Please provide an answer.</res>
+<res label="sys_noAnswerSelected">You have left question(s) unanswered. Please provide an answer.</res>
+<res label="sys_survey.has-errors">You have left some questions unanswered. You will find the items that need you attention shown below.</res>
+<res label="PROMPTERROR"><strong>You have left question(s) unanswered.  Are you sure you do not have an opinion?  If not, you can skip to the next question.</strong></res>
+<res label="PROMPTERROR1"><strong>You have left question(s) unanswered.  Are you sure you do not have an opinion?  If not, you can skip to the next question.</strong></res>
+<res label="PROMPTERROR2"><strong>You have left question(s) unanswered.  Are you sure you do not have an opinion?  If not, you can skip to the next question.</strong></res>
+<res label="Q3_err">Please specify</res>
+<res label="QESILT"><strong>No legitimate role</strong></res>
+<res label="QESIRT"><strong>Essential role that should be protected</strong></res>
+<res label="QMA_POST_SJ_msgA"><strong>Congress should prioritize keeping Medicare Advantage strong and affordable, protecting the benefits seniors rely on</strong></res>
+<res label="QMA_POST_SJ_msgB"><strong id="mjJLw">Congress should prioritize controlling federal spending on Medicare Advantage and protecting traditional Medicare</strong></res>
+<condition label="marker__split_2" cond="hasMarker('split_2')">split_2</condition>
+<condition label="marker__split_1" cond="hasMarker('split_1')">split_1</condition>
+<condition label="marker__c_2" cond="hasMarker('c_2')">c_2</condition>
+<condition label="marker__c_1" cond="hasMarker('c_1')">c_1</condition>
+<samplesources default="0">
+  <samplesource keyring="sys/dynata" list="101" sign="out">
+    <title>Dynata</title>
+    <invalid>You are missing information in the URL. Please verify the URL with the original invite.</invalid>
+    <completed>It seems you have already entered this survey.</completed>
+    <var name="psid" unique="1"/>
+    <exit cond="terminated" url="https://dkr1.ssisurveys.com/projects/end?rst=2&amp;psid=${psid}"/>
+    <exit cond="overquota" url="https://dkr1.ssisurveys.com/projects/end?rst=3&amp;psid=${psid}"/>
+    <exit cond="qualified" url="https://dkr1.ssisurveys.com/projects/end?rst=1&amp;psid=${psid}"/>
+  </samplesource>
+
+  <samplesource closed="1" list="0">
+    <title>Open Survey</title>
+    <invalid>You are missing information in the URL. Please verify the URL with the original invite.</invalid>
+    <completed>It seems you have already entered this survey.</completed>
+    <exit cond="terminated">Thank you for taking our survey.</exit>
+    <exit cond="qualified">Thank you for taking our survey. Your efforts are greatly appreciated!</exit>
+    <exit cond="overquota">Thank you for taking our survey.</exit>
+  </samplesource>
+</samplesources>
+
+<suspend/>
+
+<themevars>
+  <themevar name="background-color">#f0f8ff</themevar>
+  <themevar name="foreground-color">#f0f8ff</themevar>
+  <themevar name="color-1">#f0f8ff</themevar>
+  <themevar name="color-2">#191970</themevar>
+  <themevar name="color-4">#191970</themevar>
+  <themevar name="color-5">#191970</themevar></themevars>
+<suspend/>
+
+<style name="survey.header"><![CDATA[
+${pipe.mhover}
+<script> 
+$ (document).ready(function() {
+$ ('.ques_no').hide();
+});
+</script>
+<style>
+
+:root {
+  --bg1: #f0f8ff; /*Alice Blue - survey page, survey body, progress outer, description text, question text*/
+  --bg2: #191970; /*Midnight Blue - question/description text, buttons*/
+}
+
+.survey-page{ background: var(--bg1);}
+.survey-body {background-color: var(--bg1); padding-top: 30px;padding-bottom: 50px;margin-top: 10px;box-shadow: 0px 0px 15px 0px var(--bg2);}
+.progress-box-completed {background-color: var(--bg2);}
+.progress-box-outer{background-color: var(--bg1); width: 100%;border: 1px solid var(--bg2);}
+.progress-bar {width: 98%;}
+
+.row-legend{background-color: #ffffff00;}
+.row.row-elements.odd {background-color:#ffffff;}
+
+.comment-text {color: #333333;}
+.comment{background: var(--bg1);border-top: 25px solid var(--bg2); border-bottom: 5px solid var(--bg2);box-shadow: 0px 0px 15px 0px var(--bg2);}
+
+.grid.grid-table-mode .col-legend, .grid.grid-table-mode .element, .grid.grid-table-mode .cell-sub-column {color: #fff;}
+.grid-table-mode .nonempty { border: 1px solid var(--bg2);}
+
+.col-legend {background-color: var(--bg2);}
+
+.cell.hasError, .answers-list .element.hasError, .element.hasError:hover, .rowLegendErr .oe, .colLegendErr .oe { color: #000 !important;}
+
+.question {border-top: 25px solid var(--bg2); border-bottom: 5px solid var(--bg2);border-radius: 0px; background: var(--bg1);box-shadow: 0px 0px 15px 0px var(--bg2);}
+
+html:not(.lte-ie9) .fir-select .input.dropdown{background: var(--bg1);border: 1px solid var(--bg2);}
+
+.fir-icon .rounded .fir-base, .fir-icon .square .fir-base { fill: var(--bg2);  }
+.fir-icon.selected .rounded .fir-selected,.fir-icon.selected .square .fir-selected, .fir-icon.selected .scale .fir-large, .fir-icon.selected i, .non-touch .fir-icon.selected:hover .rounded .fir-selected,.non-touch .fir-icon.selected:hover .square .fir-selected,.non-touch .grid-table-mode .clickableCell:hover .fir-icon.selected .rounded .fir-selected,.non-touch .grid-table-mode .clickableCell:hover .fir-icon.selected .square .fir-selected {fill: var(--bg2);}
+
+a.autosave-restart { display: none !important; }
+
+.button {
+  position: relative;
+  background: var(--bg2);
+  color: #fff;
+  text-transform: uppercase;
+  border: none;
+  letter-spacing: 0.07rem;
+  font-size: 1.1rem;
+  padding: 1rem 3rem;
+  transition: 0.2s;
+  outline: none;
+}
+
+.button:hover, .button:focus {
+  letter-spacing: 0.15rem;
+  padding: 1.1rem 3.1rem;
+  background: var(--bg1);
+  color: var(--clr);
+  border: 3px solid rgb(0,128,0); /* Outer green border */
+  animation: box 3s infinite;
+
+}
+
+.button::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: 80%;
+  width: 10px;
+  height: 2px;
+  border: 2px solid var(--bg1);
+  background: var(--bg2);
+  transition: 0.2s;
+}
+
+.button:hover::before {
+  width: 15px;
+  left: 20%;
+  animation: move 3s infinite;
+}
+
+\@keyframes move {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(5px); }
+}
+
+\@keyframes box {
+  0%, 100% { box-shadow: var(--bg2); }
+  50% { box-shadow: 0 0 25px 0; }
+}
+
+.survey-page {
+    background-color: var(--bg1);
+    color: #008000;
+}
+
+\@media screen and (max-width:450px) {
+  .logo-image { max-height: 7em; }
+}
+\@media screen and (min-width:451px) {
+  .logo-image { max-height: 3em; }
+}
+
+.secClass {
+    position: sticky;
+    top: 0; /* The element will stick when it reaches the top */
+    left: 0;
+    z-index: 1000; /* Keeps it above other elements */
+    background-color: var(--bg2);
+    padding: 1px 5px;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+}
+
+.secClass .comment-text {
+    padding-bottom: 0em;
+    padding-top: 0em;
+    color: #fff;
+    font-size: 26px;
+    font-weight: bold !important;
+    line-height: normal;
+    font-family: Merriweather, serif;
+}
+
+</style>
+<script>
+/*
+jQuery(document).ready(function() {
+  $ ('.button').hover(
+    function() {
+      $ (this).css({
+        "transform": "scale(1.1)", 
+        "transition": "transform 0.3s, box-shadow 0.3s, border-color 0.3s",
+        "border": "4px solid rgb(0, 255, 0)",
+        "box-shadow": "0 0 20px rgba(0, 255, 0, 0.8), 0 0 40px rgba(0, 255, 0, 0.6), 0 0 60px rgba(0, 255, 0, 0.4)"
+      });
+    },
+    function() {
+      $ (this).css({
+        "transform": "scale(1)",
+        "box-shadow": "none",
+        "border-color": "transparent"
+        
+      });
+    }
+  );
+
+
+  $ ('.survey-body').hover(
+    function() {
+      $ (this).css({
+        "transform": "scale(1.1)", 
+        "transition": "transform 0.3s, box-shadow 0.3s, border-color 0.3s",
+        "border": "4px solid rgb(173, 216, 230)",
+        "box-shadow": "0 0 20px rgba(0, 0, 255, 0.8), 0 0 40px rgba(255, 0, 0, 0.6), 0 0 60px rgba(255, 0, 0, 0.4)"
+      });
+    },
+    function() {
+      $ (this).css({
+        "transform": "scale(1)",
+        "box-shadow": "none",
+        "border-color": "transparent"
+        
+      });
+    }
+  );
+
+
+  $ ('.question-text, .instruction-text, .row-legend, .non-touch, .cell-text label, .sq-ranksort-container, .sq-ranksort-cards, .sq-ranksort-card').hover(
+    function() {
+      $ (this).css({
+        "transition": "font-size 0.3s, font-weight 0.3s",
+        "font-size": "1.5em"        
+      });
+    },
+    function() {
+      $ (this).css({
+        "font-size": "1em", 
+        "font-weight": "normal"
+      });
+    }
+  );
+});
+*/
+</script>
+]]></style>
+<suspend/>
+
+<radio 
+  label="Mode"
+  where="execute,survey,report">
+  <title>Mode</title>
+  <comment>Mode of the survey</comment>
+  <exec>
+if md.isdigit():
+  if int(md)==1:
+   Mode.val=Mode.r1.index
+  else:
+   Mode.val=Mode.r2.index
+else:
+ Mode.val=Mode.r2.index
+  </exec>
+
+  <row label="r1">Live</row>
+  <row label="r2">Test</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="MC"
+  optional="1"
+  where="execute,survey,report">
+  <title>MC</title>
+  <exec>
+if device.desktop:
+    MC.val=MC.r2.index
+else:
+    MC.val=MC.r1.index
+  </exec>
+
+  <row label="r1" value="1">Mobile Device</row>
+  <row label="r2" value="2">Desktop Device</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="XMOBILE"
+  optional="1"
+  where="execute,survey,report">
+  <title>XMOBILE (COMPUTED)</title>
+  <exec>
+if device.desktop:
+    XMOBILE.val=MC.r2.index
+else:
+    XMOBILE.val=MC.r1.index
+  </exec>
+
+  <row label="r1" value="1">&lt;style teype="text/css"&gt;label br {display: none;}&lt;/style&gt;</row>
+  <row label="r2" value="2"/>
+</radio>
+
+<suspend/>
+
+<pipe label="mhover" onLoad="fixupPipe()">
+  <case label="c1" cond="MC.r1">&lt;link rel="stylesheet" type="text/css" href="https://emea.focusvision.com/survey/selfserve/21a7/251126/hover.css"&gt;&lt;link rel="stylesheet" type="text/css" href="https://emea.focusvision.com/survey/selfserve/21a7/251126/mouse_mobile_hover.css"&gt;</case>
+  <case label="c2" cond="MC.r2">&lt;link rel="stylesheet" type="text/css" href="https://emea.focusvision.com/survey/selfserve/21a7/251126/hover.css"&gt;&lt;link rel="stylesheet" type="text/css" href="https://emea.focusvision.com/survey/selfserve/21a7/251126/mouse_hover.css"&gt;</case>
+  <case label="c3" cond="1"/></pipe>
+<suspend/>
+
+<exec>
+p.pri1=0
+</exec>
+
+<suspend/>
+
+<exec when="init">
+def Prompt(Qid):
+        if not(Qid.any) and p.pri1==0:
+           error(res.PROMPTERROR)
+           p.pri1=1
+</exec>
+
+<exec when="init">
+def Prompt1(Qid):
+ for i in Qid.rows:
+	if Qid[i].displayed and not(Qid[i].any) and p.pri1==0:
+		error(res.PROMPTERROR1)
+		p.pri1=1
+</exec>
+
+<exec when="init">
+def Prompt2(Qid):
+ for i in Qid.rows:
+	if not(Qid[i].all) and p.pri1==0:
+		error(res.PROMPTERROR1)
+		p.pri1=1
+</exec>
+
+<exec when="init">
+def Prompt3(Qid):
+        if Qid.displayed and not(Qid.any) and p.pri1==0:
+           error(res.PROMPTERROR)
+           p.pri1=1
+</exec>
+
+<exec when="init">
+def Prompt4(Qid):
+	initarr=0
+	for i in Qid.rows:
+		if i.displayed and len(i.val) gt 0:
+			initarr=1
+			break
+	if initarr==0 and p.pri1==0:
+		error(res.PROMPTERROR)
+		p.pri1=1
+</exec>
+
+<exec when="init">
+def Punch(Qid):
+	if not(Qid.any):
+	  Qid.val=Qid.r99.index
+	p.pri1=0
+</exec>
+
+<exec when="init">
+def Punch1(Qid):
+  for i in Qid.rows:
+    if i.displayed and not(i.any):
+	  Qid[i].val=Qid[i].c99.index
+  p.pri1=0
+</exec>
+
+<exec when="init">
+def Punch2(Qid):
+	if not(Qid.any):
+	  Qid.r99.val=1
+	p.pri1=0
+</exec>
+
+<exec when="init">
+def Punch3(Qid):
+	if Qid.displayed and not(Qid.any):
+	  Qid.val=Qid.r99.index
+	p.pri1=0
+</exec>
+
+<exec when="init">
+def Punch4(Qid):
+	initarr=0
+	for i in Qid.rows:
+		if i.displayed and not(i.val == "None" or i.empty):
+			initarr=1
+			break
+	if initarr==0:
+		Qid.r99.val=1
+	p.pri1=0
+</exec>
+
+<exec when="init">
+def Prompt5(Qid):
+   if Qid.empty and p.pri1==0:
+		error(res.PROMPTERROR2)
+		p.pri1=1
+</exec>
+
+<suspend/>
+
+<radio 
+  label="XWAVE"
+  where="execute,survey,report">
+  <title>WAVE Punch</title>
+  <comment>Select one</comment>
+  <exec>
+XWAVE.val=0
+  </exec>
+
+  <row label="r1">Wave 1</row>
+  <row label="r2">Wave 2</row>
+</radio>
+
+<suspend/>
+
+<quota label="quo1" overquota="noqual" sheet="Total Quota"/>
+
+<html label="intro" where="survey"><strong><p><span style="font-size: 14pt;">Thank you for taking time to complete this important survey. Your voice contributes to a broader effort to understand how individuals make sense of health care and public policy. Insights from this study help inform conversations about the future of health care in the United States. </span><span style="font-size: 14pt;">Let's begin...</span></p></strong></html>
+
+<suspend/>
+
+<radio 
+  label="QS1">
+  <title><span class="ques_no">${this.label}</span> <strong>Are you registered to vote?</strong></title>
+  <row label="r1" value="1">Yes</row>
+  <row label="r2" value="2">No</row>
+</radio>
+
+<suspend/>
+
+<exec cond="QS1.r2">
+vscreenout.val= str('QS1')
+setMarker('Screened-QS1')
+</exec>
+
+<suspend/>
+
+<term label="Term_QS1" cond="QS1.r2">QS1 termination</term>
+
+<suspend/>
+
+<text 
+  label="QZIP"
+  optional="0"
+  size="5"
+  verify="zipcode">
+  <title><strong>Please enter your 5-digit Zip Code</strong> (the Zip Code of your primary residence where you are registered to vote)</title>
+</text>
+
+<suspend/>
+
+<exec when="init">
+def zipCodeFile(fname, zipHeader):
+  try:
+      zipCodesData = File( "%s/%s" % (gv.survey.path, fname), zipHeader)
+  except IOError:
+      zipCodesData = ""
+  return zipCodesData
+</exec>
+
+<suspend/>
+
+<exec when="init">
+ZIPCODES1 = zipCodeFile("find_duplicate.dat", "unique")
+ZIPCODES2 = zipCodeFile("find_duplicate.dat", "d2")
+ZIPCODES3 = zipCodeFile("find_duplicate.dat", "d3")
+ZIPCODES4 = zipCodeFile("find_duplicate.dat", "d4")
+ZIPCODES5 = zipCodeFile("find_duplicate.dat", "d5")
+myzip=zipCodeFile("Zipcodefile.dat", "ZIP")
+</exec>
+
+<suspend/>
+
+<radio 
+  label="xzip_duplicate"
+  optional="1"
+  where="execute,survey,report">
+  <title>Hidden: Maxdiff selection</title>
+  <exec>
+RECORD1 = ZIPCODES1.get( QZIP.val )
+RECORD2 = ZIPCODES2.get( QZIP.val )
+RECORD3 = ZIPCODES3.get( QZIP.val )
+RECORD4 = ZIPCODES4.get( QZIP.val )
+RECORD5 = ZIPCODES5.get( QZIP.val )
+
+
+if (RECORD1):
+	xzip_duplicate.val=xzip_duplicate.r1.index
+if (RECORD2):
+	xzip_duplicate.val=xzip_duplicate.r2.index
+if (RECORD3):
+	xzip_duplicate.val=xzip_duplicate.r3.index
+if (RECORD4):
+	xzip_duplicate.val=xzip_duplicate.r4.index
+if (RECORD5):
+	xzip_duplicate.val=xzip_duplicate.r5.index
+  </exec>
+
+  <row label="r1">Unique</row>
+  <row label="r2">Duplicate TWO</row>
+  <row label="r3">Duplicate THREE</row>
+  <row label="r4">Duplicate FOUR</row>
+  <row label="r5">Duplicate FIVE</row>
+</radio>
+
+<suspend/>
+
+<quota label="quo3" cond="xzip_duplicate.r2" overquota="noqual" sheet="Dup_TWO Quota"/>
+
+<suspend/>
+
+<quota label="quo4" cond="xzip_duplicate.r3" overquota="noqual" sheet="Dup_THREE Quota"/>
+
+<suspend/>
+
+<quota label="quo5" cond="xzip_duplicate.r4" overquota="noqual" sheet="Dup_FOUR Quota"/>
+
+<suspend/>
+
+<quota label="quo6" cond="xzip_duplicate.r5" overquota="noqual" sheet="Dup_FIVE Quota"/>
+
+<suspend/>
+
+<radio 
+  label="xzip_count"
+  optional="1"
+  where="execute,survey,report">
+  <title>Hidden: Maxdiff selection</title>
+  <exec>
+xzip_count.val=5  
+if xzip_duplicate.r1:
+	xzip_count.val=0
+elif xzip_duplicate.but(xzip_duplicate.r1).any:
+	for x in range(5):
+		if hasMarker("/*/d2_{}".format(x+1)) or hasMarker("/*/d3_{}".format(x+1)) or hasMarker("/*/d4_{}".format(x+1)) or hasMarker("/*/d5_{}".format(x+1)):
+			xzip_count.val=x
+  </exec>
+
+  <row label="r1">_1</row>
+  <row label="r2">_2</row>
+  <row label="r3">_3</row>
+  <row label="r4">_4</row>
+  <row label="r5">_5</row>
+  <row label="r99">_0</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="XQREGION"
+  optional="1"
+  values="order"
+  where="execute,survey,report">
+  <title><span class="ques_no">${this.label}. </span>CENSUS REGION</title>
+  <exec>
+myval=str(QZIP.val)
+myval=myval+str(xzip_count.rows[xzip_count.val].text)
+respinfo=myzip.get(myval)
+
+if respinfo and respinfo['region']!="":
+	XQREGION.val=XQREGION.attr("r"+str(respinfo['region'])).index
+else:
+	XQREGION.val=XQREGION.r99.index
+  </exec>
+
+  <row label="r1" value="1">NORTHEAST</row>
+  <row label="r2" value="2">MIDWEST</row>
+  <row label="r3" value="3">SOUTH</row>
+  <row label="r4" value="4">WEST</row>
+  <row label="r99" value="99">SYSTEM MISSING</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="XQDIVISION"
+  optional="1"
+  values="order"
+  where="execute,survey,report">
+  <title><span class="ques_no">${this.label}. </span>CENSUS DIVISION</title>
+  <exec>
+myval=str(QZIP.val)
+myval=myval+str(xzip_count.rows[xzip_count.val].text)
+respinfo=myzip.get(myval)
+
+if respinfo and respinfo['division'] != "":
+	XQDIVISION.val=XQDIVISION.attr("r"+str(respinfo['division'])).index
+else: XQDIVISION.val=XQDIVISION.r99.index
+  </exec>
+
+  <row label="r1" value="1">NEW ENGLAND</row>
+  <row label="r2" value="2">MID-ATLANTIC</row>
+  <row label="r3" value="3">EAST NORTH CENTRAL</row>
+  <row label="r4" value="4">WEST NORTH CENTRAL</row>
+  <row label="r5" value="5">SOUTH ATLANTIC</row>
+  <row label="r6" value="6">EAST SOUTH CENTRAL</row>
+  <row label="r7" value="7">WEST SOUTH CENTRAL</row>
+  <row label="r8" value="8">MOUNTAIN</row>
+  <row label="r9" value="9">PACIFIC</row>
+  <row label="r99" value="99">SYSTEM MISSING</row>
+</radio>
+
+<suspend/>
+
+<text 
+  label="XQCDNO"
+  where="execute,survey,report">
+  <title><span class="ques_no">${this.label}. </span>QCDNO</title>
+  <exec>
+myval=str(QZIP.val)
+myval=myval+str(xzip_count.rows[xzip_count.val].text)
+respinfo=myzip.get(myval)
+
+if respinfo and respinfo['cdno'] != "":
+	XQCDNO.r1.val=respinfo['cdno']
+else:
+	XQCDNO.r99.val=1
+  </exec>
+
+  <row label="r1">QCDNO</row>
+  <noanswer label="r99">System Missing</noanswer>
+</text>
+
+<suspend/>
+
+<radio 
+  label="XQSTATE"
+  optional="1"
+  where="execute,survey,report">
+  <title><span class="ques_no">${this.label}. </span>STATE</title>
+  <exec>
+myval=str(QZIP.val)
+myval=myval+str(xzip_count.rows[xzip_count.val].text)
+respinfo=myzip.get(myval)
+
+
+if respinfo and respinfo['state'] != "":
+	XQSTATE.val=XQSTATE.attr(respinfo['state'].upper()).index
+else:
+	XQSTATE.val=XQSTATE.r99.index
+  </exec>
+
+  <row label="AL">Alabama</row>
+  <row label="AK">Alaska</row>
+  <row label="AZ">Arizona</row>
+  <row label="AR">Arkansas</row>
+  <row label="CA">California</row>
+  <row label="CO">Colorado</row>
+  <row label="CT">Connecticut</row>
+  <row label="DE">Delaware</row>
+  <row label="DC">District of Columbia</row>
+  <row label="FL">Florida</row>
+  <row label="GA">Georgia</row>
+  <row label="HI">Hawaii</row>
+  <row label="ID">Idaho</row>
+  <row label="IL">Illinois</row>
+  <row label="IN">Indiana</row>
+  <row label="IA">Iowa</row>
+  <row label="KS">Kansas</row>
+  <row label="KY">Kentucky</row>
+  <row label="LA">Louisiana</row>
+  <row label="ME">Maine</row>
+  <row label="MD">Maryland</row>
+  <row label="MA">Massachusetts</row>
+  <row label="MI">Michigan</row>
+  <row label="MN">Minnesota</row>
+  <row label="MS">Mississippi</row>
+  <row label="MO">Missouri</row>
+  <row label="MT">Montana</row>
+  <row label="NE">Nebraska</row>
+  <row label="NV">Nevada</row>
+  <row label="NH">New Hampshire</row>
+  <row label="NJ">New Jersey</row>
+  <row label="NM">New Mexico</row>
+  <row label="NY">New York</row>
+  <row label="NC">North Carolina</row>
+  <row label="ND">North Dakota</row>
+  <row label="OH">Ohio</row>
+  <row label="OK">Oklahoma</row>
+  <row label="OR">Oregon</row>
+  <row label="PA">Pennsylvania</row>
+  <row label="RI">Rhode Island</row>
+  <row label="SC">South Carolina</row>
+  <row label="SD">South Dakota</row>
+  <row label="TN">Tennessee</row>
+  <row label="TX">Texas</row>
+  <row label="UT">Utah</row>
+  <row label="VT">Vermont</row>
+  <row label="VA">Virginia</row>
+  <row label="WA">Washington</row>
+  <row label="WV">West Virginia</row>
+  <row label="WI">Wisconsin</row>
+  <row label="WY">Wyoming</row>
+  <row label="GU">Guam</row>
+  <row label="r99">System Missing</row>
+</radio>
+
+<suspend/>
+
+<text 
+  label="XQCD"
+  where="execute,survey,report">
+  <title><span class="ques_no">${this.label}. </span>CD</title>
+  <exec>
+myval=str(QZIP.val)
+myval=myval+str(xzip_count.rows[xzip_count.val].text)
+respinfo=myzip.get(myval)
+
+if respinfo and respinfo['cd'] != "":
+	XQCD.r1.val=respinfo['cd']
+else:
+	XQCD.r99.val=1
+  </exec>
+
+  <row label="r1">CD</row>
+  <noanswer label="r99">System Missing</noanswer>
+</text>
+
+<suspend/>
+
+<text 
+  label="XQUSREP"
+  where="execute,survey,report">
+  <title><span class="ques_no">${this.label}. </span>CONGRESSPERSON</title>
+  <exec>
+myval=str(QZIP.val)
+myval=myval+str(xzip_count.rows[xzip_count.val].text)
+respinfo=myzip.get(myval)
+
+if respinfo and respinfo['usrep'] != "":
+	XQUSREP.r1.val=respinfo['usrep']
+else:
+	XQUSREP.r99.val=1
+  </exec>
+
+  <row label="r1">CONGRESSPERSON</row>
+  <noanswer label="r99">System Missing</noanswer>
+</text>
+
+<suspend/>
+
+<text 
+  label="XQSEN1"
+  where="execute,survey,report">
+  <title><span class="ques_no">${this.label}. </span>SENATOR 1</title>
+  <exec>
+myval=str(QZIP.val)
+myval=myval+str(xzip_count.rows[xzip_count.val].text)
+respinfo=myzip.get(myval)
+
+if respinfo and respinfo['sen1'] != "":
+	XQSEN1.r1.val=respinfo['sen1']
+else:
+	XQSEN1.r99.val=1
+  </exec>
+
+  <row label="r1"><span style="color: black;">SENATOR 1</span></row>
+  <noanswer label="r99">System Missing</noanswer>
+</text>
+
+<suspend/>
+
+<text 
+  label="XQSEN2"
+  where="execute,survey,report">
+  <title><span class="ques_no">${this.label}. </span>SENATOR 2</title>
+  <exec>
+myval=str(QZIP.val)
+myval=myval+str(xzip_count.rows[xzip_count.val].text)
+respinfo=myzip.get(myval)
+
+if respinfo and (respinfo['sen2'] != "" and respinfo['sen2'] != '0'):
+	XQSEN2.r1.val=respinfo['sen2']
+else:
+	XQSEN2.r99.val=1
+  </exec>
+
+  <row label="r1"><span style="color: black;">SENATOR 2</span></row>
+  <noanswer label="r99">System Missing</noanswer>
+</text>
+
+<suspend/>
+
+<radio 
+  label="XQPrimaryRUCA"
+  optional="1"
+  values="order"
+  where="execute,survey,report">
+  <title><span class="ques_no">${this.label}. </span>PrimaryRUCA</title>
+  <exec>
+myval=str(QZIP.val)
+myval=myval+str(xzip_count.rows[xzip_count.val].text)
+respinfo=myzip.get(myval)
+
+
+if respinfo and respinfo['primaryruca'] != "":
+	XQPrimaryRUCA.val=XQPrimaryRUCA.attr("r"+str(respinfo['primaryruca'])).index
+else:
+	XQPrimaryRUCA.val=XQPrimaryRUCA.r99.index
+  </exec>
+
+  <row label="r1" value="1">1</row>
+  <row label="r2" value="2">2</row>
+  <row label="r3" value="3">3</row>
+  <row label="r4" value="4">4</row>
+  <row label="r5" value="5">5</row>
+  <row label="r6" value="6">6</row>
+  <row label="r7" value="7">7</row>
+  <row label="r8" value="8">8</row>
+  <row label="r9" value="9">9</row>
+  <row label="r10" value="10">10</row>
+  <row label="r99" value="99">System Missing</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="XQSecondaryRUCA"
+  optional="1"
+  values="order"
+  where="execute,survey,report">
+  <title><span class="ques_no">${this.label}. </span>SecondaryRUCA</title>
+  <exec>
+myval=str(QZIP.val)
+myval=myval+str(xzip_count.rows[xzip_count.val].text)
+respinfo=myzip.get(myval)
+
+if respinfo and respinfo['secondaryruca'] != "":
+	XQSecondaryRUCA.val=XQSecondaryRUCA.attr("r"+str(respinfo['secondaryruca'])).index
+else:
+	XQSecondaryRUCA.val=XQSecondaryRUCA.r99.index
+  </exec>
+
+  <row label="r1" value="1">1</row>
+  <row label="r1_1" value="101">1.1</row>
+  <row label="r2" value="2">2</row>
+  <row label="r2_1" value="201">2.1</row>
+  <row label="r3" value="3">3</row>
+  <row label="r4" value="4">4</row>
+  <row label="r4_1" value="401">4.1</row>
+  <row label="r5" value="5">5</row>
+  <row label="r5_1" value="501">5.1</row>
+  <row label="r6" value="6">6</row>
+  <row label="r7" value="7">7</row>
+  <row label="r7_1" value="701">7.1</row>
+  <row label="r7_2" value="702">7.2</row>
+  <row label="r8" value="8">8</row>
+  <row label="r8_1" value="801">8.1</row>
+  <row label="r8_2" value="802">8.2</row>
+  <row label="r9" value="9">9</row>
+  <row label="r10" value="10">10</row>
+  <row label="r10_1" value="101">10.1</row>
+  <row label="r10_2" value="102">10.2</row>
+  <row label="r10_3" value="103">10.3</row>
+  <row label="r99" value="99">System Missing</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="QS2">
+  <title><span class="ques_no">${this.label}</span> <strong>Are you currently covered by any form of health insurance?</strong> A health plan would include any private insurance plan through your employer or a plan that you purchased yourself, as well as a government program, like Medicare or Medicaid.</title>
+  <row label="r1" value="1">Yes (Insured)</row>
+  <row label="r2" value="2">No (Uninsured)</row>
+  <row label="r99" value="99">Prefer not to answer</row>
+</radio>
+
+<suspend/>
+
+<exec cond="QS2.r2 or QS2.r99">
+vscreenout.val= str('QS2')
+setMarker('Screened-QS2')
+</exec>
+
+<suspend/>
+
+<term label="Term_QS2" cond="QS2.r2 or QS2.r99">Uninsured or Prefer not to answer</term>
+
+<suspend/>
+
+<radio 
+  label="QINSTYPE">
+  <title><span class="ques_no">${this.label}</span> What is the main type of health insurance coverage that you currently have?</title>
+  <comment>&amp;#91;Select the one that is your primary source of coverage&amp;#93;</comment>
+  <row label="r1" value="1">A plan through my employer</row>
+  <row label="r2" value="2">A plan through my spouse’s employer</row>
+  <row label="r3" value="3">A plan through my parent’s employer</row>
+  <row label="r4" value="4">A plan you purchased yourself directly from an insurance company</row>
+  <row label="r5" value="5">A plan you purchased yourself from a state or federal marketplace</row>
+  <row label="r6" value="6">Medicaid</row>
+  <row label="r7" value="7">Medicare</row>
+  <row label="r8" open="1" openSize="25" randomize="0" value="8">Other &amp;#91;Please Specify&amp;#93</row>
+  <row label="r99" value="99">Don’t Know/Not sure</row>
+</radio>
+
+<suspend/>
+
+<exec cond="QINSTYPE.r99">
+vscreenout.val= str('QINSTYPE')
+setMarker('Screened-QINSTYPE')
+</exec>
+
+<suspend/>
+
+<term label="term_QINSTYPE" cond="QINSTYPE.r99">Instype termonation</term>
+
+<suspend/>
+
+<radio 
+  label="QINS_MEDICARE"
+  cond="QINSTYPE.r7">
+  <title><span class="ques_no">${this.label}</span> Do you have traditional or original Medicare, or do you have a Medicare Advantage plan?</title>
+  <row label="r1" value="1">Traditional Medicare</row>
+  <row label="r2" value="2">Medicare Advantage</row>
+  <row label="r3" value="3">Both or neither</row>
+  <row label="r99" value="99">Don’t Know/Not sure</row>
+</radio>
+
+<suspend/>
+
+<number 
+  label="QAGE"
+  optional="0"
+  size="3"
+  verify="range(18, 89)">
+  <title><span class="ques_no">${this.label}</span> <strong>What is your age?</strong></title>
+</number>
+
+<suspend/>
+
+<radio 
+  label="QAGECAT5"
+  where="execute,survey,report">
+  <title> AGE GROUP (HIDDEN)</title>
+  <exec>
+for eachRow in QAGECAT5.rows:
+    age_range = eachRow.o.alt # never set value using .o
+    if QAGE.check(age_range):
+        QAGECAT5.val = eachRow.index
+        break
+  </exec>
+
+  <row label="r1" alt="18-29">18-29</row>
+  <row label="r2" alt="30-44">30-44</row>
+  <row label="r3" alt="45-54">45-54</row>
+  <row label="r4" alt="55-64">55-64</row>
+  <row label="r5" alt="&gt;= 65">65+</row>
+</radio>
+
+<suspend/>
+
+<quota label="Age_Quota" overquota="noqual" sheet="Age Quota"/>
+
+<suspend/>
+
+<radio 
+  label="QGENDER">
+  <title><span class="ques_no">${this.label}</span> Which of the following <strong>best describes your gender?</strong></title>
+  <row label="r1" value="1">Male</row>
+  <row label="r2" value="2">Female</row>
+  <row label="r3" value="3">Other</row>
+  <row label="r99" value="99">Prefer not to answer</row>
+</radio>
+
+<suspend/>
+
+<quota label="Gender_Quota" overquota="noqual" sheet="Gender Quota"/>
+
+<suspend/>
+
+<radio 
+  label="QVOTE24">
+  <title><span class="ques_no">${this.label}</span> <strong>Who did you vote for in the latest (2024) Presidential election?</strong></title>
+  <row label="r1" value="1">Donald Trump (R)</row>
+  <row label="r2" value="2">Kamala Harris (D)</row>
+  <row label="r3" value="3">Someone else</row>
+  <row label="r4" value="4">I did not have the chance to vote</row>
+</radio>
+
+<suspend/>
+
+<exec cond="QVOTE24.r4">
+vscreenout.val= str('QVOTE24')
+setMarker('Screened-QVOTE24')
+</exec>
+
+<suspend/>
+
+<term label="Term_VOTE24" cond="QVOTE24.r4">Did not vote</term>
+
+<suspend/>
+
+<radio 
+  label="QS5">
+  <title><span class="ques_no">${this.label}</span> <strong>In politics today, do you consider yourself a…</strong>?</title>
+  <row label="r1">Republican</row>
+  <row label="r2">Democrat</row>
+  <row label="r3">Independent</row>
+  <row label="r4">Other</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="QS5A"
+  cond="QS5.r1 or QS5.r2">
+  <title><span class="ques_no">${this.label}</span> <strong>Would you say you are a strong or not-so-strong&amp;nbsp;[pipe: QS5]?</strong></title>
+  <row label="r1">Strong [pipe: QS5]</row>
+  <row label="r2">Not so strong [pipe: QS5]</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="QS5B"
+  cond="QS5.r3 or QS5.r4">
+  <title><span class="ques_no">${this.label}</span> <strong>Do you lean towards the Republican or Democratic Party?</strong></title>
+  <row label="r1">Lean Republican</row>
+  <row label="r2">Lean Democrat</row>
+  <row label="r3">Neither Party</row>
+</radio>
+
+<suspend/>
+
+<exec cond="QVOTE24.r3 and QS5B.r3">
+vscreenout.val= str('QS5')
+setMarker('Screened-QS5')
+</exec>
+
+<suspend/>
+
+<term label="Term_PARTYID" cond="QVOTE24.r3 and QS5B.r3">Voted for someone else and is Independent</term>
+
+<suspend/>
+
+<text 
+  label="vscreenout"
+  where="execute,survey,report">
+  <title>Variable Screened out</title>
+</text>
+
+<suspend/>
+
+<exec>
+if QVOTE24.r1 or (QVOTE24.r3 and (QS5.r1 or ((QS5.r3 or QS5.r4) and QS5B.r1))):
+	TYPING_MODULE.val=0
+elif QVOTE24.r2 or (QVOTE24.r3 and (QS5.r2 or ((QS5.r3 or QS5.r4) and QS5B.r2))) :
+	TYPING_MODULE.val=1
+</exec>
+
+<suspend/>
+
+<radio 
+  label="TYPING_MODULE"
+  optional="1"
+  where="execute,survey,report">
+  <title>Final punch of the segmentation:</title>
+  <comment>Select one</comment>
+  <row label="r1">GOP</row>
+  <row label="r2">DEM</row>
+</radio>
+
+<suspend/>
+
+<quota label="quo12" cond="TYPING_MODULE.any" overquota="noqual" sheet="TYPING MODULE Quota"/>
+
+<suspend/>
+
+<radio 
+  label="POLICY"
+  uses="cardrating.1">
+  <title>Below are policy changes some have proposed. For each, please indicate how much you support or oppose the idea</title>
+  <col label="c1">Strongly<br /><strong>OPPOSE</strong></col>
+  <col label="c2">Oppose</col>
+  <col label="c3">Somewhat<br />Oppose</col>
+  <col label="c4">Neither or<br />Neutral</col>
+  <col label="c5">Somewhat<br />Support</col>
+  <col label="c6">Support</col>
+  <col label="c7">Strongly<br /><strong>SUPPORT</strong></col>
+  <row label="r1"><strong><span style="font-size: 12pt;">The government should create a public insurance option to compete with private plans</span></strong></row>
+  <row label="r2"><span style="font-size: 12pt;"><strong>Health insurance should be provided through a single national health insurance system run by the government.</strong></span></row>
+  <row label="r3"><span style="font-size: 12pt;"><strong>Large employers should be required to provide health insurance to their workers.</strong></span></row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="ATTITUDE"
+  shuffle="rows"
+  uses="cardrating.1">
+  <title>For each of the following statements, indicate the extent to which you agree or disagree…</title>
+  <col label="c1">Strongly<br /><strong>DISAGREE</strong></col>
+  <col label="c2">Disagree</col>
+  <col label="c3">Somewhat<br />Disagree</col>
+  <col label="c4">Neither or<br />Neutral</col>
+  <col label="c5">Somewhat<br />Agree</col>
+  <col label="c6">Agree</col>
+  <col label="c7">Strongly<br /><strong>AGREE</strong></col>
+  <row label="r1"><span style="font-size: 12pt;"><strong>The federal government should invest extra funds in communities of color that have suffered historic health injustices, even if it means higher taxes</strong></span></row>
+  <row label="r2"><span style="font-size: 12pt;"><strong>Big corporations have too much influence over public health policies</strong></span></row>
+  <row label="r3"><span style="font-size: 12pt;"><strong>Mandating any medical treatment violates personal liberty</strong></span></row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="IDEOLOGY"
+  grouping="rows"
+  rowLegend="both"
+  uses="leftright.1">
+  <title>Indicate which statement comes closest to your own view:</title>
+  <col label="c1"><span style="font-size: 8pt;">1</span></col>
+  <col label="c2"><span style="font-size: 8pt;">2</span></col>
+  <col label="c3"><span style="font-size: 8pt;">3</span></col>
+  <col label="c4"><span style="font-size: 8pt;">4</span></col>
+  <col label="c5"><span style="font-size: 8pt;">5</span></col>
+  <col label="c6"><span style="font-size: 8pt;">6</span></col>
+  <col label="c7"><span style="font-size: 8pt;">7</span></col>
+  <row label="r1" rightLegend="&lt;span style=&quot;font-size: 10pt;&quot;&gt;&lt;strong&gt;We need to focus on America first&lt;/strong&gt;&lt;/span&gt;"><span style="font-size: 10pt;"><strong>America is better off as a leader in the global economy</strong></span></row>
+  <row label="r2" rightLegend="&lt;span style=&quot;font-size: 10pt;&quot;&gt;&lt;strong&gt;The private, free market healthcare system is better because it protects patient choice and access to higher quality care&lt;/strong&gt;&lt;/span&gt;"><span style="font-size: 10pt;"><strong>Healthcare is a basic right and government should be responsible for providing healthcare to all Americans</strong></span></row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="TRUST"
+  builderHint="{&quot;rocochoName&quot;:&quot;radiogrid&quot;}"
+  values="order">
+  <title>Rate how much you trust each of the following…</title>
+  <row label="r1">Pharmaceutical companies</row>
+  <row label="r2">Hospitals</row>
+  <row label="r3">Health care providers</row>
+  <row label="r4">National Institutes of Health (“NIH”)</row>
+  <row label="r5">Academic and university research institutes</row>
+  <col label="c1" value="1">DO NOT TRUST AT ALL<br /><br />1</col>
+  <col label="c2" value="2">2</col>
+  <col label="c3" value="3">3</col>
+  <col label="c4" value="4">4</col>
+  <col label="c5" value="5">5</col>
+  <col label="c6" value="6">6</col>
+  <col label="c7" value="7">TRUST A GREAT DEAL<br /><br />7</col>
+</radio>
+
+<suspend/>
+
+<html label="Maxdiff_Intro" where="survey"><p>
+    In this section, you’ll see a series of short statements expressing different points of view. Each statement reflects a way of thinking about issues people often care deeply about including health, healthcare, community and politics.
+
+
+  </p><br />
+
+  <p>
+    For each set, please choose:
+  </p>
+
+  <ul>
+    <li />The statement that sounds MOST like your own point of view, and
+    <li />The statement that sounds LEAST like your own point of view.
+  </ul>
+
+  <p>
+    <br /><em>Some statements may appear again later. That’s intentional — it helps us understand how people
+    think across different kinds of ideas.</em>
+  </p>
+
+  <p>
+    There are no right or wrong answers. Simply go with your first reaction each time.
+  </p></html>
+
+<suspend/>
+
+<exec when="init">
+def setupMaxDiffFile(fname, fileDelimiter="\t"):
+    try:
+        f = open("%s/%s" % (gv.survey.path, fname))
+        mdObj = [ line.strip("\r\n").split(fileDelimiter) for line in f.readlines() ]
+        d = dict( ("v%s_t%s" % (row[0], row[1]), row[2:]) for row in mdObj )
+    except IOError:
+        d = {}
+    return d
+
+def setupMaxDiffItemsI(d, vt, question):
+    item_index = dict( (r.o.label.strip("item"), r.index) for r in question.rows )
+
+    items = d[vt]
+
+    for r in question.rows:
+        if r.o.label.strip("item") not in items:
+            r.disabled = True
+
+    question.rows.order = [ item_index[i] for i in items ]
+
+    print "*****STAFF ONLY*****"
+    print "Version_Task: %s" % vt
+    for i in range(len(items)):
+        print "Item %s: %s" % (i+1,items[i])
+        p.maxdiff1.append(items[i])
+</exec>
+
+<suspend/>
+
+<text 
+  label="XPOLICY"
+  ss:listDisplay="0"
+  where="execute,survey,report">
+  <title>HIDDEN: POLICY</title>
+  <exec>
+POLICY_U = [5.4272, 4.7623, 6.0595]
+POLICY_S = [1.24298, 1.74011, 0.99203]
+POLICY_F = [float(x+1) for x in POLICY.values]
+POLICY_AVG = [] 
+   
+for i in range(3):
+ XPOLICY.rows[i].val = (POLICY_F[i] - POLICY_U[i])/POLICY_S[i]
+ POLICY_AVG.append((POLICY_F[i] - POLICY_U[i])/POLICY_S[i])
+ 
+XDEM_SEG.r11.c1.val = POLICY_F
+XDEM_SEG.r11.c2.val = POLICY_U
+XDEM_SEG.r11.c3.val = POLICY_S
+XDEM_SEG.r11.c4.val = sum(POLICY_AVG) / len(POLICY_AVG)
+  </exec>
+
+  <row label="r1">The government should create a public insurance option to compete with private plans</row>
+  <row label="r2">Health insurance should be provided through a single national health insurance system run by the government.</row>
+  <row label="r3">Large employers should be required to provide health insurance to their workers.</row>
+</text>
+
+<suspend/>
+
+<text 
+  label="XIDEOLOGY"
+  ss:listDisplay="0"
+  where="execute,survey,report">
+  <title>HIDDEN: IDEOLOGY</title>
+  <exec>
+IDEOLOGY_U = [3.5363, 4.4206]
+IDEOLOGY_S = [2.04099, 2.02961]
+IDEOLOGY_F = [float(x+1) for x in IDEOLOGY.values]
+IDEOLOGY_AVG = [] 
+   
+
+XIDEOLOGY.r1.val = ((IDEOLOGY_F[0] - IDEOLOGY_U[0])/IDEOLOGY_S[0])*-1
+XIDEOLOGY.r2.val = (IDEOLOGY_F[1] - IDEOLOGY_U[1])/IDEOLOGY_S[1]
+ 
+XDEM_SEG.r12.c1.val = IDEOLOGY_F
+XDEM_SEG.r12.c2.val = IDEOLOGY_U
+XDEM_SEG.r12.c3.val = IDEOLOGY_S
+XDEM_SEG.r12.c4.val = XIDEOLOGY.r1.val
+  </exec>
+
+  <row label="r1">IDEOLOGY_GLOBALISM (ZGLOBALISM_R)</row>
+  <row label="r2">IDEOLOGY_MFA</row>
+</text>
+
+<suspend/>
+
+<text 
+  label="XATTITUDE"
+  ss:listDisplay="0"
+  where="execute,survey,report">
+  <title>HIDDEN: ATTITUDE</title>
+  <exec>
+ATTITUDE_U = [5.009, 5.631, 5.2571]
+ATTITUDE_S = [1.28372, 1.02132, 1.14707]
+ATTITUDE_F = [float(x+1) for x in ATTITUDE.values]
+   
+for i in range(3):
+ XATTITUDE.rows[i].val = (ATTITUDE_F[i] - ATTITUDE_U[i])/ATTITUDE_S[i]
+ 
+XDEM_SEG.r13.c1.val = ATTITUDE_F[0]
+XDEM_SEG.r14.c1.val = ATTITUDE_F[1]
+
+XDEM_SEG.r13.c2.val = ATTITUDE_U
+XDEM_SEG.r14.c2.val = ATTITUDE_U
+
+XDEM_SEG.r13.c3.val = ATTITUDE_S
+XDEM_SEG.r14.c3.val = ATTITUDE_S
+
+XDEM_SEG.r13.c4.val = XATTITUDE.r1.val
+XDEM_SEG.r14.c4.val = XATTITUDE.r2.val
+  </exec>
+
+  <row label="r1">The government should create a public insurance option to compete with private plans</row>
+  <row label="r2">Health insurance should be provided through a single national health insurance system run by the government.</row>
+  <row label="r3">Large employers should be required to provide health insurance to their workers.</row>
+</text>
+
+<suspend/>
+
+<text 
+  label="XTRUST"
+  ss:listDisplay="0"
+  where="execute,survey,report">
+  <title>HIDDEN: TRUST</title>
+  <exec>
+TRUST_U = [3.2642, 4.5526, 4.6011, 3.6061, 3.9617]
+TRUST_S = [1.68737, 1.50961, 1.53148, 1.5441 , 1.49655]
+TRUST_F = [float(x+1) for x in TRUST.values]
+
+print TRUST_F   
+for i in range(5):
+ XTRUST.rows[i].val = (TRUST_F[i] - TRUST_U[i])/TRUST_S[i]
+  </exec>
+
+  <row label="r1">Pharmaceutical companies</row>
+  <row label="r2">Hospitals</row>
+  <row label="r3">Health care providers</row>
+  <row label="r4">National Institutes of Health (“NIH”)</row>
+  <row label="r5">Academic and university research institutes</row>
+</text>
+
+<suspend/>
+
+<exec>
+p.maxdiff1=[]
+</exec>
+
+<suspend/>
+
+<block label="DEMBlock" cond="TYPING_MODULE.r2" builder:title="DEM Block">
+  <note>MaxDiff Indices Template --Start1--</note>
+  <exec when="init">
+QMD1_md = setupMaxDiffFile("DemDesign.dat")
+  </exec>
+
+  <suspend/>
+
+  <quota label="DemQuota" overquota="noqual" sheet="Dem Quota"/>
+
+  <suspend/>
+
+  <number 
+   label="QMD1_Version"
+   size="3"
+   verify="range(1,100)"
+   where="execute,survey,report">
+    <title>QMD1 - MaxDiff Version<br /><br /><em>Pick your version for testing... will be automated when live...</em></title>
+    <exec>
+print p.markers
+for x in p.markers:
+    if "/Dem Quota/Dem_" in x:
+        QMD1_Version.val = int(x.split("_")[-1])
+        break
+    </exec>
+
+  </number>
+
+  <suspend/>
+
+  <exec>
+p.startTime = timeSpent()
+  </exec>
+
+  <loop label="QMD1_md_loop" vars="task">
+    <title>QMD1 - MaxDiff Loop</title>
+    <block label="QMD1_md_block" randomize="1">
+      <radio 
+     label="QDEM_[loopvar: task]"
+     adim="cols"
+     grouping="cols"
+     shuffle="rows"
+     ss:listDisplay="0"
+     ss:questionClassNames="QMD1_maxdiff"
+     unique="1">
+        <title>Select the one statement that sounds MOST like your own point of view  (on the left), and the statement that sounds LEAST like you  (on the right)</title>
+        <exec>
+setupMaxDiffItemsI( QMD1_md, "v%d_t%d" % (QMD1_Version.val, [loopvar: task]), QDEM_[loopvar: task])
+p.MDcount = str(QMD1_md_loop_expanded.order.index([loopvar: task]-1)+1)
+        </exec>
+
+        <col label="best"><strong>sounds MOST like me</strong></col>
+        <col label="worst"><strong>sounds LEAST like me</strong></col>
+        <row label="item1">Tech and data can improve care, but only if we stop bias, protect privacy, and provide benefits fairly.</row>
+        <row label="item2">I trust mainstream experts and prefer step-by-step fixes—strengthening the ACA, not ripping it up.</row>
+        <row label="item3">Digital tools, AI, and start-ups can universalize care faster than big bureaucracies—let’s remove red tape.</row>
+        <row label="item4">Corporate greed hurts ordinary people. Government must crack down on prices, ads, and junk food.</row>
+        <row label="item5">Healthcare is a human right. We need Medicare-for-All or something very close to it.</row>
+        <row label="item6">Unions fought for good coverage. Policy should protect employer benefits and bargaining power.</row>
+        <row label="item7">Racism and inequality drive poor health. Equity must be built into every health decision and budget.</row>
+        <row label="item8">Reproductive freedom—including abortion access—is non-negotiable and central to health policy.</row>
+        <row label="item9">My faith calls me to fight for the poor and for broader access—especially in under-served communities.</row>
+        <row label="item10">Climate change is a public-health emergency. Clean energy and environmental justice are health policy.</row>
+        <style mode="before" name="question.header"><![CDATA[
+<style type="text/css">
+    .QMD1_maxdiff tr.maxdiff-header-legend {
+        background-color: #191970;
+        border-left: 2px solid black; 
+        border-right: 2px solid black; 
+        border-top: 2px solid black; 
+        border-bottom: 2px solid black; 
+    }
+    .QMD1_maxdiff tr.maxdiff-header-legend th.legend {
+        background-color: transparent;
+        border-left: 2px solid black; 
+        border-right: 2px solid black; 
+        border-top: 2px solid black; 
+        border-bottom: 2px solid black; 
+    }
+    .QMD1_maxdiff tr.maxdiff-row td.element {
+        
+        border-left: 2px solid black; 
+        border-right: 2px solid black; 
+        border-top: 2px solid black; 
+        border-bottom: 2px solid black; 
+        text-align: center;
+    }
+    .QMD1_maxdiff tr.maxdiff-row th.row-legend {
+        background-color: transparent;
+        
+        border-left: 2px solid black; 
+        border-right: 2px solid black; 
+        border-top: 2px solid black; 
+        border-bottom: 2px solid black; 
+        text-align: lift;
+    }
+    </style>
+]]></style>
+        <style name="question.top-legend"><![CDATA[
+\@if ec.simpleList
+    $(legends)
+\@else
+    <$(tag) class="maxdiff-header-legend row row-col-legends row-col-legends-top ${"mobile-top-row-legend " if mobileOnly else ""}${"GtTenColumns " if ec.colCount > 10 else ""}colCount-$(colCount)">
+        ${"%s%s" % (legends.split("</th>")[0],"</th>")}
+       $(left)
+        ${"%s%s" % (legends.split("</th>")[1],"</th>")}
+    </$(tag)>
+    \@if not simple
+  </tbody>
+  <tbody>
+    \@endif
+\@endif
+]]></style>
+        <style name="question.row"><![CDATA[
+\@if ec.simpleList
+    $(elements)
+\@else
+    <$(tag) class="maxdiff-row row row-elements $(style) colCount-$(colCount)">
+        ${"%s%s" % (elements.split("</td>")[0],"</td>")}
+        $(left)
+        ${"%s%s" % (elements.split("</td>")[1],"</td>")}
+    </$(tag)>
+\@endif
+]]></style>
+      </radio>
+
+      <suspend/>
+    </block>
+
+    <looprow label="1">
+      <loopvar name="task">1</loopvar>
+    </looprow>
+
+    <looprow label="2">
+      <loopvar name="task">2</loopvar>
+    </looprow>
+
+    <looprow label="3">
+      <loopvar name="task">3</loopvar>
+    </looprow>
+
+    <looprow label="4">
+      <loopvar name="task">4</loopvar>
+    </looprow>
+
+    <looprow label="5">
+      <loopvar name="task">5</loopvar>
+    </looprow>
+
+    <looprow label="6">
+      <loopvar name="task">6</loopvar>
+    </looprow>
+
+    <looprow label="7">
+      <loopvar name="task">7</loopvar>
+    </looprow>
+
+    <looprow label="8">
+      <loopvar name="task">8</loopvar>
+    </looprow>
+
+    <looprow label="9">
+      <loopvar name="task">9</loopvar>
+    </looprow>
+
+    <looprow label="10">
+      <loopvar name="task">10</loopvar>
+    </looprow>
+  </loop>
+
+  <float 
+   label="QMD1_Timer"
+   size="15"
+   where="execute,survey,report">
+    <title>QMD1 - MaxDiff Timer (Minutes)</title>
+    <exec>
+QMD1_Timer.val = (timeSpent() - p.startTime) / 60.0
+    </exec>
+
+  </float>
+
+  <suspend/>
+
+  <text 
+   label="QMD1"
+   size="3"
+   where="execute,survey,report">
+    <title>Hidden: QDEM</title>
+    <exec>
+p.sum=[]
+print p.maxdiff1
+
+groupSize = 4
+
+# split into chunks of 4
+groups = [p.maxdiff1[i:i+groupSize] for i in range(0, len(p.maxdiff1), groupSize)]
+
+print(groups)
+for col in range(0, 10):     
+    rowsForColumn = groups[col]
+
+    for r in rowsForColumn:
+        rowNum = int(r)-1
+        print rowNum,col
+        QMD1.rows[rowNum][col].val=0
+
+for i in range(0,10):
+	best = "QDEM_{}".format(i+1)
+	worst = "QDEM_{}".format(i+1)
+	best1=allQuestions[best].best.val
+	worst1=allQuestions[worst].worst.val
+	QMD1.rows[best1][i].val=1
+	QMD1.rows[worst1][i].val=-1
+
+for i in QMD1.rows:
+	a=0
+	for j in range(10):
+		if QMD1[i][j].val!=None:
+			a1=QMD1[i][j].val
+			a+=int(a1)
+	QMD1[i].c11.val=a
+    </exec>
+
+    <row label="r1">Item-1</row>
+    <row label="r2">Item-2</row>
+    <row label="r3">Item-3</row>
+    <row label="r4">Item-4</row>
+    <row label="r5">Item-5</row>
+    <row label="r6">Item-6</row>
+    <row label="r7">Item-7</row>
+    <row label="r8">Item-8</row>
+    <row label="r9">Item-9</row>
+    <row label="r10">Item-10</row>
+    <col label="c1">QDEM_1</col>
+    <col label="c2">QDEM_2</col>
+    <col label="c3">QDEM_3</col>
+    <col label="c4">QDEM_4</col>
+    <col label="c5">QDEM_5</col>
+    <col label="c6">QDEM_6</col>
+    <col label="c7">QDEM_7</col>
+    <col label="c8">QDEM_8</col>
+    <col label="c9">QDEM_9</col>
+    <col label="c10">QDEM_10</col>
+    <col label="c11">Row Total</col>
+  </text>
+
+  <note>MaxDiff Indices Template --End1--</note>
+  <suspend/>
+
+  <text 
+   label="XDEM_SEG"
+   ss:listDisplay="0"
+   where="execute,survey,report">
+    <title>HIDDEN: XDEM_SEG</title>
+    <exec>
+DEM_U = [-0.4545, -0.2546, -0.9328, 0.0386, 0.9975, -0.1851, 0.1674, 0.7593, -0.6671, 0.5314]
+DEM_S = [1.01042, 1.1991 ,1.22412, 1.13192, 1.32821, 1.00078, 1.09544, 1.38839, 1.51346, 1.17622]
+DEM_MAX_F = []  
+  
+for i in range(10):
+	XDEM_SEG.rows[i].c1.val=QMD1.rows[i].c11.val
+	DEM_MAX_F.append(float(QMD1.rows[i].c11.val))
+
+for i in range(10):
+ XDEM_SEG.rows[i].c2.val = DEM_U[i]
+
+for i in range(10):
+ XDEM_SEG.rows[i].c3.val = DEM_S[i]
+
+for i in range(10):
+ XDEM_SEG.rows[i].c4.val = (DEM_MAX_F[i] - DEM_U[i])/DEM_S[i]
+    </exec>
+
+    <row label="r1">Tech and data can improve care, but only if we stop bias, protect privacy, and provide benefits fairly.</row>
+    <row label="r2">I trust mainstream experts and prefer step-by-step fixes—strengthening the ACA, not ripping it up.</row>
+    <row label="r3">Digital tools, AI, and start-ups can universalize care faster than big bureaucracies—let’s remove red tape.</row>
+    <row label="r4">Corporate greed hurts ordinary people. Government must crack down on prices, ads, and junk food.</row>
+    <row label="r5">Healthcare is a human right. We need Medicare-for-All or something very close to it.</row>
+    <row label="r6">Unions fought for good coverage. Policy should protect employer benefits and bargaining power.</row>
+    <row label="r7">Racism and inequality drive poor health. Equity must be built into every health decision and budget.</row>
+    <row label="r8">Reproductive freedom—including abortion access—is non-negotiable and central to health policy.</row>
+    <row label="r9">My faith calls me to fight for the poor and for broader access—especially in under-served communities.</row>
+    <row label="r10">Climate change is a public-health emergency. Clean energy and environmental justice are health policy.</row>
+    <row label="r11">ZFACTOR_REFORM</row>
+    <row label="r12">ZFACTOR_LEADERSHIP</row>
+    <row label="r13">ZFACTOR_JUSTICE</row>
+    <row label="r14">ZFACTOR_INDUSTRY</row>
+    <col label="c1">PUNCH</col>
+    <col label="c2">STANDARDIZE (Z-SCORE) Meuw</col>
+    <col label="c3">STANDARDIZE (Z-SCORE) Segma</col>
+    <col label="c4">FINAL VARIABLE</col>
+  </text>
+
+  <suspend/>
+
+  <exec>
+def algorithmCalculation(resp_answers, segment_coeff):
+    return sum((a - c)**2 for a, c in zip(resp_answers, segment_coeff))
+
+def algorithmRaw(answers, constant_matrix):
+    num_segments = len(constant_matrix[0])
+    outputs = []
+    for c in range(num_segments):
+
+        segment_col = [row[c] for row in constant_matrix]
+        output = algorithmCalculation(answers, segment_col)
+        outputs.append(output)
+    return outputs
+
+p.resp_answers = [float(x) for x in XDEM_SEG.c4.values]
+
+segment_matrix = [
+    [-0.6195561, -0.1891442, -0.2056958, 0.2758133, 1.1020488, -0.4391141],
+    [-0.1032678, -0.6410046, -0.5600926, 0.2196113, 0.5993271, 0.3670266],
+    [-0.3743345, -0.644284, -0.4217479, 0.9429834, 0.2398509, -0.3558302],
+    [0.3105975, -0.5169792, 0.5388367, 0.442039, -0.0416025, -0.5237904],
+    [0.6594716, 0.2388004, 0.2874993, 0.3313942, -1.4513896, 0.3404199],
+    [-0.203275, 0.041823, 0.36492, -0.0412645, -0.281844, -0.0672857],
+    [0.07998, 0.8218035, 0.0161682, -0.584471, -0.2806444, -0.0899348],
+    [0.6328414, -0.2130098, 0.163669, -0.9764049, 0.1645458, 0.6591652],
+    [-0.7210882, 1.0038405, -0.0986373, 0.1098268, -0.2095258, -0.556374],
+    [0.2627961, -0.1268389, -0.0484049, -0.6511503, 0.4482107, 0.5718588],
+    [0.7030817, 0.0588831, -0.3695168, -0.2421184, -0.7660099, 0.3211019],
+    [0.1902945, -0.1600419, -0.3312956, -0.3119643, 0.0052973, 0.4589244],
+    [0.4892111, 0.2157273, -0.3631568, -0.4947372, -0.4615066, 0.2974851],
+    [0.5154891, 0.0653322, 0.0001742, -0.3701192, -0.4088961, -0.0685786]    
+]
+
+results = algorithmRaw(p.resp_answers, segment_matrix)
+for i in range(6):
+	XDEM_RAW[i].ival=round(results[i],1)
+  </exec>
+
+  <text 
+   label="XDEM_RAW"
+   randomize="0"
+   size="40"
+   where="execute,survey,report">
+    <title>HIDDEN: Segments</title>
+    <row label="r1">1.00 Idealists</row>
+    <row label="r2">2.00 Progressives</row>
+    <row label="r3">3.00 Protectionists</row>
+    <row label="r4">4.00 Abundance</row>
+    <row label="r5">5.00 Incrementalists</row>
+    <row label="r6">6.00 Institutionalists</row>
+  </text>
+
+  <suspend/>
+
+  <exec>
+L = [float(x) for x in XDEM_RAW.values]
+
+F = sorted(L)
+
+print F[0]
+print F[1]
+
+for i in XDEM_RAW.rows:
+ if float(i.val) == F[0]:
+ 
+   XDEM_SEG_FINAL_1.val = i.index
+   
+ if float(i.val) == F[1]:
+   XDEM_SEG_FINAL_2.val = i.index
+  </exec>
+
+  <suspend/>
+
+  <radio 
+   label="XDEM_SEG_FINAL_1"
+   optional="1"
+   randomize="0"
+   where="execute,survey,report">
+    <title>CENTROID MODEL - DEMOCRAT SEGMENTS - First Minimum</title>
+    <row label="r1">1.00 Idealists</row>
+    <row label="r2">2.00 Progressives</row>
+    <row label="r3">3.00 Protectionists</row>
+    <row label="r4">4.00 Abundance</row>
+    <row label="r5">5.00 Incrementalists</row>
+    <row label="r6">6.00 Institutionalists</row>
+  </radio>
+
+  <suspend/>
+
+  <quota label="quo8" cond="XDEM_SEG_FINAL_1.any" overquota="noqual" sheet="DEM First Minimum"/>
+
+  <suspend/>
+
+  <radio 
+   label="XDEM_SEG_FINAL_2"
+   optional="1"
+   randomize="0"
+   where="execute,survey,report">
+    <title>CENTROID MODEL - DEMOCRAT SEGMENTS - Second Minimum</title>
+    <row label="r1">1.00 Idealists</row>
+    <row label="r2">2.00 Progressives</row>
+    <row label="r3">3.00 Protectionists</row>
+    <row label="r4">4.00 Abundance</row>
+    <row label="r5">5.00 Incrementalists</row>
+    <row label="r6">6.00 Institutionalists</row>
+  </radio>
+
+  <suspend/>
+
+  <quota label="quo9" cond="XDEM_SEG_FINAL_2.any" overquota="noqual" sheet="DEM Second Minimum"/>
+
+  <suspend/>
+
+  <text 
+   label="QSEG_3"
+   where="execute,survey,report">
+    <title>Hidden: QDEM</title>
+    <exec>
+for i in range(1,15):
+ if i!= 10:
+   QSEG_3.attr('r'+str(i)).val = XDEM_SEG.attr('r'+str(i)).c4.val
+   
+QSEG_3.r15.val = 0
+    </exec>
+
+    <row label="r15">Intercept</row>
+    <row label="r11">ZFACTOR_REFORM</row>
+    <row label="r12">ZFACTOR_LEADERSHIP</row>
+    <row label="r13">ZFACTOR_JUSTICE</row>
+    <row label="r14">ZFACTOR_INDUSTRY</row>
+    <row label="r1">Tech and data can improve care, but only if we stop bias, protect privacy, and provide benefits fairly.</row>
+    <row label="r2">I trust mainstream experts and prefer step-by-step fixes—strengthening the ACA, not ripping it up.</row>
+    <row label="r3">Digital tools, AI, and start-ups can universalize care faster than big bureaucracies—let’s remove red tape.</row>
+    <row label="r4">Corporate greed hurts ordinary people. Government must crack down on prices, ads, and junk food.</row>
+    <row label="r5">Healthcare is a human right. We need Medicare-for-All or something very close to it.</row>
+    <row label="r6">Unions fought for good coverage. Policy should protect employer benefits and bargaining power.</row>
+    <row label="r7">Racism and inequality drive poor health. Equity must be built into every health decision and budget.</row>
+    <row label="r8">Reproductive freedom—including abortion access—is non-negotiable and central to health policy.</row>
+    <row label="r9">My faith calls me to fight for the poor and for broader access—especially in under-served communities.</row>
+  </text>
+
+  <suspend/>
+
+  <text 
+   label="XQSEG_3"
+   where="execute,survey,report">
+    <title>Hidden: QDEM</title>
+    <exec>
+
+# Column 1 values
+col1 = [float(x) for x in QSEG_3.values]
+
+# Columns 2–6 values in a 2D array
+cols = [
+    [-0.197, 0.203, -0.221, -0.186, -0.545, 0],
+    [0.38, -0.46, -0.88, -0.536, -1.293, 0],
+    [-0.319, -0.701, -0.91, -0.9, -0.547, 0],
+    [0.03, -0.019, -0.614, -0.763, -0.559, 0],
+    [0.635, 0.268, 0.412, -0.021, 0.092, 0],
+    [0.043, 0.684, 0.798, 1.772, 1.713, 0],
+    [-0.333, -0.479, -0.38, 1.106, 0.008, 0],
+    [0.189, 0.431, 0.668, 3.495, 0.804, 0],
+    [1.107, 0.666, 1.618, 2.514, 0.388, 0],
+    [0.648, 0.705, 0.568, 1.707, -2.938, 0],
+    [-0.227, 0.597, 0.799, 1.016, -0.41, 0],
+    [0.538, 1.377, 0.59, 0.751, -0.233, 0],
+    [0.429, -0.156, -0.023, -0.337, -0.2, 0],
+    [0.049, 3.035, 1.486, 2.616, 0.522, 0]
+]
+
+# Compute SUMPRODUCT for each of the 6 columns
+results = []
+
+for c in range(6):
+    s = 0
+    for i in range(len(col1)):
+        s += col1[i] * cols[i][c]
+    results.append(s)
+
+for i in range(len(results)):
+
+  XQSEG_3.rows[i].val = results[i]
+    </exec>
+
+    <row label="r1">1.00 Idealists</row>
+    <row label="r2">2.00 Progressives</row>
+    <row label="r3">3.00 Protectionists</row>
+    <row label="r4">4.00 Abundance</row>
+    <row label="r5">5.00 Incrementalists</row>
+    <row label="r6">6.00 Institutionalists</row>
+  </text>
+
+  <suspend/>
+
+  <text 
+   label="XQSEG_3_EXP"
+   where="execute,survey,report">
+    <title>Hidden: QDEM</title>
+    <exec>
+
+import math
+
+L = [float(x) for x in XQSEG_3.values]
+
+EXP = []
+EXP_F = []
+
+for i in L:
+ EXP.append(math.exp(i))
+
+for i in range(len(EXP)):
+
+  XQSEG_3_EXP.rows[i].c1.val = EXP[i]
+
+
+for i in range(6):
+  EXP_F.append((EXP[i]/sum(EXP)) * 100)
+
+for i in range(len(EXP)):  
+	XQSEG_3_EXP.rows[i].c2.val = round(EXP_F[i],2)
+    </exec>
+
+    <row label="r1">1.00 Idealists</row>
+    <row label="r2">2.00 Progressives</row>
+    <row label="r3">3.00 Protectionists</row>
+    <row label="r4">4.00 Abundance</row>
+    <row label="r5">5.00 Incrementalists</row>
+    <row label="r6">6.00 Institutionalists</row>
+    <col label="c1">EXP</col>
+    <col label="c2">FINAL</col>
+  </text>
+
+  <suspend/>
+
+  <exec>
+L = [float(x) for x in XQSEG_3_EXP.c2.values]
+
+F = sorted(L)
+
+print F[5]
+print F[4]
+
+for i in XQSEG_3_EXP.rows:
+ if float(i.c2.val) == F[5]:
+ 
+   XDEM1_SEG_FINAL_1.val = i.index
+   
+ if float(i.c2.val) == F[4]:
+   XDEM1_SEG_FINAL_2.val = i.index
+  </exec>
+
+  <suspend/>
+
+  <radio 
+   label="XDEM1_SEG_FINAL_1"
+   optional="1"
+   randomize="0"
+   where="execute,survey,report">
+    <title>LOGIT MODEL - DEMOCRAT SEGMENTS - First Max</title>
+    <row label="r1">1.00 Idealists</row>
+    <row label="r2">2.00 Progressives</row>
+    <row label="r3">3.00 Protectionists</row>
+    <row label="r4">4.00 Abundance</row>
+    <row label="r5">5.00 Incrementalists</row>
+    <row label="r6">6.00 Institutionalists</row>
+  </radio>
+
+  <suspend/>
+
+  <radio 
+   label="XDEM1_SEG_FINAL_2"
+   optional="1"
+   randomize="0"
+   where="execute,survey,report">
+    <title>LOGIT MODEL - DEMOCRAT SEGMENTS - Second Max</title>
+    <row label="r1">1.00 Idealists</row>
+    <row label="r2">2.00 Progressives</row>
+    <row label="r3">3.00 Protectionists</row>
+    <row label="r4">4.00 Abundance</row>
+    <row label="r5">5.00 Incrementalists</row>
+    <row label="r6">6.00 Institutionalists</row>
+  </radio>
+
+  <suspend/>
+</block>
+
+<suspend/>
+
+<block label="b12" cond="TYPING_MODULE.r1" builder:title="GOP Block">
+  <note>MaxDiff Indices Template --Start1--</note>
+  <exec when="init">
+QMD3_md = setupMaxDiffFile("GOPDesign.dat")
+  </exec>
+
+  <suspend/>
+
+  <quota label="quo2" overquota="noqual" sheet="GOP Quota"/>
+
+  <suspend/>
+
+  <number 
+   label="QMD3_Version"
+   size="3"
+   verify="range(1,100)"
+   where="execute,survey,report">
+    <title>QMD1 - MaxDiff Version<br /><br /><em>Pick your version for testing... will be automated when live...</em></title>
+    <exec>
+print p.markers
+for x in p.markers:
+    if "/GOP Quota/GOP_" in x:
+        QMD3_Version.val = int(x.split("_")[-1])
+        break
+    </exec>
+
+  </number>
+
+  <suspend/>
+
+  <exec>
+p.startTime = timeSpent()
+  </exec>
+
+  <loop label="QMD3_md_loop" vars="task">
+    <title>QMD3 - MaxDiff Loop</title>
+    <block label="QMD3_md_block" randomize="1">
+      <radio 
+     label="QGOP_[loopvar: task]"
+     adim="cols"
+     grouping="cols"
+     shuffle="rows"
+     ss:listDisplay="0"
+     ss:questionClassNames="QMD3_maxdiff"
+     unique="1">
+        <title>Select the one statement that sounds MOST like your own point of view  (on the left), and the statement that sounds LEAST like you  (on the right)</title>
+        <exec>
+setupMaxDiffItemsI( QMD3_md, "v%d_t%d" % (QMD3_Version.val, [loopvar: task]), QGOP_[loopvar: task])
+p.MDcount = str(QMD3_md_loop_expanded.order.index([loopvar: task]-1)+1)
+        </exec>
+
+        <col label="best"><strong>sounds MOST like me</strong></col>
+        <col label="worst"><strong>sounds LEAST like me</strong></col>
+        <row label="item1">Government should stay small but defend marriage, family life, and personal responsibility.</row>
+        <row label="item2">Big pharma and big agribusiness can’t be trusted; local food and local control are healthier.</row>
+        <row label="item3">Drug and hospital prices are crushing people. I don’t care who fixes it—just bring costs down.</row>
+        <row label="item4">Small-town hospitals keep closing. Government must improve access to care for rural America.</row>
+        <row label="item5">Vaccines are unsafe, full stop. No one should be forced or pressured to take them.</row>
+        <row label="item6">My body, my choice—whether mandates, supplements, or experimental drugs. Government should butt out.</row>
+        <row label="item7">Modern medicine ignores the whole person. Natural and alternative therapies deserve equal respect and coverage.</row>
+        <row label="item8">Clean, whole-food living—not pills—keeps us healthy. The system ignores it because there’s no profit in it.</row>
+        <row label="item9">Human beings thrive on meat-heavy, low-carb diets. Government guidelines are junk science.</row>
+        <row label="item10">We must protect U.S. patients, workers, and supply chains first. Foreign competition and immigration come second.</row>
+        <row label="item11">Free markets work best, but I defer to FDA and CDC experts on safety and innovation.</row>
+        <row label="item12">Competition—private insurance, transparent prices, fewer rules—is the key to cheaper, better care.</row>
+        <style mode="before" name="question.header"><![CDATA[
+<style type="text/css">
+    .QMD3_maxdiff tr.maxdiff-header-legend {
+        background-color: #191970;
+        border-left: 2px solid black; 
+        border-right: 2px solid black; 
+        border-top: 2px solid black; 
+        border-bottom: 2px solid black; 
+    }
+    .QMD3_maxdiff tr.maxdiff-header-legend th.legend {
+        background-color: transparent;
+        border-left: 2px solid black; 
+        border-right: 2px solid black; 
+        border-top: 2px solid black; 
+        border-bottom: 2px solid black; 
+    }
+    .QMD3_maxdiff tr.maxdiff-row td.element {
+        
+        border-left: 2px solid black; 
+        border-right: 2px solid black; 
+        border-top: 2px solid black; 
+        border-bottom: 2px solid black; 
+        text-align: center;
+    }
+    .QMD3_maxdiff tr.maxdiff-row th.row-legend {
+        background-color: transparent;
+        
+        border-left: 2px solid black; 
+        border-right: 2px solid black; 
+        border-top: 2px solid black; 
+        border-bottom: 2px solid black; 
+        text-align: lift;
+    }
+    </style>
+]]></style>
+        <style name="question.top-legend"><![CDATA[
+\@if ec.simpleList
+    $(legends)
+\@else
+    <$(tag) class="maxdiff-header-legend row row-col-legends row-col-legends-top ${"mobile-top-row-legend " if mobileOnly else ""}${"GtTenColumns " if ec.colCount > 10 else ""}colCount-$(colCount)">
+        ${"%s%s" % (legends.split("</th>")[0],"</th>")}
+       $(left)
+        ${"%s%s" % (legends.split("</th>")[1],"</th>")}
+    </$(tag)>
+    \@if not simple
+  </tbody>
+  <tbody>
+    \@endif
+\@endif
+]]></style>
+        <style name="question.row"><![CDATA[
+\@if ec.simpleList
+    $(elements)
+\@else
+    <$(tag) class="maxdiff-row row row-elements $(style) colCount-$(colCount)">
+        ${"%s%s" % (elements.split("</td>")[0],"</td>")}
+        $(left)
+        ${"%s%s" % (elements.split("</td>")[1],"</td>")}
+    </$(tag)>
+\@endif
+]]></style>
+      </radio>
+
+      <suspend/>
+    </block>
+
+    <looprow label="1">
+      <loopvar name="task">1</loopvar>
+    </looprow>
+
+    <looprow label="2">
+      <loopvar name="task">2</loopvar>
+    </looprow>
+
+    <looprow label="3">
+      <loopvar name="task">3</loopvar>
+    </looprow>
+
+    <looprow label="4">
+      <loopvar name="task">4</loopvar>
+    </looprow>
+
+    <looprow label="5">
+      <loopvar name="task">5</loopvar>
+    </looprow>
+
+    <looprow label="6">
+      <loopvar name="task">6</loopvar>
+    </looprow>
+
+    <looprow label="7">
+      <loopvar name="task">7</loopvar>
+    </looprow>
+
+    <looprow label="8">
+      <loopvar name="task">8</loopvar>
+    </looprow>
+
+    <looprow label="9">
+      <loopvar name="task">9</loopvar>
+    </looprow>
+
+    <looprow label="10">
+      <loopvar name="task">10</loopvar>
+    </looprow>
+
+    <looprow label="11">
+      <loopvar name="task">11</loopvar>
+    </looprow>
+
+    <looprow label="12">
+      <loopvar name="task">12</loopvar>
+    </looprow>
+  </loop>
+
+  <float 
+   label="QMD3_Timer"
+   size="15"
+   where="execute,survey,report">
+    <title>QMD3 - MaxDiff Timer (Minutes)</title>
+    <exec>
+QMD3_Timer.val = (timeSpent() - p.startTime) / 60.0
+    </exec>
+
+  </float>
+
+  <note>MaxDiff Indices Template --End3--</note>
+  <suspend/>
+
+  <text 
+   label="QMD3"
+   size="3"
+   where="execute,survey,report">
+    <title>Hidden: QDEM</title>
+    <exec>
+p.sum=[]
+print p.maxdiff1
+
+groupSize = 4
+
+# split into chunks of 4
+groups = [p.maxdiff1[i:i+groupSize] for i in range(0, len(p.maxdiff1), groupSize)]
+
+print(groups)
+for col in range(0, 12):     
+    rowsForColumn = groups[col]
+
+    for r in rowsForColumn:
+        rowNum = int(r)-1
+        print rowNum,col
+        QMD3.rows[rowNum][col].val=0
+
+for i in range(0,12):
+	best = "QGOP_{}".format(i+1)
+	worst = "QGOP_{}".format(i+1)
+	best1=allQuestions[best].best.val
+	worst1=allQuestions[worst].worst.val
+	QMD3.rows[best1][i].val=1
+	QMD3.rows[worst1][i].val=-1
+
+for i in QMD3.rows:
+	a=0
+	for j in range(12):
+		if QMD3[i][j].val!=None:
+			a1=QMD3[i][j].val
+			a+=int(a1)
+	QMD3[i].c13.val=a
+    </exec>
+
+    <row label="r1">Government should stay small but defend marriage, family life, and personal responsibility.</row>
+    <row label="r2">Big pharma and big agribusiness can’t be trusted; local food and local control are healthier</row>
+    <row label="r3">Big pharma and big agribusiness can’t be trusted; local food and local control are healthier</row>
+    <row label="r4">Small-town hospitals keep closing. Government must improve access to care for rural America</row>
+    <row label="r5">Vaccines are unsafe, full stop. No one should be forced or pressured to take them</row>
+    <row label="r6">My body, my choice—whether mandates, supplements, or experimental drugs. Government should butt out</row>
+    <row label="r7">Modern medicine ignores the whole person. Natural and alternative therapies deserve equal respect and coverage</row>
+    <row label="r8">Clean, whole-food living—not pills—keeps us healthy. The system ignores it because there’s no profit in it</row>
+    <row label="r9">Human beings thrive on meat-heavy, low-carb diets. Government guidelines are junk science</row>
+    <row label="r10">We must protect U.S. patients, workers, and supply chains first. Foreign competition and immigration come second</row>
+    <row label="r11">Free markets work best, but I defer to FDA and CDC experts on safety and innovation</row>
+    <row label="r12">Competition—private insurance, transparent prices, fewer rules—is the key to cheaper, better care</row>
+    <col label="c1">QGOP_1</col>
+    <col label="c2">QGOP_2</col>
+    <col label="c3">QGOP_3</col>
+    <col label="c4">QGOP_4</col>
+    <col label="c5">QGOP_5</col>
+    <col label="c6">QGOP_6</col>
+    <col label="c7">QGOP_7</col>
+    <col label="c8">QGOP_8</col>
+    <col label="c9">QGOP_9</col>
+    <col label="c10">QGOP_10</col>
+    <col label="c11">QGOP_11</col>
+    <col label="c12">QGOP_12</col>
+    <col label="c13">Row Total</col>
+  </text>
+
+  <suspend/>
+
+  <text 
+   label="XGOP_SEG"
+   size="25"
+   where="execute,survey,report">
+    <title>HIDDEN: XGOP_SEG</title>
+    <exec>
+GOP_U = [0.38508997429306000000, -0.17377892030848300000, 0.24627249357326500000, -0.04010282776349610000, -0.59228791773778800000, -0.14858611825192800000, -0.02107969151670950000, 0.47455012853470400000, -0.37737789203084800000, 0.74447300771208200000, -0.40308483290488500000, 0.53264781491002300000]
+GOP_S = [1.43382270020555000000, 1.33588927952432000000, 1.27152970711636000000, 0.99506807970518800000, 1.43007171227387000000, 1.34448626576850000000, 1.03987765697966000000, 1.17741744823519000000, 1.06211524799590000000, 1.19670395348235000000, 1.23144280592344000000, 1.19631138845397000000]
+
+
+GOP_MAX_F = []  
+  
+for i in XGOP_SEG.rows:
+	i.c1.val=QMD3[i].c13.val
+	GOP_MAX_F.append(float(QMD3[i].c13.val))
+
+for i in range(12):
+ XGOP_SEG.rows[i].c2.val = GOP_U[i]
+
+for i in range(12):
+ XGOP_SEG.rows[i].c3.val = GOP_S[i]
+
+for i in range(12):
+ XGOP_SEG.rows[i].c4.val = (GOP_MAX_F[i] - GOP_U[i])/GOP_S[i]
+    </exec>
+
+    <row label="r1">Government should stay small but defend marriage, family life, and personal responsibility.</row>
+    <row label="r2">Big pharma and big agribusiness can’t be trusted; local food and local control are healthier.</row>
+    <row label="r3">Drug and hospital prices are crushing people. I don’t care who fixes it—just bring costs down.</row>
+    <row label="r4">Small-town hospitals keep closing. Government must improve access to care for rural America.</row>
+    <row label="r5">Vaccines are unsafe, full stop. No one should be forced or pressured to take them.</row>
+    <row label="r6">My body, my choice—whether mandates, supplements, or experimental drugs. Government should butt out.</row>
+    <row label="r7">Modern medicine ignores the whole person. Natural and alternative therapies deserve equal respect and coverage.</row>
+    <row label="r8">Clean, whole-food living—not pills—keeps us healthy. The system ignores it because there’s no profit in it.</row>
+    <row label="r9">Human beings thrive on meat-heavy, low-carb diets. Government guidelines are junk science.</row>
+    <row label="r10">We must protect U.S. patients, workers, and supply chains first. Foreign competition and immigration come second.</row>
+    <row label="r11">Free markets work best, but I defer to FDA and CDC experts on safety and innovation.</row>
+    <row label="r12">Competition—private insurance, transparent prices, fewer rules—is the key to cheaper, better care.</row>
+    <col label="c1">PUNCH</col>
+    <col label="c2">STANDARDIZE (Z-SCORE) Meuw</col>
+    <col label="c3">STANDARDIZE (Z-SCORE) Segma</col>
+    <col label="c4">FINAL VARIABLE</col>
+  </text>
+
+  <suspend/>
+
+  <exec>
+def algorithmCalculation(resp_answers, segment_coeff):
+    return sum((a - c)**2 for a, c in zip(resp_answers, segment_coeff))
+
+def algorithmRaw(answers, constant_matrix):
+    num_segments = len(constant_matrix[0])
+    outputs = []
+    for c in range(num_segments):
+
+        segment_col = [row[c] for row in constant_matrix]
+        output = algorithmCalculation(answers, segment_col)
+        outputs.append(output)
+    return outputs
+
+p.resp_answers1 = [float(x) for x in XGOP_SEG.c4.values]
+
+segment_matrix = [
+    [-0.1261,-0.4051,1.02234,0.58465,-1.25002,0.82373,-0.6292,-1.18514,-0.80392,0.20714],
+	[-0.19506,-0.46397,-1.07482,0.14556,1.06801,-0.42514,0.37386,1.31134,0.511,-0.28626],
+	[0.85224,-0.53114,-0.78602,-0.72724,1.07565,-0.51894,-0.60455,0.61219,0.99074,-0.4556],
+	[0.62878,0.34974,0.02367,-1.13604,1.18021,-0.62365,0.62733,-0.48681,0.03175,1.39773],
+	[-0.95869,0.62692,-0.88469,1.112,-0.14726,-0.3302,1.18718,1.28464,-0.1541,-0.04871],
+	[0.77122,-0.23771,-0.31254,-0.44362,0.59271,-0.6674,-0.19717,0.5111,0.79782,-0.90838],
+	[-0.8289,1.34097,-0.8539,0.06487,0.07327,0.04457,0.04989,0.86505,0.46423,-0.3913],
+	[-0.57842,0.64731,-0.60104,0.51284,-0.68959,0.60399,-1.59188,0.65871,0.608,-1.36486],
+	[-0.36865,0.16667,-0.22571,0.94961,0.12971,-0.72425,2.09125,0.52635,-0.3421,-0.08712],
+	[1.02773,-1.3315,0.65958,-0.99743,-0.07412,0.35569,-1.50713,-0.7052,0.35967,-0.22933],
+	[0.4801,0.21314,0.86573,-0.6825,0.54792,-0.61611,1.48754,-0.94944,-0.53529,1.09175],
+	[0.85616,-0.78399,0.89399,-0.66896,-0.76511,0.60854,-1.92725,-1.02391,0.13248,-0.23465]   
+]
+
+results = algorithmRaw(p.resp_answers1, segment_matrix)
+for i in range(10):
+	XGOP_RAW[i].ival=round(results[i],1)
+  </exec>
+
+  <text 
+   label="XGOP_RAW"
+   randomize="0"
+   size="40"
+   where="execute,survey,report">
+    <title>HIDDEN: Segments</title>
+    <row label="r1">Consumer Empowerment Champions</row>
+    <row label="r2">Holistic Health Naturalists</row>
+    <row label="r3">Traditional Conservatives</row>
+    <row label="r4">Paleo Freedom Fighters</row>
+    <row label="r5">Price Populists</row>
+    <row label="r6">Wellness Evangelists</row>
+    <row label="r7">Radical Futurists</row>
+    <row label="r8">Vaccine Skeptics</row>
+    <row label="r9">Medical Freedom Libertarians</row>
+    <row label="r10">Trust The Science Pragmatists</row>
+  </text>
+
+  <suspend/>
+
+  <exec>
+L = [float(x) for x in XGOP_RAW.values]
+
+F = sorted(L)
+
+print F[0]
+print F[1]
+
+for i in XGOP_RAW.rows:
+ if float(i.val) == F[0]:
+ 
+   XGOP_SEG_FINAL_1.val = i.index
+   
+ if float(i.val) == F[1]:
+   XGOP_SEG_FINAL_2.val = i.index
+  </exec>
+
+  <suspend/>
+
+  <radio 
+   label="XGOP_SEG_FINAL_1"
+   optional="1"
+   randomize="0"
+   where="execute,survey,report">
+    <title>CENTROID MODEL - REPUBLICAN SEGMENTS - First minimum</title>
+    <row label="r1">Consumer Empowerment Champions</row>
+    <row label="r2">Holistic Health Naturalists</row>
+    <row label="r3">Traditional Conservatives</row>
+    <row label="r4">Paleo Freedom Fighters</row>
+    <row label="r5">Price Populists</row>
+    <row label="r6">Wellness Evangelists</row>
+    <row label="r7">Radical Futurists</row>
+    <row label="r8">Vaccine Skeptics</row>
+    <row label="r9">Medical Freedom Libertarians</row>
+    <row label="r10">Trust The Science Pragmatists</row>
+  </radio>
+
+  <suspend/>
+
+  <quota label="quo10" cond="XGOP_SEG_FINAL_1.any" overquota="noqual" sheet="GOP First minimum"/>
+
+  <suspend/>
+
+  <radio 
+   label="XGOP_SEG_FINAL_2"
+   optional="1"
+   randomize="0"
+   where="execute,survey,report">
+    <title>CENTROID MODEL - REPUBLICAN SEGMENTS - Second minimum</title>
+    <row label="r1">Consumer Empowerment Champions</row>
+    <row label="r2">Holistic Health Naturalists</row>
+    <row label="r3">Traditional Conservatives</row>
+    <row label="r4">Paleo Freedom Fighters</row>
+    <row label="r5">Price Populists</row>
+    <row label="r6">Wellness Evangelists</row>
+    <row label="r7">Radical Futurists</row>
+    <row label="r8">Vaccine Skeptics</row>
+    <row label="r9">Medical Freedom Libertarians</row>
+    <row label="r10">Trust The Science Pragmatists</row>
+  </radio>
+
+  <suspend/>
+
+  <quota label="quo11" cond="XGOP_SEG_FINAL_2.any" overquota="noqual" sheet="GOP Second minimum"/>
+
+  <suspend/>
+
+  <text 
+   label="QSEG_4"
+   where="execute,survey,report">
+    <title>Hidden: QDEM</title>
+    <exec>
+QSEG_4.r1.val=0
+QSEG_4.r2.val=(float(XTRUST.r1.val) + float(XTRUST.r2.val) + float(XTRUST.r3.val))/3
+QSEG_4.r3.val=(float(XTRUST.r4.val) + float(XTRUST.r5.val))/2
+QSEG_4.r4.val=XATTITUDE.r3.val
+QSEG_4.r5.val=XIDEOLOGY.r2.val
+    </exec>
+
+    <row label="r1">Intercept</row>
+    <row label="r2">VECTOR_TRUST</row>
+    <row label="r3">VECTOR_SCIENCE</row>
+    <row label="r4">VECTOR_FREEDOM</row>
+    <row label="r5">VECTOR_MARKETS</row>
+  </text>
+
+  <suspend/>
+
+  <text 
+   label="XQSEG_4"
+   where="execute,survey,report">
+    <title>Hidden: QDEM</title>
+    <exec>
+
+# Column 1 values
+col1 = [float(x) for x in QSEG_4.values]
+
+
+cols = [
+[-0.38723393045133700000,-0.52493520688521500000,-1.93594760368665000000,-2.39280314917104000000,-0.68480946471015500000,-1.36031215345391000000,-0.74424352441403700000,0,-0.87487174583976100000,-1.80226906972651000000],
+[0.56721940755344300000,0.28923351099807500000,0.89727368332625300000,0.30228393189333900000,-0.08318622463084400000,0.65066893516317700000,0.20001687121630800000,0,0.24349404365751200000,0.86542559081574900000],
+[0.08196028084108390000,0.10175176171097900000,-0.11873861209671500000,-0.05229597258184510000,0.57993383819320000000,-0.21621450930156200000,0.40007648925745500000,0,0.14516219548223500000,-0.10617888502495400000],
+[-0.45028155320828600000,-0.31931142283771000000,-0.43557905063624500000,0.17574389193804300000,-0.31661896434438000000,-0.13406311330401700000,-0.43777996857220900000,0,-0.12724900305712100000,-0.41173826770088300000],
+[0.13086125387023100000,0.05505952131754150000,0.26990951731301200000,0.08718668538250130000,-0.04121649380559660000,0.22413891093727700000,0.01221015389002600000,0,0.05524839246493730000,0.04838392511813760000]
+]
+
+
+result0 = []
+
+# Element-wise multiply each row by X[i]
+for i in range(len(cols)):
+    row_result = []
+    for j in range(len(cols[i])):
+        row_result.append(col1[i] * cols[i][j])
+    result0.append(row_result)
+
+results1 = []
+
+for i in range(1):
+	results1.append(cols[i])
+	
+for i in range(1,5):
+	results1.append(result0[i])	
+
+
+# Compute SUMPRODUCT for each of the 6 columns
+results2 = []
+
+for c in range(10):
+    s = 0
+    for i in range(len(col1)):
+        s += col1[i] * results1[i][c]
+    results2.append(s)
+
+for i in range(len(results2)):
+
+  XQSEG_4.rows[i].val = results2[i]
+    </exec>
+
+    <row label="r1">Consumer Empowerment Champions</row>
+    <row label="r2">Holistic Health Naturalists</row>
+    <row label="r3">Traditional Conservatives</row>
+    <row label="r4">Paleo Freedom Fighters</row>
+    <row label="r5">Price Populists</row>
+    <row label="r6">Wellness Evangelists</row>
+    <row label="r7">Radical Futurists</row>
+    <row label="r8">Vaccine Skeptics</row>
+    <row label="r9">Medical Freedom Libertarians</row>
+    <row label="r10">Trust The Science Pragmatists</row>
+  </text>
+
+  <suspend/>
+
+  <text 
+   label="XQSEG_4_EXP"
+   where="execute,survey,report">
+    <title>Hidden: QDEM</title>
+    <exec>
+
+import math
+
+L = [float(x) for x in XQSEG_4.values]
+
+EXP = []
+EXP_F = []
+
+for i in L:
+ EXP.append(math.exp(i))
+
+for i in range(len(EXP)):
+
+  XQSEG_4_EXP.rows[i].c1.val = EXP[i]
+
+
+for i in range(10):
+  EXP_F.append((EXP[i]/sum(EXP)) * 100)
+
+for i in range(len(EXP)):  
+	XQSEG_4_EXP.rows[i].c2.val = round(EXP_F[i],2)
+    </exec>
+
+    <row label="r1">Consumer Empowerment Champions</row>
+    <row label="r2">Holistic Health Naturalists</row>
+    <row label="r3">Traditional Conservatives</row>
+    <row label="r4">Paleo Freedom Fighters</row>
+    <row label="r5">Price Populists</row>
+    <row label="r6">Wellness Evangelists</row>
+    <row label="r7">Radical Futurists</row>
+    <row label="r8">Vaccine Skeptics</row>
+    <row label="r9">Medical Freedom Libertarians</row>
+    <row label="r10">Trust The Science Pragmatists</row>
+    <col label="c1">EXP</col>
+    <col label="c2">FINAL</col>
+  </text>
+
+  <suspend/>
+
+  <exec>
+L = [float(x) for x in XQSEG_4_EXP.c2.values]
+
+F = sorted(L)
+
+print F[9]
+print F[8]
+
+for i in XQSEG_4_EXP.rows:
+ if float(i.c2.val) == F[9]:
+ 
+   XGOP1_SEG_FINAL_1.val = i.index
+   
+ if float(i.c2.val) == F[8]:
+   XGOP1_SEG_FINAL_2.val = i.index
+  </exec>
+
+  <suspend/>
+
+  <radio 
+   label="XGOP1_SEG_FINAL_1"
+   optional="1"
+   randomize="0"
+   where="execute,survey,report">
+    <title>LOGIT MODEL - REPUBLICAN SEGMENTS - First Max</title>
+    <row label="r1">Consumer Empowerment Champions</row>
+    <row label="r2">Holistic Health Naturalists</row>
+    <row label="r3">Traditional Conservatives</row>
+    <row label="r4">Paleo Freedom Fighters</row>
+    <row label="r5">Price Populists</row>
+    <row label="r6">Wellness Evangelists</row>
+    <row label="r7">Radical Futurists</row>
+    <row label="r8">Vaccine Skeptics</row>
+    <row label="r9">Medical Freedom Libertarians</row>
+    <row label="r10">Trust The Science Pragmatists</row>
+  </radio>
+
+  <suspend/>
+
+  <radio 
+   label="XGOP1_SEG_FINAL_2"
+   optional="1"
+   randomize="0"
+   where="execute,survey,report">
+    <title>LOGIT MODEL - REPUBLICAN SEGMENTS - Second Max</title>
+    <row label="r1">Consumer Empowerment Champions</row>
+    <row label="r2">Holistic Health Naturalists</row>
+    <row label="r3">Traditional Conservatives</row>
+    <row label="r4">Paleo Freedom Fighters</row>
+    <row label="r5">Price Populists</row>
+    <row label="r6">Wellness Evangelists</row>
+    <row label="r7">Radical Futurists</row>
+    <row label="r8">Vaccine Skeptics</row>
+    <row label="r9">Medical Freedom Libertarians</row>
+    <row label="r10">Trust The Science Pragmatists</row>
+  </radio>
+
+  <suspend/>
+</block>
+
+<suspend/>
+
+<radio 
+  label="XSEG_ASSIGNED"
+  optional="1"
+  where="execute,survey,report">
+  <title>Final Segment Assignment (1-16)</title>
+  <comment>GOP Segments (1-10)DEM Segments (11-16)</comment>
+  <exec>
+if XGOP_SEG_FINAL_1.any:
+    XSEG_ASSIGNED.val = XGOP_SEG_FINAL_1.val
+elif XDEM_SEG_FINAL_1.any:
+	XSEG_ASSIGNED.val = XDEM_SEG_FINAL_1.val+10
+  </exec>
+
+  <row label="r1">1. Consumer Empowerment Champions</row>
+  <row label="r2">2. Holistic Health Naturalists</row>
+  <row label="r3">3. Traditional Conservatives</row>
+  <row label="r4">4. Paleo Freedom Fighters</row>
+  <row label="r5">5. Price Populists</row>
+  <row label="r6">6. Wellness Evangelists</row>
+  <row label="r7">7. Radical Futurists</row>
+  <row label="r8">8. Vaccine Skeptics</row>
+  <row label="r9">9. Medical Freedom Libertarians</row>
+  <row label="r10">10. Trust The Science Pragmatists</row>
+  <row label="r11">11. Idealists</row>
+  <row label="r12">12. Progressives</row>
+  <row label="r13">13. Protectionists</row>
+  <row label="r14">14. Abundance</row>
+  <row label="r15">15. Incrementalists</row>
+  <row label="r16">16. Institutionalists</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="XQINSTYPE"
+  where="execute,survey,report">
+  <title>HIDDEN: XQINSTYPE Based on QINSTYPE and QINS_MEDICARE</title>
+  <comment>Select one</comment>
+  <exec>
+if QINS_MEDICARE.r2:
+	XQINSTYPE.val=0
+elif QINS_MEDICARE.r1:
+	XQINSTYPE.val=1	
+elif QINSTYPE.r1 or QINSTYPE.r2 or QINSTYPE.r3:
+	XQINSTYPE.val=2
+else:
+	XQINSTYPE.val=3
+  </exec>
+
+  <row label="r1">Medicare Advantage</row>
+  <row label="r2">Traditional Medicare</row>
+  <row label="r3">Employer Sponsored Insurance</row>
+  <row label="r4">Others</row>
+</radio>
+
+<suspend/>
+
+<quota label="quo7" overquota="noqual" sheet="Block Quota"/>
+
+<suspend/>
+
+<exec sst="0">
+x=XQINSTYPE.selected.index
+quota_cells = gv.survey.root.quota.getQuotaCells()
+current, limit, overquota = quota_cells["/Block_INSTYPE_Quota/XQINSTYPE_{}/ESI_SEC".format(x+1)]
+current1, limit1, overquota1 = quota_cells["/Block_INSTYPE_Quota/XQINSTYPE_{}/MA_SEC".format(x+1)]
+
+ESI_BLOCK=limit-current
+MA_BLOCK=limit1-current1
+
+if ESI_BLOCK gt 0 and MA_BLOCK gt 0:
+	for x in range(2):
+	 if hasMarker("/Block Quota/c_{}".format(x+1)):
+	    XRANDOMPICK.val=x
+	    
+elif ESI_BLOCK == 0 and MA_BLOCK gt 0:
+	XRANDOMPICK.val=1
+elif ESI_BLOCK gt 0 and MA_BLOCK == 0:
+	XRANDOMPICK.val=0
+
+
+
+print ESI_BLOCK, MA_BLOCK
+
+
+
+#if (XWAVE.r1 and current le 400) or (XWAVE.r2 and current le 500):
+#	for x in range(2):
+#	 if hasMarker("/Block Quota/c_{}".format(x+1)):
+#	    XRANDOMPICK.val=x
+#else:
+#	XRANDOMPICK.val=0
+</exec>
+
+<suspend/>
+
+<radio 
+  label="XRANDOMPICK"
+  optional="1"
+  sst="0"
+  where="execute,survey,report">
+  <title>Random pick</title>
+  <comment>Select one</comment>
+  <row label="r1">ESI</row>
+  <row label="r2">MA</row>
+</radio>
+
+<suspend/>
+
+<quota label="quo_INSTYPE" overquota="noqual" sheet="Block_INSTYPE_Quota" sst="0"/>
+
+<suspend/>
+
+<quota label="quo13" cond="(XSEG_ASSIGNED.any and XRANDOMPICK.any)" overquota="noqual" sheet="Wave One Equal Allocation QUOTA" sst="0"/>
+
+<suspend/>
+
+<float 
+  label="XQUOTA_PCT"
+  where="execute,survey,report">
+  <title>Quota Percentage (Current n / 81 * 100)</title>
+  <exec>
+XQUOTA_PCT.val = 0
+  </exec>
+
+</float>
+
+<suspend/>
+
+<radio 
+  label="XMODEL_AGREEMENT"
+  optional="1"
+  where="execute,survey,report">
+  <title>Model Agreement Status</title>
+  <exec>
+
+if TYPING_MODULE.r1:
+    cent1 = XGOP_SEG_FINAL_1.val if XGOP_SEG_FINAL_1.any else None
+    cent2 = XGOP_SEG_FINAL_2.val if XGOP_SEG_FINAL_2.any else None
+    logit1 = XGOP1_SEG_FINAL_1.val if XGOP1_SEG_FINAL_1.any else None
+    logit2 = XGOP1_SEG_FINAL_2.val if XGOP1_SEG_FINAL_2.any else None
+
+elif TYPING_MODULE.r2:
+    cent1 = XDEM_SEG_FINAL_1.val if XDEM_SEG_FINAL_1.any else None
+    cent2 = XDEM_SEG_FINAL_2.val if XDEM_SEG_FINAL_2.any else None
+    logit1 = XDEM1_SEG_FINAL_1.val if XDEM1_SEG_FINAL_1.any else None
+    logit2 = XDEM1_SEG_FINAL_2.val if XDEM1_SEG_FINAL_2.any else None
+else:
+    cent1 = cent2 = logit1 = logit2 = None
+
+if cent1 and logit1:
+    if cent1 == logit1 and cent2 == logit2:
+        # Full agreement - both #1 and #2 match
+        XMODEL_AGREEMENT.val = XMODEL_AGREEMENT.r1.index
+    elif cent1 == logit1 or cent2 == logit2:
+        # Partial agreement - only one matches
+        XMODEL_AGREEMENT.val = XMODEL_AGREEMENT.r2.index
+    else:
+        # No agreement
+        XMODEL_AGREEMENT.val = XMODEL_AGREEMENT.r3.index
+  </exec>
+
+  <row label="r1">Full Agreement (Both #1 and #2 match)</row>
+  <row label="r2">Partial Agreement (One matches)</row>
+  <row label="r3">No Agreement</row>
+</radio>
+
+<suspend/>
+
+<float 
+  label="XCENTROID_DIST1"
+  where="execute,survey,report">
+  <title>Centroid Distance to Closest Segment</title>
+  <exec>
+
+if TYPING_MODULE.r1 and XGOP_RAW.any:
+    distances = [float(row.val) for row in XGOP_RAW.rows if row.val is not None]
+    XCENTROID_DIST1.val = min(distances) if distances else 99
+elif TYPING_MODULE.r2 and XDEM_RAW.any:
+    distances = [float(row.val) for row in XDEM_RAW.rows if row.val is not None]
+    XCENTROID_DIST1.val = min(distances) if distances else 99
+else:
+    XCENTROID_DIST1.val = 99
+  </exec>
+
+</float>
+
+<suspend/>
+
+<float 
+  label="XCENTROID_DIST2"
+  where="execute,survey,report">
+  <title>Centroid Distance to 2nd Closest Segment</title>
+  <exec>
+if TYPING_MODULE.r1 and XGOP_RAW.any:
+    distances = sorted([float(row.val) for row in XGOP_RAW.rows if row.val is not None])
+    XCENTROID_DIST2.val = distances[1] if len(distances) &gt; 1 else 99
+elif TYPING_MODULE.r2 and XDEM_RAW.any:
+    distances = sorted([float(row.val) for row in XDEM_RAW.rows if row.val is not None])
+    XCENTROID_DIST2.val = distances[1] if len(distances) &gt; 1 else 99
+else:
+    XCENTROID_DIST2.val = 99
+  </exec>
+
+</float>
+
+<suspend/>
+
+<float 
+  label="XREL_DIFF"
+  where="execute,survey,report">
+  <title>Relative Difference: (Dist2 - Dist1) / Dist1</title>
+  <exec>
+dist1 = float(XCENTROID_DIST1.val) if XCENTROID_DIST1.val else 1
+dist2 = float(XCENTROID_DIST2.val) if XCENTROID_DIST2.val else 2
+
+if dist1 &gt; 0:
+    XREL_DIFF.val = (dist2 - dist1) / dist1
+else:
+    XREL_DIFF.val = 0
+  </exec>
+
+</float>
+
+<suspend/>
+
+<float 
+  label="XLOGIT_PROB1"
+  where="execute,survey,report">
+  <title>Logit Probability % for Top Choice</title>
+  <exec>
+
+if TYPING_MODULE.r1 and XQSEG_4_EXP.any:
+    probs = [float(row.c2.val) for row in XQSEG_4_EXP.rows if row.c2.val is not None]
+    XLOGIT_PROB1.val = max(probs) if probs else 0
+elif TYPING_MODULE.r2 and XQSEG_3_EXP.any:
+    probs = [float(row.c2.val) for row in XQSEG_3_EXP.rows if row.c2.val is not None]
+    XLOGIT_PROB1.val = max(probs) if probs else 0
+else:
+    XLOGIT_PROB1.val = 0
+  </exec>
+
+</float>
+
+<suspend/>
+
+<radio 
+  label="XCONF_LEVEL"
+  optional="1"
+  where="execute,survey,report">
+  <title>Confidence Level Classification</title>
+  <exec>
+full_agreement = False
+if XMODEL_AGREEMENT.any:
+    full_agreement = (XMODEL_AGREEMENT.r1.val == 1)
+
+dist1 = 99.0
+if XCENTROID_DIST1.val is not None:
+    dist1 = float(XCENTROID_DIST1.val)
+
+rel_diff = 0.0
+if XREL_DIFF.val is not None:
+    rel_diff = float(XREL_DIFF.val)
+
+logit_prob = 0.0
+if XLOGIT_PROB1.val is not None:
+    logit_prob = float(XLOGIT_PROB1.val)
+
+low_conf = False
+if XMODEL_AGREEMENT.any:
+    if XMODEL_AGREEMENT.r3.val == 1:
+        low_conf = True
+
+if dist1 &gt;= 0.5:
+    low_conf = True
+    
+if not (rel_diff &gt; 0.2):
+    low_conf = True
+    
+if not (logit_prob &gt; 50):
+    low_conf = True
+
+if full_agreement and not (dist1 &gt;= 0.5) and rel_diff &gt; 0.5 and logit_prob &gt; 70:
+    XCONF_LEVEL.val = XCONF_LEVEL.r1.index
+elif low_conf:
+    XCONF_LEVEL.val = XCONF_LEVEL.r3.index
+else:
+    XCONF_LEVEL.val = XCONF_LEVEL.r2.index
+  </exec>
+
+  <row label="r1">High Confidence</row>
+  <row label="r2">Moderate Confidence</row>
+  <row label="r3">Low Confidence</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="XAMB_FLAG"
+  optional="1"
+  where="execute,survey,report">
+  <title>Ambiguity Flag</title>
+  <exec>
+
+no_agreement = (XMODEL_AGREEMENT.r3.val == 1) if XMODEL_AGREEMENT.any else False
+dist1 = float(XCENTROID_DIST1.val) if XCENTROID_DIST1.val else 99
+rel_diff = float(XREL_DIFF.val) if XREL_DIFF.val else 0
+logit_prob = float(XLOGIT_PROB1.val) if XLOGIT_PROB1.val else 0
+
+if no_agreement or dist1 &gt;= 0.5 or not (rel_diff &gt; 0.5) or not (logit_prob &gt; 50):
+    XAMB_FLAG.val = XAMB_FLAG.r2.index
+else:
+    XAMB_FLAG.val = XAMB_FLAG.r1.index
+  </exec>
+
+  <row label="r1">Clear</row>
+  <row label="r2">Ambiguous</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="QTOT_FOLLOWERS"
+  optional="1"
+  values="order">
+  <title><span class="ques_no">${this.label}</span> Across all your public social-media accounts (X/Twitter, Instagram, TikTok, Facebook pages, Substack, podcast, YouTube, etc.), about how many followers or subscribers do you have in total?</title>
+  <validate>
+Prompt(QTOT_FOLLOWERS)
+  </validate>
+
+  <row label="r0" value="0">Fewer than 500</row>
+  <row label="r1" value="1">500 - 1,1999</row>
+  <row label="r2" value="2">2,000 – 9,999</row>
+  <row label="r3" value="3">10,000 – 49,999</row>
+  <row label="r4" value="4">50,000 or more</row>
+  <row label="r99" cond="0" value="99">No answer</row>
+</radio>
+
+<suspend/>
+
+<exec>
+Punch3(QTOT_FOLLOWERS)
+</exec>
+
+<suspend/>
+
+<quota label="ranQuota" overquota="noqual" sheet="random Quota"/>
+
+<suspend/>
+
+<exec>
+for x in range(2):
+ if hasMarker("/random Quota/split_{}".format(x+1)):
+    XRANDOM.val=x
+</exec>
+
+<suspend/>
+
+<radio 
+  label="XRANDOM"
+  where="execute,survey,report">
+  <title>Random pick</title>
+  <comment>Select one</comment>
+  <row label="r1">A</row>
+  <row label="r2">B</row>
+</radio>
+
+<suspend/>
+
+<quota label="ranQuota1" overquota="noqual" sheet="random Quota1"/>
+
+<suspend/>
+
+<exec>
+for x in range(2):
+ if hasMarker("/random Quota1/split1_{}".format(x+1)):
+    XRANDOM1.val=x
+</exec>
+
+<suspend/>
+
+<radio 
+  label="XRANDOM1"
+  where="execute,survey,report">
+  <title>Random pick</title>
+  <comment>Select one</comment>
+  <row label="r1">A</row>
+  <row label="r2">B</row>
+</radio>
+
+<suspend/>
+
+<quota label="ranQuota3" overquota="noqual" sheet="random Quota3"/>
+
+<suspend/>
+
+<exec>
+for x in range(2):
+ if hasMarker("/random Quota3/split3_{}".format(x+1)):
+    XRANDOM3.val=x
+</exec>
+
+<suspend/>
+
+<radio 
+  label="XRANDOM3"
+  where="execute,survey,report">
+  <title>Random pick</title>
+  <comment>Select one</comment>
+  <row label="r1">Q1</row>
+  <row label="r2">Q2/Q3</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="Q1"
+  cond="XRANDOM3.r1"
+  optional="1"
+  shuffle="rows">
+  <title><span class="ques_no">Q1</span> How important, if at all, is each of the following health care issues to you personally?</title>
+  <validate>
+Prompt1(Q1)
+  </validate>
+
+  <row label="r1"><strong><span style="font-size: 12pt;">Protecting health coverage provided by employers</span></strong></row>
+  <row label="r2"><strong><span style="font-size: 12pt;">Protecting the Medicare Advantage program</span></strong></row>
+  <row label="r3"><strong><span style="font-size: 12pt;">Reducing the cost of health care</span></strong></row>
+  <row label="r4"><strong><span style="font-size: 12pt;">Providing coverage for the uninsured</span></strong></row>
+  <row label="r5"><strong><span style="font-size: 12pt;">Addressing the price of prescription medicine</span></strong></row>
+  <row label="r6"><strong><span style="font-size: 12pt;">Addressing the high cost of hospitals</span></strong></row>
+  <row label="r7"><strong><span style="font-size: 12pt;">Improving access to mental health and addiction services</span></strong></row>
+  <row label="r8"><strong><span style="font-size: 12pt;">Advancing innovation of technologies and therapies</span></strong></row>
+  <row label="r9"><strong><span style="font-size: 12pt;">Protecting Medicaid</span></strong></row>
+  <row label="r10"><strong><span style="font-size: 12pt;">Maintaining federal funding for ACA coverage subsidies</span></strong></row>
+  <row label="r11A" cond="XRANDOM.r1"><strong><span style="font-size: 12pt;">Protecting traditional Medicare</span></strong></row>
+  <row label="r11B" cond="XRANDOM.r2"><strong><span style="font-size: 12pt;">Protecting “fee-for-service” Medicare</span></strong></row>
+  <col label="c4" value="4"><strong>Very Important</strong></col>
+  <col label="c3" value="3"><strong>Somewhat Important</strong></col>
+  <col label="c2" value="2"><strong>Not Very Important</strong></col>
+  <col label="c1" value="1"><strong>Not At All Important</strong></col>
+  <col label="c99" cond="0" value="99">SYSMIS</col>
+</radio>
+
+<suspend/>
+
+<exec cond="XRANDOM3.r1">
+Punch1(Q1)
+</exec>
+
+<suspend/>
+
+<quota label="ranQuota4" overquota="noqual" sheet="random Quota4"/>
+
+<suspend/>
+
+<exec>
+for x in range(2):
+ if hasMarker("/random Quota4/split4_{}".format(x+1)):
+    XRANDOM4.val=x
+</exec>
+
+<suspend/>
+
+<radio 
+  label="XRANDOM4"
+  where="execute,survey,report">
+  <title>Random pick</title>
+  <comment>Select one</comment>
+  <row label="r1">ESI/MA_POVFRAME ASKED</row>
+  <row label="r2">ESI/MA_POVFRAME SKIPPED</row>
+</radio>
+
+<suspend/>
+
+<block label="b4" builder:title="New Block" randomizeChildren="1">
+  <block label="b1" cond="XRANDOMPICK.r1" randomize="1">
+    <radio 
+    label="QESI_VALUE"
+    atm1d:large_buttonAlign="center"
+    atm1d:numCols="5"
+    atm1d:small_buttonAlign="center"
+    atm1d:small_contentAlign="center"
+    atm1d:viewMode="tiled"
+    ss:listDisplay="1"
+    uses="atm1d.11"
+    values="order">
+      <title><span class="ques_no">${this.label}</span> Now, let’s focus on health coverage provided through the workplace. Also known as “employer-sponsored insurance,” it is the dominant source of health insurance in the U.S., covering 185 millon Americans. <strong>Overall, how well do you think the employer-sponsored health insurance system in the U.S. works for people like you?</strong></title>
+      <row label="r1" value="1">Very poorly</row>
+      <row label="r2" value="2">Somewhat poorly</row>
+      <row label="r4" value="3">Neither well nor poor</row>
+      <row label="r5" value="4">Somewhat well</row>
+      <row label="r3" value="5">Very well</row>
+    </radio>
+
+    <suspend/>
+
+    <radio 
+    label="QESI_CRITIC"
+    cardrating:btnlayout="tiled"
+    cardrating:sml_cntalign="center"
+    shuffle="rows"
+    uses="cardrating.1"
+    values="order">
+      <title><span class="ques_no">${this.label}</span> Here is how critics sometimes describe employer-sponsored health insurance coverage. For each statement, indicate how much you agree or disagree…</title>
+      <validate>
+Prompt1(QESI_CRITIC)
+      </validate>
+
+      <style cond="device.desktop" name="question.after"><![CDATA[
+<style>
+.survey-body, .page-header, .footer,.survey-buttons,.comment,.comment-text,.question-text {min-width: 1200px;}
+       
+</style>
+]]></style>
+      <row label="r1"><span style="font-size: 12pt;"><strong>Health insurance through work has become too expensive as rising deductibles and premiums have made quality care harder to get</strong></span></row>
+      <row label="r2"><span style="font-size: 12pt;"><strong>The employer-sponsored insurance system favors people with stable, well-paid jobs, while lower-wage and part-time workers are left out of quality health coverage</strong></span></row>
+      <row label="r3"><span style="font-size: 12pt;"><strong>Losing or changing employment often means losing health coverage, making some feel trapped in their jobs</strong></span></row>
+      <row label="r4"><span style="font-size: 12pt;"><strong>Employees have little control over the type of plan they receive</strong></span></row>
+      <row label="r5"><span style="font-size: 12pt;"><strong>Employers can no longer afford to keep covering health insurance with generous benefits—it is economically unsustainable</strong></span></row>
+      <row label="r6"><span style="font-size: 12pt;"><strong>Employer-sponsored health insurance no longer means access to the best care but now offers fewer choices of providers and therapies</strong></span></row>
+      <row label="r7"><span style="font-size: 12pt;"><strong>Employer-sponsored plans are designed to control company costs, not meet worker needs—giving employees little choice and businesses too much power</strong></span></row>
+      <col label="c1" value="1">Strongly <strong>DISAGREE</strong></col>
+      <col label="c2" value="2">Disagree</col>
+      <col label="c3" value="3">Somewhat Disagree</col>
+      <col label="c4" value="4">Neither or Neutral</col>
+      <col label="c5" value="5">Somewhat Agree</col>
+      <col label="c6" value="6">Agree</col>
+      <col label="c7" value="7">Strongly <strong>AGREE</strong></col>
+    </radio>
+
+    <suspend/>
+
+    <exec>
+Punch1(QESI_CRITIC)
+    </exec>
+
+    <suspend/>
+
+    <number 
+    label="QESI_PRE_ATT"
+    ignoreValues="999"
+    optional="0"
+    size="3"
+    slidernumber:leftLegend="${res.QESILT}"
+    slidernumber:rightLegend="${res.QESIRT}"
+    slidernumber:showValue="On Handle"
+    uses="slidernumber.6"
+    verify="range(0,100)">
+      <title><p><span style="color: #000000;" data-olk-copy-source="MailCompose">Please indicate how strongly you believe employer-sponsored insurance deserves to play a central role in the U.S. health care system, where 0 means <strong>‘it has no legitimate role’</strong> and 100 means <strong>‘it plays an essential role that should be protected’.</strong></span></p></title>
+    </number>
+
+    <suspend/>
+
+    <radio 
+    label="QESI_PRE_POL"
+    atm1d:large_buttonAlign="center"
+    atm1d:large_contentAlign="center"
+    atm1d:numCols="7"
+    atm1d:small_buttonAlign="center"
+    atm1d:small_contentAlign="center"
+    atm1d:viewMode="tiled"
+    ss:listDisplay="1"
+    uses="atm1d.11"
+    values="order">
+      <title><span class="ques_no">${this.label}</span> Under current law, health insurance provided by employers is excluded from income taxes. <strong>Should the tax break for employer-sponsored health insurance stay in place, or be changed so those benefits are taxed like income?</strong></title>
+      <style cond="device.desktop" name="question.after"><![CDATA[
+<style>
+.survey-body, .page-header, .footer,.survey-buttons,.comment,.comment-text,.question-text {min-width: 1200px;}
+       
+</style>
+]]></style>
+      <row label="r1" value="1"><strong>Definitely</strong><br />should<br /><strong>STAY IN PLACE</strong></row>
+      <row label="r2" value="2">Should stay in<br />place</row>
+      <row label="r3" value="3">Probably<br />should stay in<br />place</row>
+      <row label="r4" value="4">Neutral or<br />uncertain</row>
+      <row label="r5" value="5">Probably<br />should be<br />changed</row>
+      <row label="r6" value="6">Should be<br />change</row>
+      <row label="r7" value="7"><strong>Definitely</strong><br />should be<br /><strong>CHANGED</strong></row>
+    </radio>
+
+    <suspend/>
+
+    <block label="ESIBlock" builder:title="ESI Block">
+      <note>MaxDiff Indices Template --Start1--</note>
+      <exec when="init">
+QESI_md = setupMaxDiffFile("ESI_Design.dat")
+      </exec>
+
+      <suspend/>
+
+      <quota label="quo14" overquota="noqual" sheet="ESI Quota"/>
+
+      <suspend/>
+
+      <number 
+     label="QESI_Version"
+     size="3"
+     verify="range(1,100)"
+     where="execute,survey,report">
+        <title>QESI - MaxDiff Version<br /><br /><em>Pick your version for testing... will be automated when live...</em></title>
+        <exec>
+print p.markers
+for x in p.markers:
+    if "/ESI Quota/ESI_" in x:
+        QESI_Version.val = int(x.split("_")[-1])
+        break
+        </exec>
+
+      </number>
+
+      <suspend/>
+
+      <exec>
+p.startTime = timeSpent()
+      </exec>
+
+      <html label="ESIMaxdiff_Intro" where="survey">You’ll see a series of short statements expressing different points of view. Each statement reflects a point of view about employer-sponsored insurance. For each set, please choose the one statement you find <strong>MOST</strong> compelling and the one statement you find <strong>LEAST</strong> compelling. <br /><br /><em>Some statements may appear again later. That’s intentional—it helps us understand how people think about ideas in various contexts. </em>There are no right or wrong answers. Simply go with your first reaction each time.</html>
+
+      <suspend/>
+
+      <loop label="QESI_md_loop" vars="task">
+        <title>QESI - MaxDiff Loop</title>
+        <block label="QESI_md_block" randomize="1">
+          <radio 
+       label="QESI_[loopvar: task]"
+       adim="cols"
+       grouping="cols"
+       shuffle="rows"
+       ss:listDisplay="0"
+       ss:questionClassNames="QESI_maxdiff"
+       unique="1">
+            <title>Select the one statement that <strong>MOST</strong> compelling your own point of view  (on the left), and the statement that <strong>LEAST</strong> compelling you (on the right)</title>
+            <exec>
+setupMaxDiffItemsI( QESI_md, "v%d_t%d" % (QESI_Version.val, [loopvar: task]), QESI_[loopvar: task])
+p.MDcount = str(QESI_md_loop_expanded.order.index([loopvar: task]-1)+1)
+            </exec>
+
+            <col label="best"><strong>MOST</strong> compelling</col>
+            <col label="worst"><strong>LEAST</strong> compelling</col>
+            <row label="item1">Employer-sponsored insurance shields families from rising medical costs—covering about 80–90 percent of all claims and preventing unexpected bills from becoming financial crises.</row>
+            <row label="item2">Employer-sponsored insurance provides complete protection, covering medical, drug, maternity, and mental health care together in one plan so nothing important is left out.</row>
+            <row label="item3">Workers stay protected through life changes, with COBRA and retiree options that help them maintain coverage and keep their doctors when jobs or family circumstances change.</row>
+            <row label="item4">Employer-sponsored insurance connects employees and families to leading doctors, hospitals, and new treatments—the cornerstone of America’s private health care system that drives innovation and access to advanced care.</row>
+            <row label="item5">Employer-sponsored insurance helps keep the health system competitive—by letting businesses and employees select the plans and providers that best fit their needs.</row>
+            <row label="item6">Digital tools put employees in control of their coverage—to see costs in advance, track approvals, follow treatment plans and make confident, informed decisions.</row>
+            <row label="item7">Employer-sponsored insurance expands convenience through telehealth, 24-hour nurse lines, and virtual mental health services that meet people where they are.</row>
+            <row label="item8">Employers tailor benefits to their own workforce, offering coverage options like obesity treatment, fertility, and mental health programs that reflect employee priorities and the company’s values.</row>
+            <row label="item9">Employer-sponsored insurance rewards work through a true partnership between employers and employees—turning shared payroll contributions and tax-free benefits into dependable coverage that employees earned.</row>
+            <row label="item10">Employer-sponsored insurance has been a basic promise between employers and employees—hard work earns security and peace of mind. Taxing or weakening those benefits breaks that promise and erodes workplace trust between employers and employees.</row>
+            <row label="item11">Employer-sponsored insurance channels tax-free private dollars to meet Americans’ health care needs keeping coverage affordable for families while reducing the burden on taxpayer-funded programs.</row>
+            <row label="item12">Employers use their collective purchasing power to drive competition among hospitals, doctors, and drug companies—helping improve the quality of care while controlling costs.</row>
+            <row label="item13">Employer-sponsored insurance drives medical progress—partnering with top health systems and innovators to expand access to advanced therapies while keeping care affordable for working families.</row>
+            <row label="item14">Employers hold plans accountable for quality and spending, tracking data and outcomes to ensure every premium dollar strengthens employee health, not administrative overhead.</row>
+            <row label="item15">Employers invest directly in workers’ health through wellness programs, preventive care incentives, and disease management support that keep people healthy and productive.</row>
+            <style mode="before" name="question.header"><![CDATA[
+<style type="text/css">
+    .QESI_maxdiff tr.maxdiff-header-legend {
+        background-color: #191970;
+        border-left: 2px solid black; 
+        border-right: 2px solid black; 
+        border-top: 2px solid black; 
+        border-bottom: 2px solid black; 
+    }
+    .QESI_maxdiff tr.maxdiff-header-legend th.legend {
+        background-color: transparent;
+        border-left: 2px solid black; 
+        border-right: 2px solid black; 
+        border-top: 2px solid black; 
+        border-bottom: 2px solid black; 
+    }
+    .QESI_maxdiff tr.maxdiff-row td.element {
+        
+        border-left: 2px solid black; 
+        border-right: 2px solid black; 
+        border-top: 2px solid black; 
+        border-bottom: 2px solid black; 
+        text-align: center;
+    }
+    .QESI_maxdiff tr.maxdiff-row th.row-legend {
+        background-color: transparent;
+        
+        border-left: 2px solid black; 
+        border-right: 2px solid black; 
+        border-top: 2px solid black; 
+        border-bottom: 2px solid black; 
+        text-align: lift;
+    }
+    </style>
+]]></style>
+            <style name="question.top-legend"><![CDATA[
+\@if ec.simpleList
+    $(legends)
+\@else
+    <$(tag) class="maxdiff-header-legend row row-col-legends row-col-legends-top ${"mobile-top-row-legend " if mobileOnly else ""}${"GtTenColumns " if ec.colCount > 10 else ""}colCount-$(colCount)">
+        ${"%s%s" % (legends.split("</th>")[0],"</th>")}
+       $(left)
+        ${"%s%s" % (legends.split("</th>")[1],"</th>")}
+    </$(tag)>
+    \@if not simple
+  </tbody>
+  <tbody>
+    \@endif
+\@endif
+]]></style>
+            <style name="question.row"><![CDATA[
+\@if ec.simpleList
+    $(elements)
+\@else
+    <$(tag) class="maxdiff-row row row-elements $(style) colCount-$(colCount)">
+        ${"%s%s" % (elements.split("</td>")[0],"</td>")}
+        $(left)
+        ${"%s%s" % (elements.split("</td>")[1],"</td>")}
+    </$(tag)>
+\@endif
+]]></style>
+          </radio>
+
+          <suspend/>
+        </block>
+
+        <looprow label="1">
+          <loopvar name="task">1</loopvar>
+        </looprow>
+
+        <looprow label="2">
+          <loopvar name="task">2</loopvar>
+        </looprow>
+
+        <looprow label="3">
+          <loopvar name="task">3</loopvar>
+        </looprow>
+
+        <looprow label="4">
+          <loopvar name="task">4</loopvar>
+        </looprow>
+
+        <looprow label="5">
+          <loopvar name="task">5</loopvar>
+        </looprow>
+
+        <looprow label="6">
+          <loopvar name="task">6</loopvar>
+        </looprow>
+
+        <looprow label="7">
+          <loopvar name="task">7</loopvar>
+        </looprow>
+
+        <looprow label="8">
+          <loopvar name="task">8</loopvar>
+        </looprow>
+
+        <looprow label="9">
+          <loopvar name="task">9</loopvar>
+        </looprow>
+
+        <looprow label="10">
+          <loopvar name="task">10</loopvar>
+        </looprow>
+
+        <looprow label="11">
+          <loopvar name="task">11</loopvar>
+        </looprow>
+
+        <looprow label="12">
+          <loopvar name="task">12</loopvar>
+        </looprow>
+      </loop>
+
+      <float 
+     label="QESI_Timer"
+     size="15"
+     where="execute,survey,report">
+        <title>QESI - MaxDiff Timer (Minutes)</title>
+        <exec>
+QESI_Timer.val = (timeSpent() - p.startTime) / 60.0
+        </exec>
+
+      </float>
+
+      <suspend/>
+    </block>
+
+    <suspend/>
+
+    <radio 
+    label="QESI_POVFRAME"
+    cond="XRANDOM4.r1">
+      <title><span class="ques_no">${this.label}</span> People often think about employer-sponsored health coverage from different points of view.<br /><strong>When you think about health coverage through work, which point of view feels most natural to you?</strong></title>
+      <row label="r1" value="1">I’m thinking mainly about <strong>my own coverage as an employee</strong></row>
+      <row label="r2" value="2">I’m thinking mainly as a <strong>family member</strong>, making sure loved ones are protected</row>
+      <row label="r3" value="3">I’m thinking mainly as a <strong>manager or business owner</strong>, focused on keeping benefits sustainable</row>
+      <row label="r4" value="4">I’m thinking mainly as a <strong>patient</strong> managing a medical condition</row>
+      <row label="r5" value="5">I’m thinking mainly as a <strong>taxpayer</strong>, considering the broader cost of the system</row>
+      <row label="r6" value="6">I’m thinking mainly as a <strong>citizen</strong>, concerned about fairness and who gets left out</row>
+      <row label="r9" value="9">None of these / Not sure</row>
+    </radio>
+
+    <suspend/>
+
+    <number 
+    label="QESI_POST_ATT"
+    ignoreValues="999"
+    optional="0"
+    size="3"
+    slidernumber:leftLegend="${res.QESILT}"
+    slidernumber:rightLegend="${res.QESIRT}"
+    slidernumber:showValue="On Handle"
+    uses="slidernumber.6"
+    verify="range(0,100)">
+      <title><span class="ques_no">${this.label}</span> Please indicate how strongly you believe employer-sponsored insurance deserves to play a central role in the U.S. health care system, where 0 means <strong>‘it has no legitimate role’</strong> and 100 means <strong>‘it plays an essential role that should be protected’</strong>?</title>
+    </number>
+
+    <suspend/>
+
+    <radio 
+    label="QESI_POST_POL"
+    atm1d:large_buttonAlign="center"
+    atm1d:large_contentAlign="center"
+    atm1d:numCols="7"
+    atm1d:small_buttonAlign="center"
+    atm1d:small_contentAlign="center"
+    atm1d:viewMode="tiled"
+    ss:listDisplay="1"
+    uses="atm1d.11"
+    values="order">
+      <title><span class="ques_no">${this.label}</span> Under current law, health insurance provided by employers is excluded from income taxes. <strong>Should the tax break for employer-sponsored health insurance stay in place, or be changed so those benefits are taxed like income?</strong></title>
+      <style cond="device.desktop" name="question.after"><![CDATA[
+<style>
+.survey-body, .page-header, .footer,.survey-buttons,.comment,.comment-text,.question-text {min-width: 1200px;}
+       
+</style>
+]]></style>
+      <row label="r1" value="1"><strong>Definitely</strong><br />should<br /><strong>STAY IN PLACE</strong></row>
+      <row label="r2" value="2">Should stay in<br />place</row>
+      <row label="r3" value="3">Probably<br />should stay in<br />place</row>
+      <row label="r4" value="4">Neutral or<br />uncertain</row>
+      <row label="r5" value="5">Probably<br />should be<br />changed</row>
+      <row label="r6" value="6">Should be<br />change</row>
+      <row label="r7" value="7"><strong>Definitely</strong><br />should be<br /><strong>CHANGED</strong></row>
+    </radio>
+
+    <suspend/>
+
+    <radio 
+    label="QESI_MOB"
+    shuffle="rows"
+    uses="cardrating.1">
+      <title><span class="ques_no">${this.label}</span> The following statements explore how you feel about taking action on this issue. For each one, please indicate how much you agree or disagree.</title>
+      <validate>
+
+Prompt1(QESI_MOB)
+      </validate>
+
+      <style cond="device.desktop" name="question.after"><![CDATA[
+<style>
+.survey-body, .page-header, .footer,.survey-buttons,.comment,.comment-text,.question-text {min-width: 1200px;}
+       
+</style>
+]]></style>
+      <row label="r1"><span style="font-size: 12pt;"><strong>Working with others, people like me can influence policy that stops unfair changes to the tax treatment of employer health benefits</strong></span></row>
+      <row label="r2"><span style="font-size: 12pt;"><strong>I know what steps to take to make my voice heard on this issue</strong></span></row>
+      <row label="r3"><span style="font-size: 12pt;"><strong>It would be morally wrong for Congress to remove the tax break that helps workers afford coverage</strong></span></row>
+      <row label="r4"><span style="font-size: 12pt;"><strong>It makes me angry that some politicians want to put our health benefits at risk so they can take more money out of our paychecks</strong></span></row>
+      <row label="r5"><span style="font-size: 12pt;"><strong>If I asked, many of my friends and colleagues would join me in taking action to defend employer-sponsored insurance</strong></span></row>
+      <col label="c1">Strongly <strong>DISAGREE</strong></col>
+      <col label="c2">Disagree</col>
+      <col label="c3">Somewhat disagree</col>
+      <col label="c4">Neither agree nor disagree</col>
+      <col label="c5">Somewhat agree</col>
+      <col label="c6">Agree</col>
+      <col label="c7">Strongly <strong>AGREE</strong></col>
+    </radio>
+
+    <suspend/>
+
+    <exec>
+Punch1(QESI_MOB)
+    </exec>
+
+    <suspend/>
+
+    <radio 
+    label="QESI_ADV_1">
+      <title><span class="ques_no">${this.label}</span> Here is an example of an invitation you might receive via email or on social media.<br /><br /><img src="/survey/selfserve/21a7/251126/ADV_1.PNG" style="display:block; margin-left:auto; margin-right:auto;" class="survey_image survey-image-orginal fit" alt="ADV_1.PNG" title="ADV_1.PNG" /><br /><br />If this came from a source you trust, would you …</title>
+      <row label="r1" value="1"><strong><span style="font-size: 12pt;">Sign immediately and share it with others</span></strong></row>
+      <row label="r2" value="2"><strong><span style="font-size: 12pt;">Sign it, but wouldn’t take the time to share</span></strong></row>
+      <row label="r3" value="3"><strong><span style="font-size: 12pt;">Take some time to think about it, but likely take action within a few days</span></strong></row>
+      <row label="r4" value="4"><strong><span style="font-size: 12pt;">Consider it, but probably not take action this time</span></strong></row>
+      <row label="r5" value="5"><strong><span style="font-size: 12pt;">Ignore it altogether</span></strong></row>
+    </radio>
+
+    <suspend/>
+
+    <radio 
+    label="QESI_ADV_2">
+      <title><span class="ques_no">${this.label}</span> <img src="/survey/selfserve/21a7/251126/ADV_2.PNG" alt="ADV_2.PNG" class="survey_image survey-image-orginal fit" style="display:block; margin-left:auto; margin-right:auto; " title="ADV_2.PNG" /><br /><br />If this invitation came from a source you trust, and there were no obstacles to attending, would you…</title>
+      <row label="r1" value="1"><span style="font-size: 12pt;"><strong>RSVP immediately and share the invitation with others</strong></span></row>
+      <row label="r2" value="2"><span style="font-size: 12pt;"><strong>RSVP, but wouldn’t share with others</strong></span></row>
+      <row label="r3" value="3"><span style="font-size: 12pt;"><strong>Take some time to think about it, but likely take action within a few days</strong></span></row>
+      <row label="r4" value="4"><span style="font-size: 12pt;"><strong>Consider it, but probably not take action this time</strong></span></row>
+      <row label="r5" value="5"><span style="font-size: 12pt;"><strong>Ignore it altogether</strong></span></row>
+    </radio>
+
+    <suspend/>
+  </block>
+
+  <block label="b2" cond="0" builder:title="New Block" randomize="1">
+    <radio 
+    label="QDECIDE_STYLE"
+    optional="1"
+    randomize="0">
+      <title><span class="ques_no">${this.label}</span> When you end up changing your mind about a public issue, what usually makes the biggest difference?</title>
+      <row label="r1"><span style="font-size: 10pt;"><strong>Seeing clear data or evidence that challenges what I thought</strong></span></row>
+      <row label="r2"><span style="font-size: 10pt;"><strong>Hearing an expert or professional I respect explain it differently</strong></span></row>
+      <row label="r3"><span style="font-size: 10pt;"><strong>Hearing a personal story that makes the issue feel real</strong></span></row>
+      <row label="r4"><span style="font-size: 10pt;"><strong>Talking it through with people I know and trust</strong></span></row>
+      <row label="r5"><span style="font-size: 10pt;"><strong>Seeing how a policy actually affects me or people close to me</strong></span></row>
+      <row label="r6"><span style="font-size: 10pt;"><strong>I rarely change my mind once I’ve decided how I feel</strong></span></row>
+    </radio>
+
+    <suspend/>
+
+    <radio 
+    label="QSIDEKICK"
+    optional="1"
+    randomize="0"
+    shuffle="rows">
+      <title><span class="ques_no">${this.label}</span> For fun, imagine these voices were all giving you health advice at the same time.<br /><strong>Which one would be your “healthcare sidekick” you’d trust the most?</strong></title>
+      <row label="r1"><strong><span style="font-size: 10pt;">A doctor I’ve seen before</span></strong></row>
+      <row label="r2"><strong><span style="font-size: 10pt;">A nurse I trust</span></strong></row>
+      <row label="r3"><strong><span style="font-size: 10pt;">A pharmacist</span></strong></row>
+      <row label="r4"><strong><span style="font-size: 10pt;">A “nerdy” professor or scientific expert</span></strong></row>
+      <row label="r5"><strong><span style="font-size: 10pt;">A popular health influencer on social media</span></strong></row>
+      <row label="r6"><strong><span style="font-size: 10pt;">A TikTok creator who talks confidently about medical topics</span></strong></row>
+      <row label="r7"><strong><span style="font-size: 10pt;">My favorite podcast host</span></strong></row>
+      <row label="r8"><strong><span style="font-size: 10pt;">RFK Jr or another well-known leader in the Administration</span></strong></row>
+      <row label="r9"><strong><span style="font-size: 10pt;">A smart friend or family member who usually figures these things out</span></strong></row>
+    </radio>
+
+    <suspend/>
+  </block>
+
+  <block label="b3" cond="XRANDOMPICK.r2" randomize="1">
+    <radio 
+    label="QMA_VALUE"
+    atm1d:large_buttonAlign="center"
+    atm1d:large_contentAlign="center"
+    atm1d:numCols="5"
+    atm1d:small_buttonAlign="center"
+    atm1d:small_contentAlign="center"
+    atm1d:viewMode="tiled"
+    ss:listDisplay="1"
+    uses="atm1d.11"
+    values="order">
+      <title><span class="ques_no">${this.label}</span> Now, let’s focus on Medicare Advantage, the private health plan option within Medicare chosen by more than 35 million seniors and people with disabilities. These plans are offered by private insurance companies approved by the federal government and provide an alternative to “traditional” Medicare. <strong>Overall, how well do you think Medicare Advantage works for seniors compared to traditional Medicare?</strong></title>
+      <row label="r1" value="1">Very poorly</row>
+      <row label="r2" value="2">Somewhat poorly</row>
+      <row label="r4" value="3">Neither well nor poor</row>
+      <row label="r5" value="4">Somewhat well</row>
+      <row label="r3" value="5">Very well</row>
+    </radio>
+
+    <suspend/>
+
+    <radio 
+    label="QMA_CRITIC"
+    shuffle="rows"
+    uses="cardrating.1"
+    values="order">
+      <title><span class="ques_no">${this.label}</span> Here is how critics sometimes describe Medicare Advantage. For each statement, indicate how much you agree or disagree…</title>
+      <comment>Please select a button for each card.</comment>
+      <validate>
+Prompt1(QMA_CRITIC)
+      </validate>
+
+      <row label="r1"><span style="font-size: 12pt;"><strong>Medicare Advantage plans are overpaid by the government and waste taxpayer dollars.</strong></span></row>
+      <row label="r2"><span style="font-size: 12pt;"><strong>Insurers use risk coding and other tactics to exaggerate how sick their members are in order to increase payments.</strong></span></row>
+      <row label="r3"><span style="font-size: 12pt;"><strong>Medicare Advantage plans make it harder for patients to get needed care by using prior authorization and denying claims.</strong></span></row>
+      <row label="r4"><span style="font-size: 12pt;"><strong>Many seniors in Medicare Advantage cannot see the doctors or hospitals they want because networks are too narrow.</strong></span></row>
+      <row label="r5"><span style="font-size: 12pt;"><strong>The Medicare Advantage market is dominated by a few big insurers that put profits ahead of patients.</strong></span></row>
+      <row label="r6"><span style="font-size: 12pt;"><strong>The government does not provide enough oversight of how Medicare Advantage plans spend taxpayer money.</strong></span></row>
+      <row label="r7"><span style="font-size: 12pt;"><strong>The Medicare Advantage program is driving up the overall cost of Medicare and threatening its long-term sustainability.</strong></span></row>
+      <row label="r8"><span style="font-size: 12pt;"><strong>Medicare Advantage plans focus too much on cutting costs instead of improving quality of care.</strong></span></row>
+      <col label="c1" value="1">Strongly<br /><strong>DISAGREE</strong></col>
+      <col label="c2" value="2">Disagree</col>
+      <col label="c3" value="3">Somewhat<br />Disagree</col>
+      <col label="c4" value="4">Neither or<br />Neutral</col>
+      <col label="c5" value="5">Somewhat<br />Agree</col>
+      <col label="c6" value="6">Agree</col>
+      <col label="c7" value="7">Strongly<br /><strong>AGREE</strong></col>
+      <col label="c99" cond="0" value="99">SYSMIS</col>
+    </radio>
+
+    <suspend/>
+
+    <exec>
+Punch1(QMA_CRITIC)
+    </exec>
+
+    <suspend/>
+
+    <number 
+    label="QMA_PRE_ATT"
+    ignoreValues="999"
+    optional="0"
+    size="3"
+    slidernumber:leftLegend="${res.QESILT}"
+    slidernumber:rightLegend="${res.QESIRT}"
+    slidernumber:showValue="On Handle"
+    uses="slidernumber.6"
+    verify="range(0,100)">
+      <title><span class="ques_no">${this.label}</span> Please indicate how strongly you believe Medicare Advantage deserves to play a central role in the U.S. health care system, where 0 means <strong>‘it has no legitimate role’</strong> and 100 means <strong>‘it plays an essential role that should be protected’</strong>. Where would you place it today?</title>
+    </number>
+
+    <suspend/>
+
+    <radio 
+    label="QMA_PRE_POL1"
+    atm1d:large_buttonAlign="center"
+    atm1d:large_contentAlign="center"
+    atm1d:numCols="7"
+    atm1d:small_buttonAlign="center"
+    atm1d:small_contentAlign="center"
+    atm1d:viewMode="tiled"
+    ss:listDisplay="1"
+    uses="atm1d.11"
+    values="order">
+      <title><span class="ques_no">${this.label}</span> <strong>Do you support or oppose reducing federal payments to Medicare Advantage plans</strong> <strong>in order to lower overall Medicare spending?</strong></title>
+      <style cond="device.desktop" name="question.after"><![CDATA[
+<style>
+.survey-body, .page-header, .footer,.survey-buttons,.comment,.comment-text,.question-text {min-width: 1200px;}
+       
+</style>
+]]></style>
+      <row label="r1" value="1">Strongly<br /><strong>OPPOSE</strong></row>
+      <row label="r2" value="2">Oppose</row>
+      <row label="r3" value="3">Somewhat<br />oppose</row>
+      <row label="r4" value="4">Neutral or<br />uncertain</row>
+      <row label="r5" value="5">Somewhat<br />support</row>
+      <row label="r6" value="6">Support</row>
+      <row label="r7" value="7">Strongly<br /><strong>SUPPORT</strong></row>
+    </radio>
+
+    <suspend/>
+
+    <radio 
+    label="QMA_PRE_POL2"
+    values="order">
+      <title><span class="ques_no">${this.label}</span> People have different views about the direction Congress should take on Medicare Advantage.<br /> Please read the two statements below and select the one that comes closer to your own view—even if neither is exactly right.</title>
+      <row label="r1" legend="both" rightLegend="${res.QMA_POST_SJ_msgB}">${res.QMA_POST_SJ_msgA}</row>
+      <style cond="device.desktop" name="question.after"><![CDATA[
+<style>
+.survey-body, .page-header, .footer,.survey-buttons,.comment,.comment-text,.question-text{min-width: 1200px;}
+.grid.grid-table-mode .row-legend {min-width: 268px;}       
+</style>
+]]></style>
+      <col label="c1" value="1">STRONGLY A</col>
+      <col label="c2" value="2"/>
+      <col label="c3" value="3"/>
+      <col label="c4" value="4"/>
+      <col label="c5" value="5"/>
+      <col label="c6" value="6"/>
+      <col label="c7" value="7">STRONGLY B</col>
+    </radio>
+
+    <suspend/>
+
+    <block label="MABlock" builder:title="MA Block">
+      <note>MaxDiff Indices Template --Start1--</note>
+      <exec when="init">
+QMA_md = setupMaxDiffFile("MA_Design.dat")
+      </exec>
+
+      <suspend/>
+
+      <quota label="quo15" overquota="noqual" sheet="MA Quota"/>
+
+      <suspend/>
+
+      <number 
+     label="QMA_Version"
+     size="3"
+     verify="range(1,100)"
+     where="execute,survey,report">
+        <title>QMA - MaxDiff Version<br /><br /><em>Pick your version for testing... will be automated when live...</em></title>
+        <exec>
+print p.markers
+for x in p.markers:
+    if "/MA Quota/MA_" in x:
+        QMA_Version.val = int(x.split("_")[-1])
+        break
+        </exec>
+
+      </number>
+
+      <suspend/>
+
+      <exec>
+p.startTime = timeSpent()
+      </exec>
+
+      <html label="MAMaxdiff_Intro" where="survey">You’ll see a series of short statements expressing different points of view. Each statement reflects a point of view about Medicare Advantage. For each set, please choose the one statement you find <strong>MOST</strong> compelling and the one statement you find <strong>LEAST</strong> compelling.<br /><br /><em>Some statements may appear again later. That’s intentional—it helps us understand how people think about ideas in various contexts. </em>There are no right or wrong answers. Simply go with your first reaction each time.</html>
+
+      <suspend/>
+
+      <loop label="QMA_md_loop" vars="task">
+        <title>QMA - MaxDiff Loop</title>
+        <block label="QMA_md_block" randomize="1">
+          <radio 
+       label="QMA_[loopvar: task]"
+       adim="cols"
+       grouping="cols"
+       shuffle="rows"
+       ss:listDisplay="0"
+       ss:questionClassNames="QMA_maxdiff"
+       unique="1">
+            <title>Select the one statement that <strong>MOST</strong> compelling your own point of view  (on the left), and the statement that <strong>LEAST</strong> compelling you (on the right)</title>
+            <exec>
+setupMaxDiffItemsI( QMA_md, "v%d_t%d" % (QMA_Version.val, [loopvar: task]), QMA_[loopvar: task])
+p.MDcount = str(QMA_md_loop_expanded.order.index([loopvar: task]-1)+1)
+            </exec>
+
+            <col label="best"><strong>MOST</strong> compelling</col>
+            <col label="worst"><strong>LEAST</strong> compelling</col>
+            <row label="item1">Medicare Advantage offers one simple plan with stable premiums and coverage seniors can rely on—unlike traditional Medicare’s patchwork of providers and fees.</row>
+            <row label="item2">Medicare Advantage shields retirees from crushing medical debt by capping annual out-of-pocket costs—financial protection traditional Medicare doesn’t provide.</row>
+            <row label="item3">Medicare Advantage earns the trust of its members through strict federal audits and quality-based payments that hold every plan accountable for results.</row>
+            <row label="item4">Medicare Advantage brings doctors, prescriptions, and benefits together in one coordinated plan so care is seamless, not fragmented like traditional Medicare.</row>
+            <row label="item5">Medicare Advantage empowers seniors to choose doctors and benefits that fit their lives instead of a one-size-fits-all government design.</row>
+            <row label="item6">Medicare Advantage covers the whole person—with dental, vision, hearing, and fitness benefits that traditional Medicare leaves out.</row>
+            <row label="item7">Medicare Advantage modernizes care through telehealth and digital tools that keep members connected anywhere, unlike Medicare’s paper-driven system.</row>
+            <row label="item8">Medicare Advantage rewards a lifetime of work by turning savings into lower premiums and better benefits for the people who earned them.</row>
+            <row label="item9">Medicare Advantage stands beside patients with complex or chronic conditions, coordinating specialists and care managers that traditional Medicare doesn’t provide.</row>
+            <row label="item10">Seniors chose Medicare Advantage on a promise of dependable care. Cutting benefits breaks that promise and betrays the trust people placed in the program.</row>
+            <row label="item11">Medicare Advantage reinvests plan savings directly into seniors’ benefits—proof that efficiency can serve people, not profit.</row>
+            <row label="item12">Medicare Advantage delivers better outcomes at lower cost by paying for coordinated, effective care instead of rewarding volume like traditional Medicare.</row>
+            <row label="item13">Medicare Advantage protects seniors’ independence and saves money through preventive care and early detection that prevent costly illness and hospitalization.</row>
+            <row label="item14">Medicare Advantage ensures every dollar goes to patient care by tying payments to performance and quality outcomes.</row>
+            <row label="item15">Medicare Advantage strengthens—not replaces—Medicare by combining public oversight with private innovation to meet today’s medical realities.</row>
+            <style mode="before" name="question.header"><![CDATA[
+<style type="text/css">
+    .QMA_maxdiff tr.maxdiff-header-legend {
+        background-color: #191970;
+        border-left: 2px solid black; 
+        border-right: 2px solid black; 
+        border-top: 2px solid black; 
+        border-bottom: 2px solid black; 
+    }
+    .QMA_maxdiff tr.maxdiff-header-legend th.legend {
+        background-color: transparent;
+        border-left: 2px solid black; 
+        border-right: 2px solid black; 
+        border-top: 2px solid black; 
+        border-bottom: 2px solid black; 
+    }
+    .QMA_maxdiff tr.maxdiff-row td.element {
+        
+        border-left: 2px solid black; 
+        border-right: 2px solid black; 
+        border-top: 2px solid black; 
+        border-bottom: 2px solid black; 
+        text-align: center;
+    }
+    .QMA_maxdiff tr.maxdiff-row th.row-legend {
+        background-color: transparent;
+        
+        border-left: 2px solid black; 
+        border-right: 2px solid black; 
+        border-top: 2px solid black; 
+        border-bottom: 2px solid black; 
+        text-align: lift;
+    }
+    </style>
+]]></style>
+            <style name="question.top-legend"><![CDATA[
+\@if ec.simpleList
+    $(legends)
+\@else
+    <$(tag) class="maxdiff-header-legend row row-col-legends row-col-legends-top ${"mobile-top-row-legend " if mobileOnly else ""}${"GtTenColumns " if ec.colCount > 10 else ""}colCount-$(colCount)">
+        ${"%s%s" % (legends.split("</th>")[0],"</th>")}
+       $(left)
+        ${"%s%s" % (legends.split("</th>")[1],"</th>")}
+    </$(tag)>
+    \@if not simple
+  </tbody>
+  <tbody>
+    \@endif
+\@endif
+]]></style>
+            <style name="question.row"><![CDATA[
+\@if ec.simpleList
+    $(elements)
+\@else
+    <$(tag) class="maxdiff-row row row-elements $(style) colCount-$(colCount)">
+        ${"%s%s" % (elements.split("</td>")[0],"</td>")}
+        $(left)
+        ${"%s%s" % (elements.split("</td>")[1],"</td>")}
+    </$(tag)>
+\@endif
+]]></style>
+          </radio>
+
+          <suspend/>
+        </block>
+
+        <looprow label="1">
+          <loopvar name="task">1</loopvar>
+        </looprow>
+
+        <looprow label="2">
+          <loopvar name="task">2</loopvar>
+        </looprow>
+
+        <looprow label="3">
+          <loopvar name="task">3</loopvar>
+        </looprow>
+
+        <looprow label="4">
+          <loopvar name="task">4</loopvar>
+        </looprow>
+
+        <looprow label="5">
+          <loopvar name="task">5</loopvar>
+        </looprow>
+
+        <looprow label="6">
+          <loopvar name="task">6</loopvar>
+        </looprow>
+
+        <looprow label="7">
+          <loopvar name="task">7</loopvar>
+        </looprow>
+
+        <looprow label="8">
+          <loopvar name="task">8</loopvar>
+        </looprow>
+
+        <looprow label="9">
+          <loopvar name="task">9</loopvar>
+        </looprow>
+
+        <looprow label="10">
+          <loopvar name="task">10</loopvar>
+        </looprow>
+
+        <looprow label="11">
+          <loopvar name="task">11</loopvar>
+        </looprow>
+
+        <looprow label="12">
+          <loopvar name="task">12</loopvar>
+        </looprow>
+      </loop>
+
+      <float 
+     label="QMA_Timer"
+     size="15"
+     where="execute,survey,report">
+        <title>QMA - MaxDiff Timer (Minutes)</title>
+        <exec>
+QMA_Timer.val = (timeSpent() - p.startTime) / 60.0
+        </exec>
+
+      </float>
+
+      <suspend/>
+    </block>
+
+    <suspend/>
+
+    <radio 
+    label="QMA_POVFRAME"
+    cond="XRANDOM4.r1">
+      <title><span class="ques_no">${this.label}</span> People often think about Medicare or Medicare Advantage from different points of view.<br /><strong>When you think about Medicare or Medicare Advantage, which point of view feels most natural to you?</strong></title>
+      <row label="r1">I’m thinking mainly about <strong>my own current or future Medicare coverage</strong></row>
+      <row label="r2">I’m thinking mainly as a <strong>caregiver or family member</strong> of someone on Medicare</row>
+      <row label="r3">I’m thinking mainly as a <strong>taxpayer</strong>, considering how Medicare affects government spending</row>
+      <row label="r4">I’m thinking mainly as a <strong>citizen</strong>, concerned about fairness across generations</row>
+      <row label="r5">I’m thinking mainly as a <strong>health-care professional</strong>, or someone working in the system</row>
+      <row label="r6">None of these / Not sure</row>
+    </radio>
+
+    <suspend/>
+
+    <number 
+    label="QMA_POST_ATT"
+    ignoreValues="999"
+    optional="0"
+    size="3"
+    slidernumber:leftLegend="${res.QESILT}"
+    slidernumber:rightLegend="${res.QESIRT}"
+    slidernumber:showValue="On Handle"
+    uses="slidernumber.6"
+    verify="range(0,100)">
+      <title><span class="ques_no">${this.label}</span> Please indicate how strongly you believe Medicare Advantage deserves to play a central role in the U.S. health care system, where 0 means <strong>‘it has no legitimate role’</strong> and 100 means <strong>‘it plays an essential role that should be protected’</strong>. Where would you place it today?</title>
+    </number>
+
+    <suspend/>
+
+    <radio 
+    label="QMA_POST_POL1"
+    atm1d:large_buttonAlign="center"
+    atm1d:large_contentAlign="center"
+    atm1d:numCols="7"
+    atm1d:small_buttonAlign="center"
+    atm1d:small_contentAlign="center"
+    atm1d:viewMode="tiled"
+    ss:listDisplay="1"
+    uses="atm1d.11"
+    values="order">
+      <title><span class="ques_no">${this.label}</span> <strong>Do you support or oppose reducing federal payments to Medicare Advantage plans in order to lower overall Medicare spending?</strong></title>
+      <style cond="device.desktop" name="question.after"><![CDATA[
+<style>
+.survey-body, .page-header, .footer,.survey-buttons,.comment,.comment-text,.question-text {min-width: 1200px;}
+       
+</style>
+]]></style>
+      <row label="r1" value="1">Strongly<br /><strong>OPPOSE</strong></row>
+      <row label="r2" value="2">Oppose</row>
+      <row label="r3" value="3">Somewhat<br />oppose</row>
+      <row label="r4" value="4">Neutral or<br />uncertain</row>
+      <row label="r5" value="5">Somewhat<br />support</row>
+      <row label="r6" value="6">Support</row>
+      <row label="r7" value="7">Strongly<br /><strong>SUPPORT</strong></row>
+    </radio>
+
+    <suspend/>
+
+    <radio 
+    label="QMA_POST_POL2"
+    values="order">
+      <title><span class="ques_no">${this.label}</span> People have different views about the direction Congress should take on Medicare Advantage.<br /> Please read the two statements below and select the one that comes closer to your own view—even if neither is exactly right.</title>
+      <style cond="device.desktop" name="question.after"><![CDATA[
+<style>
+.survey-body, .page-header, .footer,.survey-buttons,.comment,.comment-text,.question-text{min-width: 1200px;}
+.grid.grid-table-mode .row-legend {min-width: 268px;}       
+</style>
+]]></style>
+      <row label="r1" legend="both" rightLegend="${res.QMA_POST_SJ_msgB}">${res.QMA_POST_SJ_msgA}</row>
+      <col label="c1" value="1">STRONGLY A</col>
+      <col label="c2" value="2"/>
+      <col label="c3" value="3"/>
+      <col label="c4" value="4"/>
+      <col label="c5" value="5"/>
+      <col label="c6" value="6"/>
+      <col label="c7" value="7">STRONGLY B</col>
+    </radio>
+
+    <suspend/>
+
+    <radio 
+    label="QMA_MOB"
+    shuffle="rows"
+    uses="cardrating.1">
+      <title><span class="ques_no">${this.label}</span> The following statements explore how you feel about taking action on this issue. For each one, please indicate how much you agree or disagree.</title>
+      <validate>
+Prompt1(QMA_MOB)
+      </validate>
+
+      <style cond="device.desktop" name="question.after"><![CDATA[
+<style>
+.survey-body, .page-header, .footer,.survey-buttons,.comment,.comment-text,.question-text {min-width: 1200px;}
+       
+</style>
+]]></style>
+      <row label="r1"><span style="font-size: 12pt;"><strong>Working with others, people like me can influence policy that protects Medicare Advantage</strong></span></row>
+      <row label="r2"><span style="font-size: 12pt;"><strong>I know what steps to take to make my voice heard on this issue</strong></span></row>
+      <row label="r3"><span style="font-size: 12pt;"><strong>It would be morally wrong for Congress to cut funding for Medicare Advantage that millions of seniors rely upon</strong></span></row>
+      <row label="r4"><span style="font-size: 12pt;"><strong>It makes me angry that some politicians want to find savings by cutting Medicare Advantage that seniors depend on</strong></span></row>
+      <row label="r5"><span style="font-size: 12pt;"><strong>If I asked, many of my friends and colleagues would join me in taking action to defend Medicare Advantage</strong></span></row>
+      <col label="c1" value="1">Strongly<br /><strong>DISAGREE</strong></col>
+      <col label="c2" value="2">Disagree</col>
+      <col label="c3" value="3">Somewhat<br />Disagree</col>
+      <col label="c4" value="4">Neither or<br />Neutral</col>
+      <col label="c5" value="5">Somewhat<br />Agree</col>
+      <col label="c6" value="6">Agree</col>
+      <col label="c7" value="7">Strongly<br /><strong>AGREE</strong></col>
+      <col label="c99" cond="0" value="99">SYSMIS</col>
+    </radio>
+
+    <suspend/>
+
+    <exec>
+Punch1(QMA_MOB)
+    </exec>
+
+    <suspend/>
+
+    <radio 
+    label="QMA_ADV_1">
+      <title><span class="ques_no">${this.label}</span> Here is an example of an invitation you might receive via email or on social media.<br /><br /><img src="/survey/selfserve/21a7/251126/ADV_1a.PNG" alt="ADV_1a.PNG" class="survey_image survey-image-original fit" style="display: block; margin-left: auto; margin-right: auto;" title="ADV_1a.PNG" /><br /><br />If this came from a source you trust, would you …</title>
+      <row label="r1" value="1"><strong><span style="font-size: 12pt;">Sign immediately and share it with others</span></strong></row>
+      <row label="r2" value="2"><strong><span style="font-size: 12pt;">Sign it, but wouldn’t take the time to share</span></strong></row>
+      <row label="r3" value="3"><strong><span style="font-size: 12pt;">Take some time to think about it, but likely take action within a few days</span></strong></row>
+      <row label="r4" value="4"><strong><span style="font-size: 12pt;">Consider it, but probably not take action this time</span></strong></row>
+      <row label="r5" value="5"><strong><span style="font-size: 12pt;">Ignore it altogether</span></strong></row>
+    </radio>
+
+    <suspend/>
+
+    <radio 
+    label="QMA_ADV_2">
+      <title><span class="ques_no">${this.label}</span> <img src="/survey/selfserve/21a7/251126/ADV_1b.PNG" alt="ADV_1b.PNG" class="survey_image survey-image-original fit" style="display:block; margin-left:auto; margin-right:auto; " title="ADV_1b.PNG" /><br /><br />If this invitation came from a source you trust, and there were no obstacles to attending, would you…</title>
+      <row label="r1" value="1"><strong><span style="font-size: 12pt;">RSVP immediately and share the invitation with others</span></strong></row>
+      <row label="r2" value="2"><strong><span style="font-size: 12pt;">RSVP, but wouldn’t share with others</span></strong></row>
+      <row label="r3" value="3"><strong><span style="font-size: 12pt;">Take some time to think about it, but likely take action within a few days</span></strong></row>
+      <row label="r4" value="4"><strong><span style="font-size: 12pt;">Consider it, but probably not take action this time</span></strong></row>
+      <row label="r5" value="5"><strong><span style="font-size: 12pt;">Ignore it altogether</span></strong></row>
+    </radio>
+
+    <suspend/>
+  </block>
+</block>
+
+<suspend/>
+
+<quota label="ranQuota2" cond="XRANDOM3.r2" overquota="noqual" sheet="random Quota2"/>
+
+<suspend/>
+
+<exec cond="XRANDOM3.r2">
+for x in range(2):
+ if hasMarker("/random Quota2/split2_{}".format(x+1)):
+    XRANDOM2.val=x
+</exec>
+
+<suspend/>
+
+<radio 
+  label="XRANDOM2"
+  cond="XRANDOM3.r2"
+  where="execute,survey,report">
+  <title>Random pick</title>
+  <comment>Select one</comment>
+  <row label="r1">Q2</row>
+  <row label="r2">Q3</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="Q2"
+  cond="XRANDOM2.r1"
+  optional="1"
+  shuffle="rows">
+  <title><span class="ques_no">Q2</span> How much do you trust information or recommendations about health coverage and costs from each of the following?</title>
+  <validate>
+Prompt1(Q2)
+  </validate>
+
+  <row label="r1">Your employer</row>
+  <row label="r2">Your spouse or partner</row>
+  <row label="r3A">Health insurance plans</row>
+  <row label="r3">Medicare Advantage providers</row>
+  <row label="r4">Small business owners</row>
+  <row label="r5">Labor unions</row>
+  <row label="r6">Pharmacy Benefit Managers (PBMs)</row>
+  <row label="r7">Hospitals and health systems</row>
+  <row label="r8">Physicians</row>
+  <row label="r9">Nurses</row>
+  <row label="r10">Health economists or policy experts</row>
+  <row label="r11">State and local government officials</row>
+  <row label="r12A" cond="XRANDOM.r1">Department of Health and Human Services (HHS)</row>
+  <row label="r12B" cond="XRANDOM.r2">Secretary of Health and Human Services, Robert Kennedy, Jr.</row>
+  <row label="r13A" cond="XRANDOM.r1">Centers for Medicare &amp; Medicaid Services (CMS)</row>
+  <row label="r13B" cond="XRANDOM.r2">Adminstrator of Centers for Medicare &amp; Medicaid Services (CMS), Dr. Mehmet Oz</row>
+  <row label="r14" cond="not XQUSREP.r99">Your Congressman, Rep [pipe: XQUSREP]</row>
+  <row label="r15" cond="not XQSEN1.r99">Senator&amp;nbsp;[pipe: XQSEN1]</row>
+  <row label="r16" cond="not XQSEN2.r99">Senator&amp;nbsp;[pipe: XQSEN2]</row>
+  <row label="r17A" cond="XRANDOM.r1">White House officials</row>
+  <row label="r17B" cond="XRANDOM.r2">President Donald Trump</row>
+  <row label="r18">Medicare</row>
+  <row label="r19">Medicaid</row>
+  <col label="c1" value="1">Not at all (DISTRUST)</col>
+  <col label="c2" value="2">Only a little</col>
+  <col label="c3" value="3">Some</col>
+  <col label="c4" value="4">A fair amount</col>
+  <col label="c5" value="5">A great deal (TRUST)</col>
+  <col label="c99" cond="0" value="99">N/A</col>
+</radio>
+
+<suspend/>
+
+<exec cond="XRANDOM2.r1">
+Punch1(Q2)
+</exec>
+
+<suspend/>
+
+<radio 
+  label="Q3"
+  cond="XRANDOM2.r2"
+  optional="1"
+  shuffle="rows">
+  <title><span class="ques_no">Q3</span> When thinking about health care and coverage issues, how much do you trust advice or guidance from each of the following</title>
+  <validate>
+Prompt1(Q3)
+  </validate>
+
+  <row label="r1">Your personal doctor or nurse</row>
+  <row label="r2">Your employer’s HR or benefits manager</row>
+  <row label="r3">Your coworkers</row>
+  <row label="r4">Your religious or faith leader</row>
+  <row label="r5">Local community organizations</row>
+  <row label="r6">Local business or civic leaders</row>
+  <row label="r7">Benefits consultants and actuaries</row>
+  <row label="r8">Digital health entrepreneurs</row>
+  <row label="r9">Academic researchers (universities, think tanks)</row>
+  <row label="r10">Technology companies (e.g., Google Health, Apple Health)</row>
+  <row label="r11">Employer coalitions or business alliance leaders</row>
+  <row label="r12" open="1" openOptional="1" openSize="25">Patient advocacy organizations &amp;#91;Which one comes to mind?&amp;#93;</row>
+  <row label="r13" open="1" openOptional="1" openSize="25">Health care journalists or podcast hosts &amp;#91;Which one comes to mind?&amp;#93;</row>
+  <row label="r14" open="1" openOptional="1" openSize="25">Substack health policy writers &amp;#91;Which one comes to mind?&amp;#93;</row>
+  <row label="r15">LinkedIn thought leaders in health policy</row>
+  <col label="c1" value="1">Not at all (DISTRUST)</col>
+  <col label="c2" value="2">Only a little</col>
+  <col label="c3" value="3">Some</col>
+  <col label="c4" value="4">A fair amount</col>
+  <col label="c5" value="5">A great deal (TRUST)</col>
+  <col label="c99" cond="0" value="99">SYSMIS</col>
+</radio>
+
+<suspend/>
+
+<exec cond="XRANDOM2.r2">
+Punch1(Q3)
+</exec>
+
+<suspend/>
+
+<goto cond="QINS_MEDICARE.r2 or QINS_MEDICARE.r3" target="HIDQ1_title"/>
+
+<suspend/>
+
+<radio 
+  label="QMA_REL"
+  cond="QINSTYPE.but(QINSTYPE.r7).any">
+  <title><div class="tt_container1"><span class="ques_no">${this.label}</span> Do you know someone who has a <a href="#" class="tt_link1" onclick="return false;"><strong><u>Medicare Advantage</u></strong></a> plan, like a close friend or relative?
+<div class="tt_text1"><p>Medicare Advantage is an alternative way to receive Medicare benefits through private health plans that cover hospital and medical services, and often include extra benefits</p></div></div></title>
+  <row label="r1" value="1">Yes</row>
+  <row label="r0" value="0">No</row>
+</radio>
+
+<suspend/>
+
+<checkbox 
+  label="QMA_REL_A"
+  cond="QMA_REL.r1"
+  atleast="1">
+  <title><span class="ques_no">${this.label}</span> Who is the person you know with Medicare Advantage?</title>
+  <comment><em>(Select all that apply)</em></comment>
+  <row label="r1">Spouse or partner</row>
+  <row label="r2">Parent(s)</row>
+  <row label="r3">Grandparent(s)</row>
+  <row label="r4">Other close relative</row>
+  <row label="r5">A close friend or colleague</row>
+  <row label="r6" open="1" openSize="25" randomize="0">Someone else (Please specify)</row>
+</checkbox>
+
+<suspend/>
+
+<radio 
+  label="QMA_KNOW"
+  cond="QMA_REL.r0">
+  <title><span class="ques_no">${this.label}</span> How much do you know about Medicare Advantage?</title>
+  <row label="r1" value="1">Nothing at all</row>
+  <row label="r2" value="2">Very little</row>
+  <row label="r3" value="3">Some</row>
+  <row label="r4" value="4">A fair amount</row>
+  <row label="r5" value="5">A lot</row>
+</radio>
+
+<suspend/>
+
+<checkbox 
+  label="QMA_SHOP"
+  cond="QINSTYPE.but(QINSTYPE.r6,QINSTYPE.r7).any and QAGE.ival ge 55"
+  atleast="1">
+  <title><span class="ques_no">${this.label}</span> In the past year, have you done any of the following?</title>
+  <comment><em>(Select all that apply)</em></comment>
+  <row label="r1">Visited a website about Medicare or Medicare Advantage</row>
+  <row label="r2">Spoken with a broker or insurance representative about Medicare coverage</row>
+  <row label="r3">Compared costs or benefits of different Medicare plans online</row>
+  <row label="r4">Discussed Medicare coverage with family or friends</row>
+  <row label="r0" exclusive="1" randomize="0">None of these</row>
+</checkbox>
+
+<suspend/>
+
+<radio 
+  label="QMA_CONS"
+  cond="QINSTYPE.but(QINSTYPE.r6,QINSTYPE.r7).any and QAGE.ival ge 55"
+  optional="1">
+  <title><span class="ques_no">${this.label}</span> How likely are you to choose a Medicare Advantage plan when you reach the age of eligibility for Medicare coverage?</title>
+  <validate>
+Prompt3(QMA_CONS)
+  </validate>
+
+  <row label="r1" value="1">Very unlikely</row>
+  <row label="r2" value="2">Somewhat unlikely</row>
+  <row label="r3" value="3">Unsure</row>
+  <row label="r4" value="4">Somewhat likely</row>
+  <row label="r5" value="5">Very likely</row>
+  <row label="r99" cond="0" value="99">SYSMIS</row>
+</radio>
+
+<suspend/>
+
+<exec cond="QINSTYPE.but(QINSTYPE.r6,QINSTYPE.r7).any and QAGE.ival ge 55">
+Punch3(QMA_CONS)
+</exec>
+
+<suspend/>
+
+<radio 
+  label="HIDQ1_title"
+  optional="1"
+  randomize="0"
+  where="execute,survey,report">
+  <title>Q1 Title Hidden Question</title>
+  <exec>
+if QMA_REL.r1:
+    HIDQ1_title.val = HIDQ1_title.r4.index
+elif QINSTYPE.r1 or QINSTYPE.r2 or QINSTYPE.r3:
+    HIDQ1_title.val = HIDQ1_title.r1.index
+elif QINS_MEDICARE.r2:
+    HIDQ1_title.val = HIDQ1_title.r2.index
+elif QINS_MEDICARE.r1:
+    HIDQ1_title.val = HIDQ1_title.r3.index
+
+else:
+    HIDQ1_title.val = HIDQ1_title.r5.index
+  </exec>
+
+  <row label="r1">Overall, how satisfied are you with your employer-based health insurance coverage?</row>
+  <row label="r2">Overall, how satisfied are you with your Medicare Advantage coverage?</row>
+  <row label="r3">Overall, how satisfied are you with Medicare coverage?</row>
+  <row label="r4">From what you know or have heard, how satisfied do you think they are with their Medicare Advantage coverage plan?</row>
+  <row label="r5">Overall, how satisfied are you with your current health plan?</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="QINS_SAT_XX">
+  <title><span class="ques_no">${this.label}</span> [pipe: HIDQ1_title]</title>
+  <row label="r1" value="1">Very UNSATISFIED</row>
+  <row label="r2" value="2">Somewhat unsatisfied</row>
+  <row label="r3" value="3">Neither satisfied nor unsatisfied</row>
+  <row label="r4" value="4">Somewhat satisfied</row>
+  <row label="r5" value="5">Very SATISFIED</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="XQREASON_UNSAT"
+  cond="QINS_SAT_XX.r1 or QINS_SAT_XX.r2"
+  optional="1"
+  randomize="0"
+  where="execute,survey,report">
+  <title>QREASON_UNSAT: Hidden</title>
+  <exec>
+if QMA_REL.r1:
+    XQREASON_UNSAT.val = XQREASON_UNSAT.r1.index
+else:
+    XQREASON_UNSAT.val = XQREASON_UNSAT.r2.index
+  </exec>
+
+  <row label="r1">What is the main reason your relative/friend is unsatisfied—from what you know?</row>
+  <row label="r2">What is the main reason you are unsatisfied?</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="QREASON_UNSAT"
+  cond="QINS_SAT_XX.r1 or QINS_SAT_XX.r2"
+  optional="1">
+  <title><span class="ques_no">${this.label}</span> [pipe: XQREASON_UNSAT]</title>
+  <validate>
+Prompt3(QREASON_UNSAT)
+  </validate>
+
+  <row label="r1" value="1">Unable to afford the out-of-pocket costs (deductibles, co-pays, etc.)</row>
+  <row label="r2" value="2">Complexity and lack of transparency</row>
+  <row label="r3" value="3">Unable to get the approvals for the care or medicines needed</row>
+  <row label="r4" value="4">Unable to find preferred health care providers that accept the insurance</row>
+  <row label="r5" value="5">Unable to get to health care provider when or where needed</row>
+  <row label="r6" value="6">Premiums are too high</row>
+  <row label="r7" value="7">Out-of-pocket costs (deductibles, co-pays, etc.) are too unpredictable to manage</row>
+  <row label="r8" value="8">Too many hoops to jump through to get care</row>
+  <row label="r9" value="9">I don’t trust the health insurance company</row>
+  <row label="r10" open="1" openSize="25" randomize="0" value="10">Had a bad experience (Please describe:)</row>
+  <row label="r88" open="1" openSize="25" randomize="0" value="88">Other reason</row>
+  <row label="r99" cond="0" randomize="0" value="99">No Response</row>
+</radio>
+
+<suspend/>
+
+<exec cond="QINS_SAT_XX.r1 or QINS_SAT_XX.r2">
+Punch3(QREASON_UNSAT)
+</exec>
+
+<suspend/>
+
+<quota label="ranQuota5" overquota="noqual" sheet="random Quota5"/>
+
+<suspend/>
+
+<exec>
+for x in range(2):
+ if hasMarker("/random Quota5/split5_{}".format(x+1)):
+    XRANDOM5.val=x
+</exec>
+
+<suspend/>
+
+<radio 
+  label="XRANDOM5"
+  where="execute,survey,report">
+  <title>Random pick</title>
+  <comment>Select one</comment>
+  <row label="r1">INS_EXPA</row>
+  <row label="r2">INS_EXPB</row>
+</radio>
+
+<suspend/>
+
+<block label="INS_EXP" builder:title="New Block" randomizeChildren="1">
+  <radio 
+   label="INS_EXPA"
+   cond="XRANDOM5.r1"
+   shuffle="rows">
+    <title><span class="ques_no">INS_EXPA</span> Has any of the following happened to you over the past year? (Select all that apply)<br /><br /> NOTE: “treatment” refers to any medical test, diagnostic, procedure, therapy, or medicine prescribed or recommended by a doctor or other medical professional.</title>
+    <row label="r1">My health plan denied treatment recommended by a doctor</row>
+    <row label="r2">I couldn’t afford the out-of-pocket costs of a treatment prescribed by a doctor</row>
+    <row label="r3">I was unable to get the information I needed from my health plan</row>
+    <row label="r4">I was unable to get care from my preferred provider or facility because they were out of network</row>
+    <row label="r5">I often skip care because it is too difficult to access in-network providers and facilities where I live</row>
+    <row label="r6">Dealing with the paperwork and red tape is so stressful that I avoid using my health coverage</row>
+    <row label="r7">I had to wait for my health plan to provide <strong style="color:#4472C4;"><u>prior authorization</u></strong> for a medicine, test, or treatment my doctor prescribed</row>
+    <row label="r8">I received a “surprise” bill for unexpected costs associated with a treatment</row>
+    <row label="r9">I had to appeal a decision made by my health plan</row>
+    <row label="r10">I went into medical debt to pay for medical expenses not covered by my health plan</row>
+    <col label="c1" value="1">Yes</col>
+    <col label="c0" value="0">No</col>
+  </radio>
+
+  <suspend/>
+
+  <radio 
+   label="INS_EXPB"
+   cond="XRANDOM5.r2"
+   shuffle="rows">
+    <title><span class="ques_no">INS_EXPB</span> Has any of the following happened to you over the past year? (Select all that apply)<br /><br /> NOTE: “treatment” refers to any medical test, diagnostic, procedure, therapy, or medicine prescribed or recommended by a doctor or other medical professional.</title>
+    <row label="r1">My health plan covered a major expense that I expected to pay more for</row>
+    <row label="r2">I was able to get an appointment with my preferred doctor without difficulty</row>
+    <row label="r3">My plan approved a treatment or prescription quickly</row>
+    <row label="r4">My plan’s customer service resolved a question or problem easily</row>
+    <row label="r5">My plan helped coordinate my care or referrals</row>
+    <row label="r6">I was able to access preventive services (checkups, screenings, vaccines) at no cost</row>
+    <row label="r7">I used additional plan benefits (vision, dental, wellness programs) and found them valuable</row>
+    <row label="r8">I felt confident that my plan protected me from unexpected medical bills</row>
+    <col label="c1" value="1">Yes</col>
+    <col label="c0" value="0">No</col>
+  </radio>
+
+  <suspend/>
+</block>
+
+<suspend/>
+
+<radio 
+  label="QD2"
+  values="order">
+  <title><div class="tt_container1"><span class="ques_no">${this.label}</span> Are you, yourself, of Hispanic or Latino background<a href="#" class="tt_link1" onclick="return false;">?</a>
+<div class="tt_text1"><p>such as Mexican, Puerto Rican, Cuban, or some other Spanish background</p></div></div></title>
+  <validate>
+Prompt3(QD2)
+  </validate>
+
+  <row label="r2" value="2">No – not of Hispanic, Latino or Spanish origin</row>
+  <row label="r1" value="1">Yes</row>
+  <row label="r99" value="99">Prefer not to answer</row>
+</radio>
+
+<suspend/>
+
+<exec>
+Punch3(QD2)
+</exec>
+
+<suspend/>
+
+<radio 
+  label="QD3">
+  <title><span class="ques_no">${this.label}</span> Which of the following best describes your race?</title>
+  <validate>
+Prompt3(QD3)
+  </validate>
+
+  <row label="r1" value="1">White</row>
+  <row label="r2" value="2">Black</row>
+  <row label="r3" value="3">Asian</row>
+  <row label="r4" open="1" openSize="25" randomize="0" value="4">Some other race</row>
+  <row label="r99" value="99">Prefer not to answer</row>
+</radio>
+
+<suspend/>
+
+<exec>
+Punch3(QD3)
+</exec>
+
+<suspend/>
+
+<exec>
+if QD2.r2 and QD3.r1:
+    QRACE_ETHNIC.val = QRACE_ETHNIC.r1.index
+elif QD2.r2 and QD3.r2:
+    QRACE_ETHNIC.val = QRACE_ETHNIC.r2.index
+elif QD2.r2 and QD3.r3:
+    QRACE_ETHNIC.val = QRACE_ETHNIC.r3.index
+elif QD2.r2 and QD3.r4:
+    QRACE_ETHNIC.val = QRACE_ETHNIC.r4.index
+elif QD2.r1:
+    QRACE_ETHNIC.val = QRACE_ETHNIC.r5.index
+else:
+	QRACE_ETHNIC.val=QRACE_ETHNIC.r99.index
+</exec>
+
+<suspend/>
+
+<radio 
+  label="QRACE_ETHNIC"
+  optional="1"
+  values="order"
+  where="execute,survey,report">
+  <title>RACE-ETHNICITY (COLLAPSED)</title>
+  <row label="r1" value="1">WHITE (Non-Hispanic)</row>
+  <row label="r2" value="2">BLACK (Non-Hispanic)</row>
+  <row label="r3" value="3">ASIAN (Non-Hispanic)</row>
+  <row label="r4" value="4">OTHER (Non-Hispanic)</row>
+  <row label="r5" value="5">HISPANIC</row>
+  <row label="r99" value="99">UNKNOWN</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="QVET">
+  <title><span class="ques_no">${this.label}</span> Have you ever served on active duty in the U.S. Armed Forces, Reserves, or National Guard? </title>
+  <row label="r1" value="1">Yes, currently serving</row>
+  <row label="r2" value="2">Yes, retired or inactive</row>
+  <row label="r3" value="3">No</row>
+  <row label="r99" value="99">Prefer not to answer</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="QUNION">
+  <title><span class="ques_no">${this.label}</span> Are you currently, or have you ever been, part of a labor union? </title>
+  <row label="r1" value="1">Yes, I have</row>
+  <row label="r2" value="2">No</row>
+  <row label="r99" value="99">Prefer not to answer</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="QEDU"
+  values="order">
+  <title><span class="ques_no">${this.label}</span> Please indicate the highest level of school you completed or the highest degree you have received…</title>
+  <row label="r1" value="1">Did not finish high school</row>
+  <row label="r2" value="2">High school diploma or GED</row>
+  <row label="r3" value="3">Some college credit, no degree</row>
+  <row label="r4" value="4">Trade/technical/vocational training</row>
+  <row label="r5" value="5">Associate's degree</row>
+  <row label="r6" value="6">Bachelor's degree</row>
+  <row label="r7" value="7">Master's degree</row>
+  <row label="r8" value="8">Professional degree (e.g., JD, MD)</row>
+  <row label="r9" value="9">Doctorate degree (PhD)</row>
+  <row label="r99" value="99">Prefer not to answer</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="XEDU_CAT"
+  values="order"
+  where="execute,survey,report">
+  <title>EDUCATION GROUPS</title>
+  <exec>
+if QEDU.r1 or QEDU.r2:
+   XEDU_CAT.val = 0
+if QEDU.r3 or QEDU.r4:
+   XEDU_CAT.val = 1
+if QEDU.r5:
+   XEDU_CAT.val = 2
+if QEDU.r6:
+   XEDU_CAT.val = 3
+if QEDU.r7 or QEDU.r8 or QEDU.r9:
+   XEDU_CAT.val = 4
+if QEDU.r99:
+   XEDU_CAT.val = 5
+  </exec>
+
+  <row label="r1" value="1">HIGH SCHOOL GRADUATE (INCLUDES EQUIVALENCY)</row>
+  <row label="r2" value="2">SOME COLLEGE, NO DEGREE</row>
+  <row label="r3" value="3">ASSOCIATES DEGREE</row>
+  <row label="r4" value="4">BACHELORS DEGREE</row>
+  <row label="r5" value="5">GRADUATE OR PROFESSIONAL DEGREE</row>
+  <row label="r99" value="99">UNKNOWN</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="QREL"
+  values="order">
+  <title><span class="ques_no">${this.label}</span> What is your present religion, if any?</title>
+  <row label="r1" value="1">Protestant</row>
+  <row label="r2" value="2">Roman Catholic</row>
+  <row label="r3" value="3">LDS/Mormon</row>
+  <row label="r4" value="4">Orthodox, such as Greek or Russian Orthodox</row>
+  <row label="r5" value="5">Jewish</row>
+  <row label="r6" value="6">Muslim</row>
+  <row label="r7" value="7">Buddhist</row>
+  <row label="r8" value="8">Hindu</row>
+  <row label="r9" value="9">Atheist</row>
+  <row label="r10" value="10">Agnostic</row>
+  <row label="r11" value="11">Something else</row>
+  <row label="r12" value="12">Nothing in particular</row>
+  <row label="r99" value="99">Prefer not to answer</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="QEVANGEL"
+  cond="QREL.r1"
+  values="order">
+  <title><span class="ques_no">${this.label}</span> Would you describe yourself a born-again or evangelical Christian, or not?</title>
+  <row label="r1" value="1">Yes</row>
+  <row label="r2" value="2">No</row>
+  <row label="r99" value="99">Prefer not to answer</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="QREL_CAT"
+  values="order"
+  where="execute,survey,report">
+  <title>EDUCATION GROUPS</title>
+  <exec>
+if QEVANGEL.r1 and QRACE_ETHNIC.r1:
+   QREL_CAT.val = 0
+elif QREL.r1 and QRACE_ETHNIC.r2:
+   QREL_CAT.val = 1
+elif QEVANGEL.r2 and QRACE_ETHNIC.r1:
+   QREL_CAT.val = 2
+elif QREL.r2:
+   QREL_CAT.val = 3
+elif QREL.r5:
+   QREL_CAT.val = 4
+elif QREL.r3 or QREL.r6 or QREL.r7 or QREL.r8 or QREL.r11:
+   QREL_CAT.val = 5
+elif QREL.r9 or QREL.r10 or QREL.r12:
+   QREL_CAT.val = 6      
+else:
+   QREL_CAT.val = 7
+  </exec>
+
+  <row label="r1" value="1">WHITE EVANGELICAL</row>
+  <row label="r2" value="2">BLACK PROTESTANT</row>
+  <row label="r3" value="3">WHITE MAINLINE PROTESTANT</row>
+  <row label="r4" value="4">CATHOLIC</row>
+  <row label="r5" value="5">JEWISH</row>
+  <row label="r6" value="6">OTHER</row>
+  <row label="r7" value="7">NONE</row>
+  <row label="r99" value="99">UNKNOWN</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="QD23"
+  values="order">
+  <title><span class="ques_no">${this.label}</span> Last year – that is, in 2024 – what was your total family income from all sources, before taxes…</title>
+  <row label="r1" value="1">Less than $10,000</row>
+  <row label="r2" value="2">$10,000 - $19,999</row>
+  <row label="r3" value="3">$20,000 - $29,999</row>
+  <row label="r4" value="4">$30,000 – $39,999</row>
+  <row label="r5" value="5">$40,000 – $49,999</row>
+  <row label="r6" value="6">$50,000 – $59,999</row>
+  <row label="r7" value="7">$60,000 – $69,999</row>
+  <row label="r8" value="8">$70,000 – $79,999</row>
+  <row label="r9" value="9">$80,000 – $89,999</row>
+  <row label="r10" value="10">$90,000 – $99,999</row>
+  <row label="r11" value="11">$100,000 – $124,999</row>
+  <row label="r12" value="12">$125,000 - $149,999</row>
+  <row label="r13" value="13">$150,000 - $200,000</row>
+  <row label="r14" value="14">More than $200,000</row>
+  <row label="r99" value="99">Prefer not to answer</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="QD23A"
+  values="order"
+  where="execute,survey,report">
+  <title>COLLAPSED INCOME GROUPS</title>
+  <exec>
+if QD23.r1 or QD23.r2:
+  QD23A.val = 0
+if QD23.r3 or QD23.r4 or QD23.r5:
+  QD23A.val = 1
+if QD23.r6 or QD23.r7 or QD23.r8 or QD23.r9 or QD23.r10:
+  QD23A.val = 2
+if QD23.r11 or QD23.r12:
+  QD23A.val = 3
+if QD23.r13 or QD23.r14:
+  QD23A.val = 4
+if QD23.r99:
+  QD23A.val = 5
+  </exec>
+
+  <row label="r1" value="1">&amp;lt;$20K</row>
+  <row label="r2" value="2">$20-50K</row>
+  <row label="r3" value="3">$50-100K</row>
+  <row label="r4" value="4">$100-150K</row>
+  <row label="r5" value="5">&amp;gt;$150K</row>
+  <row label="r99" value="99">UNKNOWN</row>
+</radio>
+
+<suspend/>
+
+<radio 
+  label="QELECTED"
+  builderHint="{&quot;rocochoName&quot;:&quot;radiogrid&quot;}"
+  optional="1"
+  values="order">
+  <title>Have you ever done any of the following?</title>
+  <validate>
+Prompt1(QELECTED)
+  </validate>
+
+  <col label="c1" value="1">Yes</col>
+  <col label="c0" value="0">No</col>
+  <col label="c99" cond="0" value="99">SYSMIS</col>
+  <row label="r1">Held elected office</row>
+  <row label="r2">Been a paid staffer or advisor to an elected official or gov’t agency</row>
+  <row label="r3">Held an elected or appointed role in a party committee</row>
+  <row label="r4">Met (in person or video) with congressional, agency, or state legislative staff about health policy</row>
+  <row label="r5">Sat on the board or executive committee of any health, policy, or business association</row>
+  <row label="r6">Worked with or advised a Washington-based health organization (think tank, patient advocacy group, trade association)</row>
+  <row label="r7">Testified or submitted written comments to a state or federal committee on a health bill</row>
+  <row label="r8">Been appointed to a state party committee, including rules or platform committee</row>
+  <row label="r9">Helped recruit a candidate to run for public office</row>
+  <row label="r10">Helped recruit staff for a political campaign, office of an elected official, or any other political appointee</row>
+  <row label="r11">Raised or bundled political donations (&amp;gt;$5k total)</row>
+  <row label="r12">Volunteered on a political campaign</row>
+  <row label="r13">Organized a rally/petition on any issue</row>
+  <row label="r14">Donated money to a health policy PAC, ballot measure, lawsuit, or campaign</row>
+  <row label="r15">Contacted an elected official or their staff about a health policy bill or regulation</row>
+  <row label="r16">Spoke at a public meeting, podcast, webinar, church or civic group on a health topic</row>
+  <row label="r17">Shared links or memes on health topics regularly</row>
+  <row label="r18">Posted original commentary or threads on social media regularly</row>
+  <row label="r19">Wrote an article, blog post, Substack, or op-ed on a health issue</row>
+</radio>
+
+<suspend/>
+
+<exec>
+Punch1(QELECTED)
+</exec>
+
+<suspend/>
+
+<exec>
+p.pri=0
+</exec>
+
+<suspend/>
+
+<text 
+  label="SPEEDTIME"
+  size="10"
+  where="execute,survey,report">
+  <title>Time Spent:</title>
+  <exec>
+SPEEDTIME.val = timeSpent()
+  </exec>
+
+</text>
+
+<suspend/>
+
+<block label="bPE" cond="0">
+  <suspend/>
+
+  <radio 
+   label="QPE"
+   values="order">
+    <title><span style="color: #4472c4;">STRATA: PUNCH FROM SAMPLE [PANEL SOURCE]</span></title>
+    <row label="r1" value="1">GOV’T: FED LEG</row>
+    <row label="r2" value="2">GOV’T: FED REG</row>
+    <row label="r7" value="7">NGO: PATIENT</row>
+    <row label="r8" value="8">NGO: POLICY</row>
+    <row label="r9" value="9">NGO: ACADEMIC</row>
+  </radio>
+
+  <suspend/>
+
+  <radio 
+   label="QPE2"
+   values="order">
+    <title>Which of the following applies to you…</title>
+    <row label="r1" value="1">US Congressional staff person</row>
+    <row label="r2" value="2">An employee at a Federal government agency or department</row>
+    <row label="r9" value="9">None of the above</row>
+    <row label="r4" value="99">Prefer not to answer</row>
+  </radio>
+
+  <suspend/>
+
+  <exec cond="QPE2.r3 or QPE2.r4">
+vscreenout.val= str('QPE2')
+setMarker('Screened-QPE2')
+  </exec>
+
+  <suspend/>
+
+  <term label="Term_QPE2" cond="QPE2.r3 or QPE2.r4">Did not vote</term>
+
+  <suspend/>
+
+  <radio 
+   label="QPE3"
+   values="order">
+    <title>Do you work for any of the following types of organizations…</title>
+    <row label="r1" value="1">Issue advocacy group</row>
+    <row label="r2" value="2">Public interest group</row>
+    <row label="r3" value="3">Think tank or public policy organization</row>
+    <row label="r4" value="4">Political party, coalition or PAC</row>
+    <row label="r5" value="5">Trade or professional association</row>
+    <row label="r6" value="6">Chamber of commerce or other business league</row>
+    <row label="r7" value="7">Foundation or charitable organization</row>
+    <row label="r8" value="8">Community civic group</row>
+    <row label="r9" value="9">None of the above</row>
+    <row label="r99" value="99">Prefer not to answer</row>
+  </radio>
+
+  <suspend/>
+
+  <exec cond="QPE3.r9 or QPE3.r99">
+vscreenout.val= str('QPE2')
+setMarker('Screened-QPE2')
+  </exec>
+
+  <suspend/>
+
+  <term label="Term_QPE3" cond="QPE3.r9 or QPE3.r99">Did not vote</term>
+
+  <suspend/>
+
+  <radio 
+   label="QPE4"
+   values="order">
+    <title>Are you involved in developing, administering, influencing, or advocating for public policy on any of the following issues:</title>
+    <row label="r1" value="1">Health care</row>
+    <row label="r2" value="2">Environmental policy</row>
+    <row label="r3" value="3">Energy policy</row>
+    <row label="r4" value="4">Infrastructure and/or transportation</row>
+    <row label="r9" value="9">None of the above</row>
+    <row label="r99" value="99">Prefer not to answer</row>
+  </radio>
+</block>
+
+<suspend/>
+
+<block label="ROI_ESI_FINAL" cond="XRANDOMPICK.r1">
+  <float 
+   label="ESI_PRE_ATT_17"
+   where="execute,survey,report">
+    <title>ESI_PRE_ATT_17</title>
+    <exec>
+ESI_PRE_ATT_17.val = 1 + (QESI_PRE_ATT.ival / (100.0 / 6.0))
+    </exec>
+
+  </float>
+
+  <float 
+   label="ESI_POST_ATT_17"
+   where="execute,survey,report">
+    <title>ESI_POST_ATT_17</title>
+    <exec>
+ESI_POST_ATT_17.val = 1 + (QESI_POST_ATT.ival / (100.0 / 6.0))
+    </exec>
+
+  </float>
+
+  <float 
+   label="ESI_PRE_POL_REV"
+   where="execute,survey,report">
+    <title>ESI_PRE_POL_REV</title>
+    <exec>
+ESI_PRE_POL_REV.val = 8 - QESI_PRE_POL.selected.value
+    </exec>
+
+  </float>
+
+  <float 
+   label="ESI_POST_POL_REV"
+   where="execute,survey,report">
+    <title>QESI_POST_POL_REV</title>
+    <exec>
+ESI_POST_POL_REV.val = 8 - QESI_POST_POL.selected.value
+    </exec>
+
+  </float>
+
+  <float 
+   label="ESI_ALIGN_PRE"
+   where="execute,survey,report">
+    <title>ESI_ALIGN_PRE</title>
+    <exec>
+ESI_ALIGN_PRE.val = (ESI_PRE_ATT_17.ival + ESI_PRE_POL_REV.ival) / 2.0
+    </exec>
+
+  </float>
+
+  <float 
+   label="ESI_ALIGN_POST"
+   where="execute,survey,report">
+    <title>ESI_ALIGN_POST</title>
+    <exec>
+ESI_ALIGN_POST.val = (ESI_POST_ATT_17.ival + ESI_POST_POL_REV.ival) / 2.0
+    </exec>
+
+  </float>
+
+  <float 
+   label="ESI_ALIGN_MOVE"
+   where="execute,survey,report">
+    <title>ESI_ALIGN_MOVE</title>
+    <exec>
+ESI_ALIGN_MOVE.val = ESI_ALIGN_POST.ival - ESI_ALIGN_PRE.ival
+    </exec>
+
+  </float>
+
+  <float 
+   label="ESI_PERSUASION_CAT"
+   where="execute,survey,report">
+    <title>ESI_PERSUASION_CAT</title>
+    <exec>
+m = ESI_ALIGN_MOVE.ival
+if m &lt; 0:
+  ESI_PERSUASION_CAT.val = 1
+elif m == 0:
+  ESI_PERSUASION_CAT.val = 2
+elif m &lt; 1.0:
+  ESI_PERSUASION_CAT.val = 3
+else:
+  ESI_PERSUASION_CAT.val = 4
+    </exec>
+
+  </float>
+
+  <float 
+   label="ESI_COALITION_CAT"
+   where="execute,survey,report">
+    <title>ESI_COALITION_CAT</title>
+    <exec>
+v = ESI_ALIGN_POST.ival
+
+if v &lt; 3.0:
+  ESI_COALITION_CAT.val = 1
+elif v &lt; 4.0:
+  ESI_COALITION_CAT.val = 2
+elif v &lt; 5.0:
+  ESI_COALITION_CAT.val = 3
+elif v &lt; 6.0:
+  ESI_COALITION_CAT.val = 4
+else:
+  ESI_COALITION_CAT.val = 5
+    </exec>
+
+  </float>
+
+  <float 
+   label="ESI_MOB_SCORE"
+   where="execute,survey,report">
+    <title>ESI_MOB_SCORE</title>
+    <exec>
+m1 = float(QESI_MOB.r1.val+1)
+m2 = float(QESI_MOB.r2.val+1)
+m3 = float(QESI_MOB.r3.val+1)
+m4 = float(QESI_MOB.r4.val+1)
+m5 = float(QESI_MOB.r5.val+1)
+
+ESI_MOB_SCORE.val = float(((m1+m2+m3+m4+m5)-5.0)/20.0)
+    </exec>
+
+  </float>
+
+  <float 
+   label="ESI_ADV_SCORE"
+   where="execute,survey,report">
+    <title>ESI_ADV_SCORE</title>
+    <exec>
+vals=[]
+if QESI_ADV_1.any:
+  vals.append(float(QESI_ADV_1.selected.value))
+
+if QESI_ADV_2.any:
+  vals.append(float(QESI_ADV_2.selected.value))
+
+if len(vals) &gt; 0:
+  adv = sum(vals) / float(len(vals))
+else:
+  adv = 4.0   
+
+ESI_ADV_SCORE.val = 1.0 - ((adv - 1.0) / 6.0)
+    </exec>
+
+  </float>
+
+  <float 
+   label="ESI_MOBILIZATION"
+   where="execute,survey,report">
+    <title>ESI_MOBILIZATION</title>
+    <exec>
+ESI_MOBILIZATION.val = (0.6*ESI_MOB_SCORE.ival + 0.4*ESI_ADV_SCORE.ival)
+    </exec>
+
+  </float>
+
+  <float 
+   label="ESI_ACT_CAT"
+   where="execute,survey,report">
+    <title>ESI_ACT_CAT</title>
+    <exec>
+v = ESI_MOBILIZATION.ival
+if v &lt;= 0.30:
+  ESI_ACT_CAT.val = 1
+elif v &lt; 0.50:
+  ESI_ACT_CAT.val = 2
+elif v &lt; 0.75:
+  ESI_ACT_CAT.val = 3
+else:
+  ESI_ACT_CAT.val = 4
+    </exec>
+
+  </float>
+
+  <float 
+   label="ESI_INFLUENCE360"
+   where="execute,survey,report">
+    <title>ESI_INFLUENCE360</title>
+    <exec>
+ESI_INFLUENCE360.val = float(QELECTED.c1.count)/19.0
+    </exec>
+
+  </float>
+
+  <float 
+   label="ESI_INF_CAT"
+   where="execute,survey,report">
+    <title>ESI_INF_CAT</title>
+    <exec>
+v = ESI_INFLUENCE360.ival
+if v &lt;= 0.25:
+  ESI_INF_CAT.val = 1
+elif v &lt; 0.50:
+  ESI_INF_CAT.val = 2
+elif v &lt; 0.75:
+  ESI_INF_CAT.val = 3
+else:
+  ESI_INF_CAT.val = 4
+    </exec>
+
+  </float>
+
+  <suspend/>
+
+  <float 
+   label="ESI_ROI_CAT"
+   where="execute,survey,report">
+    <title>ESI_ROI_CAT</title>
+    <exec>
+ESI_ROI_CAT.val = 1
+if (ESI_PERSUASION_CAT.ival == 1 or
+    ESI_COALITION_CAT.ival == 1):
+  ESI_ROI_CAT.val = 1
+elif ESI_PERSUASION_CAT.ival == 2:
+  ESI_ROI_CAT.val = 2
+elif (ESI_PERSUASION_CAT.ival ge 3 and
+      ESI_COALITION_CAT.ival lt 3):
+  ESI_ROI_CAT.val = 3
+elif (ESI_PERSUASION_CAT.ival ge 3 and
+      ESI_COALITION_CAT.ival ge 3 and
+      ESI_ACT_CAT.ival lt 3 and
+      ESI_INF_CAT.ival lt 2):
+  ESI_ROI_CAT.val = 4
+elif (ESI_PERSUASION_CAT.ival == 3 and
+      ESI_COALITION_CAT.ival ge 3 and
+      (ESI_ACT_CAT.ival ge 3 or ESI_INF_CAT.ival ge 2)):
+  ESI_ROI_CAT.val = 5
+elif (ESI_PERSUASION_CAT.ival == 4 and
+      ESI_COALITION_CAT.ival ge 3 and
+      (ESI_ACT_CAT.ival ge 3 or ESI_INF_CAT.ival ge 2)):
+  ESI_ROI_CAT.val = 6
+    </exec>
+
+  </float>
+
+  <float 
+   label="ESI_ROI_CONT"
+   where="execute,survey,report">
+    <title>ESI_ROI_CONT</title>
+    <exec>
+
+ESI_ROI_CONT.val = 0.0
+align_norm = 0.0
+pers_mag = 0.0
+
+if ESI_ALIGN_POST.ival ge 4:
+  align_norm = (ESI_ALIGN_POST.ival - 1.0) / 6.0
+
+pers_mag = abs(ESI_ALIGN_MOVE.ival)
+if pers_mag gt 1.5:
+  pers_mag = 1.5
+pers_mag = pers_mag / 1.5
+
+if (ESI_PERSUASION_CAT.ival == 3 or
+    ESI_PERSUASION_CAT.ival == 4):
+
+  ESI_ROI_CONT.val = 100.0 * (
+      0.40 * pers_mag +
+      0.20 * ESI_MOBILIZATION.ival +
+      0.30 * align_norm +
+      0.10 * ESI_INF_CAT.ival
+  )
+    </exec>
+
+  </float>
+</block>
+
+<block label="ROI_MA_FINAL" cond="XRANDOMPICK.r2">
+  <float 
+   label="MA_PRE_ATT_17"
+   where="execute,survey,report">
+    <title>MA_PRE_ATT_17</title>
+    <exec>
+MA_PRE_ATT_17.val = 1 + (QMA_PRE_ATT.ival / (100.0 / 6.0))
+    </exec>
+
+  </float>
+
+  <float 
+   label="MA_POST_ATT_17"
+   where="execute,survey,report">
+    <title>MA_POST_ATT_17</title>
+    <exec>
+MA_POST_ATT_17.val = 1 + (QMA_POST_ATT.ival / (100.0 / 6.0))
+    </exec>
+
+  </float>
+
+  <float 
+   label="MA_PRE_POL1_REV"
+   where="execute,survey,report">
+    <title>MA_PRE_POL_REV</title>
+    <exec>
+MA_PRE_POL1_REV.val = 8 - QMA_PRE_POL1.selected.value
+    </exec>
+
+  </float>
+
+  <float 
+   label="MA_POST_POL1_REV"
+   where="execute,survey,report">
+    <title>MA_POST_POL_REV</title>
+    <exec>
+MA_POST_POL1_REV.val = 8 - QMA_POST_POL1.selected.value
+    </exec>
+
+  </float>
+
+  <float 
+   label="MA_ALIGN_PRE"
+   where="execute,survey,report">
+    <title>MA_ALIGN_PRE</title>
+    <exec>
+MA_ALIGN_PRE.val = (
+  MA_PRE_ATT_17.ival +
+  MA_PRE_POL1_REV.ival +
+  QMA_PRE_POL2.selected.value
+) / 3.0
+    </exec>
+
+  </float>
+
+  <float 
+   label="MA_ALIGN_POST"
+   where="execute,survey,report">
+    <title>MA_ALIGN_POST</title>
+    <exec>
+MA_ALIGN_POST.val = (
+  MA_POST_ATT_17.ival +
+  MA_POST_POL1_REV.ival +
+  QMA_POST_POL2.selected.value
+) / 3.0
+    </exec>
+
+  </float>
+
+  <float 
+   label="MA_ALIGN_MOVE"
+   where="execute,survey,report">
+    <title>MA_ALIGN_MOVE</title>
+    <exec>
+MA_ALIGN_MOVE.val = MA_ALIGN_POST.ival - MA_ALIGN_PRE.ival
+    </exec>
+
+  </float>
+
+  <float 
+   label="MA_PERSUASION_CAT"
+   where="execute,survey,report">
+    <title>MA_PERSUASION_CAT</title>
+    <exec>
+m = MA_ALIGN_MOVE.ival
+if m &lt; 0:
+  MA_PERSUASION_CAT.val = 1
+elif m == 0:
+  MA_PERSUASION_CAT.val = 2
+elif m &lt; 1.0:
+  MA_PERSUASION_CAT.val = 3
+else:
+  MA_PERSUASION_CAT.val = 4
+    </exec>
+
+  </float>
+
+  <float 
+   label="MA_COALITION_CAT"
+   where="execute,survey,report">
+    <title>MA_COALITION_CAT</title>
+    <exec>
+v = MA_ALIGN_POST.ival
+
+if v &lt; 3.0:
+  MA_COALITION_CAT.val = 1
+elif v &lt; 4.0:
+  MA_COALITION_CAT.val = 2
+elif v &lt; 5.0:
+  MA_COALITION_CAT.val = 3
+elif v &lt; 6.0:
+  MA_COALITION_CAT.val = 4
+else:
+  MA_COALITION_CAT.val = 5
+    </exec>
+
+  </float>
+
+  <float 
+   label="MA_MOB_SCORE"
+   where="execute,survey,report">
+    <title>MA_MOB_SCORE</title>
+    <exec>
+m1 = float(QMA_MOB.r1.val+1)
+m2 = float(QMA_MOB.r2.val+1)
+m3 = float(QMA_MOB.r3.val+1)
+m4 = float(QMA_MOB.r4.val+1)
+m5 = float(QMA_MOB.r5.val+1)
+
+MA_MOB_SCORE.val = float(((m1+m2+m3+m4+m5)-5.0)/20.0)
+    </exec>
+
+  </float>
+
+  <float 
+   label="MA_ADV_SCORE"
+   where="execute,survey,report">
+    <title>MA_ADV_SCORE</title>
+    <exec>
+
+vals=[]
+if QMA_ADV_1.any:
+  vals.append(float(QMA_ADV_1.selected.value))
+
+if QMA_ADV_2.any:
+  vals.append(float(QMA_ADV_2.selected.value))
+
+if len(vals) &gt; 0:
+  adv = sum(vals) / float(len(vals))
+else:
+  adv = 4.0   
+
+MA_ADV_SCORE.val = 1.0 - ((adv - 1.0) / 6.0)
+    </exec>
+
+  </float>
+
+  <float 
+   label="MA_MOBILIZATION"
+   where="execute,survey,report">
+    <title>MA_MOBILIZATION</title>
+    <exec>
+MA_MOBILIZATION.val = (0.6*MA_MOB_SCORE.ival + 0.4*MA_ADV_SCORE.ival)
+    </exec>
+
+  </float>
+
+  <float 
+   label="MA_ACT_CAT"
+   where="execute,survey,report">
+    <title>MA_ACT_CAT</title>
+    <exec>
+v = MA_MOBILIZATION.ival
+if v &lt;= 0.30:
+  MA_ACT_CAT.val = 1
+elif v &lt; 0.50:
+  MA_ACT_CAT.val = 2
+elif v &lt; 0.75:
+  MA_ACT_CAT.val = 3
+else:
+  MA_ACT_CAT.val = 4
+    </exec>
+
+  </float>
+
+  <float 
+   label="MA_INFLUENCE360"
+   where="execute,survey,report">
+    <title>MA_INFLUENCE360</title>
+    <exec>
+MA_INFLUENCE360.val = float(QELECTED.c1.count)/19.0
+    </exec>
+
+  </float>
+
+  <float 
+   label="MA_INF_CAT"
+   where="execute,survey,report">
+    <title>INF_CAT</title>
+    <exec>
+v = MA_INFLUENCE360.ival
+if v &lt;= 0.25:
+  MA_INF_CAT.val = 1
+elif v &lt; 0.50:
+  MA_INF_CAT.val = 2
+elif v &lt; 0.75:
+  MA_INF_CAT.val = 3
+else:
+  MA_INF_CAT.val = 4
+    </exec>
+
+  </float>
+
+  <suspend/>
+
+  <float 
+   label="MA_ROI_CAT"
+   where="execute,survey,report">
+    <title>MA_ROI_CAT</title>
+    <exec>
+MA_ROI_CAT.val = 1
+if (MA_PERSUASION_CAT.ival == 1 or
+    MA_COALITION_CAT.ival == 1):
+  MA_ROI_CAT.val = 1
+elif MA_PERSUASION_CAT.ival == 2:
+  MA_ROI_CAT.val = 2
+elif (MA_PERSUASION_CAT.ival ge 3 and
+      MA_COALITION_CAT.ival lt 3):
+  MA_ROI_CAT.val = 3
+elif (MA_PERSUASION_CAT.ival ge 3 and
+      MA_COALITION_CAT.ival ge 3 and
+      MA_ACT_CAT.ival lt 3 and
+      MA_INF_CAT.ival lt 2):
+  MA_ROI_CAT.val = 4
+elif (MA_PERSUASION_CAT.ival == 3 and
+      MA_COALITION_CAT.ival ge 3 and
+      (MA_ACT_CAT.ival ge 3 or MA_INF_CAT.ival ge 2)):
+  MA_ROI_CAT.val = 5
+elif (MA_PERSUASION_CAT.ival == 4 and
+      MA_COALITION_CAT.ival ge 3 and
+      (MA_ACT_CAT.ival ge 3 or MA_INF_CAT.ival ge 2)):
+  MA_ROI_CAT.val = 6
+    </exec>
+
+  </float>
+
+  <float 
+   label="MA_ROI_CONT"
+   where="execute,survey,report">
+    <title>ESI_MA_CONT</title>
+    <exec>
+
+
+MA_ROI_CONT.val = 0.0
+align_norm = 0.0
+pers_mag = 0.0
+
+if MA_ALIGN_POST.ival ge 4:
+  align_norm = (MA_ALIGN_POST.ival - 1.0) / 6.0
+
+pers_mag = abs(MA_ALIGN_MOVE.ival)
+if pers_mag gt 1.5:
+  pers_mag = 1.5
+pers_mag = pers_mag / 1.5
+
+if (MA_PERSUASION_CAT.ival == 3 or
+    MA_PERSUASION_CAT.ival == 4):
+
+  MA_ROI_CONT.val = 100.0 * (
+      0.40 * pers_mag +
+      0.20 * MA_MOBILIZATION.ival +
+      0.30 * align_norm +
+      0.10 * MA_INF_CAT.ival
+  )
+    </exec>
+
+  </float>
+</block>
+</survey>

@@ -1,0 +1,19 @@
+# Embedded git repos from gists
+a0c226a11d1ce38e16e4212cf7f37651/
+ea144aa0be3738424f1c0b0994ca5e06/
+ef0117ee4207b1f2b6aa7415fa822fd0/
+
+# System files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# IDE
+.vscode/
+.idea/
+
+# Build output
+dist/
+build/
+*.egg-info/
