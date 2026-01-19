@@ -1,8 +1,8 @@
 # 📋 WORKSPACE GUIDE — START HERE
 
-**Last Updated:** Jan 20, 2026  
-**Phase:** Discovery & Analysis COMPLETE ✅ (All Steps 1a–1h)  
-**Status:** Ready for Phase 2 - Router XML Implementation  
+**Last Updated:** Jan 19-20, 2026  
+**Phase:** Phase 2 - Router Implementation STARTED 🚧 (Step 1 Complete ✅)  
+**Status:** Router stub complete; pending integration + testing + Bryan review  
 
 ---
 
@@ -27,6 +27,14 @@ All findings organized in [`discovery/`](discovery/) folder:
 | [`Step_1g_Output_Schema.md`](discovery/Step_1g_Output_Schema.md) | ✅ | Hidden variables + data export schema + Decipher XML setup |
 | [`Step_1h_Test_Scenarios.md`](discovery/Step_1h_Test_Scenarios.md) | ✅ | 10 test cases covering all router paths |
 
+### 🔧 Router Implementation (Phase 2)
+| Document | Status | Content |
+|----------|--------|---------|  
+| [`router/router_module.xml`](router/router_module.xml) | ✅ | Complete router XML stub (370 lines, all sections) |
+| [`router/DESIGN_DECISIONS.md`](router/DESIGN_DECISIONS.md) | ✅ | 8 assumptions + rationale + risk assessment |
+| [`router/INTEGRATION_GUIDE.md`](router/INTEGRATION_GUIDE.md) | ✅ | Step-by-step integration + quota API setup |
+| [`router/tests/TEST_SCENARIOS.md`](router/tests/TEST_SCENARIOS.md) | ✅ | 10 executable test cases + validation checklist |
+
 ### 💬 Client Communications
 - [`chats/COMMUNICATIONS_SUMMARY.md`](chats/COMMUNICATIONS_SUMMARY.md) — Consolidated from 3 chat logs (Jan 12–18)
 
@@ -40,16 +48,21 @@ All findings organized in [`discovery/`](discovery/) folder:
 
 ---
 
-## 🚀 What Just Completed (Jan 19)
+## 🚀 Recent Activity
 
-### ✅ Step 1a: System Baseline
-- Reviewed all 3 XMLs; identified typing output = `XSEG_ASSIGNED` (16 segments)
-- Confirmed quotas read live from Decipher sheets
-- Documented MA/ESI branching logic (XRANDOMPICK)
-- Identified overquota default: soft-term + ROUTER_STATUS=OVERQUOTA_TAGGED
+### ✅ Phase 2 Started (Jan 19-20)
+- Created router XML stub (370 lines, complete architecture)
+- Documented all design decisions with assumptions flagged for Bryan's review
+- Wrote integration guide with step-by-step instructions
+- Adapted all 10 test scenarios into executable test plan
+- Ready for: extraction + integration + staging deployment
 
-### ✅ Step 1b: Segment Definitions
-- Listed all 16 segments (GOP 1–10, DEM 11–16)
+### ✅ Step 1 Complete (Jan 19-20)
+- All 8 discovery tasks finished
+- Router pseudocode + flowchart ready
+- Hidden variable schema defined
+- Test scenarios covering all paths
+- Workspace cleaned and organized
 - Documented scoring: z-scores → squared-distance to centroids → winner selection
 - Verified identical logic + stability across MA/ESI, GLP1, AL_VAX
 

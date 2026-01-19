@@ -2,9 +2,9 @@
 
 **Project:** PRISM Dynamic Typing Tool & Router  
 **Client:** Bryan Dumont, Reservoir Communications  
-**Status:** Week 1 - Step 1 Discovery COMPLETE ✅ (All 8 steps: 1a-1h)  
-**Date:** Jan 20, 2026  
-**Hours Logged:** ~25 / 90-130 estimated
+**Status:** Week 1 - Phase 2 Router Implementation STARTED 🚧 (Step 1 Complete ✅)  
+**Date:** Jan 19-20, 2026  
+**Hours Logged:** ~28 / 90-130 estimated
 
 ---
 
@@ -59,6 +59,113 @@
 #### Step 1e: Identify Termination/Redirect Codes + Panel Constraints (✅ Jan 20)
 - Found hard termination codes: `term_QINSTYPE` (r99 screenout), `Term_QS1`, `Term_QS2` (statement qual), `Term_PARTYID`, `Term_VOTE24`, `Term_QPE2`, `Term_QPE3`
 - Documented current overquota behavior: hard-term with Dynata status codes (rst=1/2/3)
+- **Deliverable:** `discovery/Step_1e_Termination_Redirect.md`
+
+#### Step 1f: Router Decision Tree & Pseudocode (✅ Jan 20)
+- Created complete router algorithm flowchart (entry → typing → insurance → allocator → routing)
+- Wrote implementation-ready pseudocode for all decision paths
+- Documented deterministic tie-break logic (mod-based) and marker-based alternative
+- Defined allocation priority: MA/ESI (constrained) > GLP1 (unconstrained)
+- **Deliverable:** `discovery/Step_1f_Router_Logic.md`
+
+#### Step 1g: Hidden Variables Schema (✅ Jan 20)
+- Defined router output variables: ROUTER_STATUS, ROUTER_ALLOCATION_REASON, ROUTER_DECISION_LOG, ROUTE_BLOCK_INTERNAL
+- Specified Decipher XML implementation for all hidden variables
+- Documented export schema for QA audit trail
+- Preserved existing variables: XSEG_ASSIGNED, XQINSTYPE, XRANDOMPICK
+- **Deliverable:** `discovery/Step_1g_Output_Schema.md`
+
+#### Step 1h: Test Scenarios & Validation (✅ Jan 20)
+- Created 10 comprehensive test cases covering all router paths
+- Happy path tests (both open, ESI only, MA only)
+- Overquota tests (all full, XQINSTYPE=Other)
+- Error tests (typing incomplete, invalid insurance)
+- Boundary tests (marginal quotas, Traditional Medicare)
+- **Deliverable:** `discovery/Step_1h_Test_Scenarios.md`
+
+---
+
+## Current Phase: Phase 2 - Router Implementation (8-16 hours total)
+
+### Completed Tasks ✅
+
+#### Step 2a: Router XML Stub Creation (✅ Jan 19-20)
+- Created `router/router_module.xml` with complete architecture
+- Implemented all Section 1-7 structure (hidden variables, typing integration, insurance classification, quota allocator, routing decision, study blocks, completion)
+- Translated Step 1f pseudocode into Decipher XML exec blocks
+- Added comprehensive inline comments flagging all assumptions
+- Integrated Step 1g hidden variable schema (ROUTER_STATUS, ROUTER_DECISION_LOG, etc.)
+- Preserved existing typing + insurance logic from source XMLs
+- **Deliverable:** `router/router_module.xml` (370 lines)
+
+#### Step 2b: Design Decisions Documentation (✅ Jan 19-20)
+- Documented all 8 assumptions made for MVP implementation
+- Provided rationale + risk assessment for each decision
+- Flagged items for Bryan's review (quota placeholders, age/gender ranges, study priority, AL_VAX scope)
+- Included adjustment timeline for each potential change
+- **Deliverable:** `router/DESIGN_DECISIONS.md`
+
+#### Step 2c: Integration Guide (✅ Jan 19-20)
+- Created step-by-step guide for integrating router into existing PRISM XMLs
+- Documented extraction process for typing module, insurance questions, study blocks
+- Provided Decipher quota API examples (with platform-specific notes)
+- Included integration checklist + troubleshooting section
+- **Deliverable:** `router/INTEGRATION_GUIDE.md`
+
+#### Step 2d: Test Plan Documentation (✅ Jan 19-20)
+- Adapted all 10 Step 1h test scenarios into executable test cases
+- Defined input conditions, expected outputs, validation criteria for each test
+- Created test execution checklist + results template
+- Emphasized critical validation: soft-term (NO hard termination on overquota)
+- **Deliverable:** `router/tests/TEST_SCENARIOS.md`
+
+### Pending Tasks 🚧
+
+#### Step 2e: Complete Router Integration (Pending)
+- Extract typing module from PRISM_MA_ESI.xml → integrate into router
+- Extract insurance questions (QINSTYPE, QINS_MEDICARE) → integrate
+- Extract study content blocks (ESI, MA, GLP1) → integrate into router
+- Replace quota placeholder logic with actual Decipher API calls
+- **Target:** Jan 21 (3-4 hours)
+
+#### Step 2f: Staging Deployment & Testing (Pending)
+- Upload router to Decipher staging environment
+- Link MA_ESI_quota.xls and GLP1-quota.xls
+- Execute all 10 test scenarios from `router/tests/TEST_SCENARIOS.md`
+- Validate ROUTER_DECISION_LOG exports correctly
+- Verify soft-term behavior (no hard terminations)
+- **Target:** Jan 22-23 (2-3 hours)
+
+#### Step 2g: Client Review & Adjustments (Pending)
+- Bryan reviews router stub + DESIGN_DECISIONS.md
+- Address any feedback on assumptions (quota logic, study priority, etc.)
+- Implement adjustments if needed
+- Get sign-off for production deployment
+- **Target:** Jan 23 (1-2 hours)
+
+#### Step 2h: Production Deployment (Pending)
+- Deploy approved router to production environment
+- Monitor initial fielding (first 50-100 respondents)
+- Validate quota decrements + decision logs
+- **Target:** Jan 24 (go-live)
+
+---
+
+## Open Questions for Bryan
+
+**Carry-forward from Step 1c:**
+1. Quota placeholder interpretation: `*` (Total) and `inf` → confirm both mean "unlimited/no cap"
+2. GLP1 age/gender ranges: Are min-max both enforced, or just upper bounds?
+3. MA/ESI block balance: Keep marker-based (current), or switch to deterministic tie-break?
+4. AL_VAX scope: Provide AL_VAX quota sheet if study should be included in router
+5. Study priority order: Confirm MA/ESI (constrained) > GLP1 (unconstrained) is correct
+
+**New from Phase 2:**
+6. Decipher platform version: Which quota API syntax to use? (affects Step 2e integration)
+7. Staging environment access: URL + credentials for router testing?
+8. Go-live timing: Jan 24 confirmed? Or adjust based on testing timeline?
+
+---
 - Identified panel constraints: Dynata 24-hr re-entry block on hard-term, status field limits (0–9), session time limits (5 min typing + 30 sec allocator)
 - Designed soft-term strategy: no status code written, ROUTER_STATUS tagged for recovery, respondent remains eligible if quotas reopen
 - **Deliverable:** `discovery/Step_1e_Termination_Redirect.md`
@@ -145,10 +252,12 @@ Step 1 (Discovery & Analysis, 13-22 hours target) now **COMPLETE** as of Jan 20,
 │   ├── Step_1f_Router_Logic.md            # ✅ Step 1f
 │   ├── Step_1g_Output_Schema.md           # ✅ Step 1g
 │   └── Step_1h_Test_Scenarios.md          # ✅ Step 1h
-├── router/                        # Router implementation (Phase 2+)
-│   ├── router_module_stub.xml            # (not started)
-│   ├── integration_tests.md               # (not started)
-│   └── deployment_checklist.md            # (not started)
+├── router/                        # Router implementation (Phase 2)
+│   ├── router_module.xml                  # ✅ Router XML stub (370 lines)
+│   ├── DESIGN_DECISIONS.md                # ✅ Assumptions + rationale
+│   ├── INTEGRATION_GUIDE.md               # ✅ Step-by-step integration
+│   └── tests/
+│       └── TEST_SCENARIOS.md              # ✅ 10 test cases adapted from Step 1h
 └── .gitignore
 ```
 
@@ -219,7 +328,12 @@ Step 1 (Discovery & Analysis, 13-22 hours target) now **COMPLETE** as of Jan 20,
 | Step 1 | 1f: Router pseudocode | 3.5 | ✅ | Jan 20 |
 | Step 1 | 1g: Output schema | 2.5 | ✅ | Jan 20 |
 | Step 1 | 1h: Test scenarios | 2.5 | ✅ | Jan 20 |
-| **Total** | **Step 1 + Admin** | **~25 hrs** | **Complete** | **Jan 20** |
+| **Subtotal** | **Step 1 + Admin** | **~25 hrs** | **Complete** | **Jan 19-20** |
+| Phase 2 | 2a: Router XML stub | 1.5 | ✅ | Jan 19-20 |
+| Phase 2 | 2b: Design decisions doc | 0.5 | ✅ | Jan 19-20 |
+| Phase 2 | 2c: Integration guide | 0.5 | ✅ | Jan 19-20 |
+| Phase 2 | 2d: Test plan | 0.5 | ✅ | Jan 19-20 |
+| **Total** | **Phase 1-2 Initial** | **~28 hrs** | **Phase 2 Started** | **Jan 19-20** |
 
 *Target was 13–22 hours; complexity of quota system + 4 additional discovery docs added ~3 hours. All work within scope.*
 

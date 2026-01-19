@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  PRISM ROUTER MODULE
+  Purpose: Single-survey shell routing respondents to best study based on segment + insurance + open quotas
+  Created: Jan 19, 2026
+  Source: Steps 1a-1h discovery documentation
+  Target: MVP go-live Jan 24, 2026
+  
+  Architecture:
+  1. Typing Module (preserve existing PRISM logic)
+  2. Insurance Classification (QINSTYPE → XQINSTYPE)
+  3. Quota Allocator (check MA/ESI/GLP1 availability)
+  4. Routing Decision (assign to best study or soft-term)
+  5. Hidden Variables Export (audit trail for QA)
+  
+  Studies supported:
+  - MA (Medicare Advantage)
+  - ESI (Employer-Sponsored Insurance)
+  - GLP1 (no insurance restriction)
+  - AL_VAX (architecture ready; requires quota sheet from Bryan)
+-->
+
+<!-- ========================================
+     SECTION 1: HIDDEN VARIABLES SCHEMA
+     Implements Step 1g specifications
+     ======================================== -->
+
+<!-- Router Decision Output (New Variables) -->
+<radio label="ROUTER_STATUS" 
+       optional="1" 
+       where="execute,survey,report">
+  <title>Router Decision Status</title>
+  <comment>Final routing decision: success, overquota, or error</comment>
+  <row label="r1">SUCCESS_MA</row>
+  <row label="r2">SUCCESS_ESI</row>
+  <row label="r3">SUCCESS_GLP1</row>
+  <row label="r4">OVERQUOTA_NO_ALLOCATION</row>
+  <row label="r5">TYPING_INCOMPLETE</row>
+  <row label="r6">ERROR_INVALID_INSURANCE</row>
+</radio>
+
+<radio label="ROUTER_ALLOCATION_REASON"
+       optional="1"
+       where="execute,survey,report">
+  <title>Allocation Reason</title>
+  <comment>Why was this routing decision made?</comment>
+  <row label="r1">QUOTA_AVAILABLE</row>
+  <row label="r2">QUOTA_FULL</row>
+  <row label="r3">XQINSTYPE_OTHER_NO_ROUTE</row>
+  <row label="r4">TYPING_FAILED</row>
+</radio>
+
+<text label="ROUTER_DECISION_LOG"
+      optional="1"
+      where="execute,survey,report"
+      size="25">
+  <title>Router Decision Audit Trail</title>
+  <comment>Semicolon-delimited log: timestamp; XSEG; XQINS; ESI_OPEN; MA_OPEN; GLP1_OPEN; DECISION; ROUTE; STATUS</comment>
+</text>
+
+<radio label="ROUTE_BLOCK_INTERNAL"
+       optional="1"
+       where="execute">
+  <title>Assigned Block (Internal)</title>
+  <comment>Which survey block to route to (internal reference only; not exported)</comment>
+  <row label="r1">ROI_ESI_FINAL</row>
+  <row label="r2">ROI_MA_FINAL</row>
+  <row label="r3">ROI_GLP1_FINAL</row>
+  <row label="r4">NONE</row>
+</radio>
+
+<!-- Preserve existing typing output (Step 1a baseline) -->
+<!-- XSEG_ASSIGNED, XGOP_SEG_FINAL_1/2, XDEM_SEG_FINAL_1/2 already defined in source XMLs -->
+
+<!-- Preserve existing insurance classification (Step 1d) -->
+<!-- XQINSTYPE, QINSTYPE, QINS_MEDICARE already defined in PRISM_MA_ESI.xml -->
+
+
+<!-- ========================================
+     SECTION 2: TYPING MODULE INTEGRATION
+     Step 1a-1b: Preserve existing GOP/DEM scoring
+     ======================================== -->
+
+<!-- 
+  NOTE: Typing module (XSEG_ASSIGNED assignment) is already implemented in source XMLs.
+  Router does NOT re-implement typing; it reads the existing XSEG_ASSIGNED value.
+  
+  Source locations:
+  - PRISM_MA_ESI.xml: lines 2551-2570 (XSEG_ASSIGNED exec)
+  - PRISM_GLP1: similar logic
+  - PRISM_AL_VAX: similar logic
+  
+  Integration approach:
+  - Copy typing exec blocks from source XMLs
+  - OR reference them via block inclusion
+  - Typing MUST complete before router logic runs
+-->
+
+<suspend/>
+
+<!-- Verify typing completed (Step 1h test case 7: XSEG_ASSIGNED missing) -->
+<exec>
+if not XSEG_ASSIGNED.val:
+    # Typing failed or incomplete
+    ROUTER_STATUS.val = "r5"  # TYPING_INCOMPLETE
+    ROUTER_ALLOCATION_REASON.val = "r4"  # TYPING_FAILED
+    ROUTER_DECISION_LOG.val = f"{datetime.now()}; XSEG=NULL; DECISION=ERROR; STATUS=TYPING_INCOMPLETE"
+    # Soft-term (do not hard-terminate)
+    # Jump to exit block (defined below)
+</exec>
+
+<suspend/>
+
+
+<!-- ========================================
+     SECTION 3: INSURANCE CLASSIFICATION
+     Step 1d: QINSTYPE → XQINSTYPE derivation
+     ======================================== -->
+
+<!-- Insurance questions already defined in PRISM_MA_ESI.xml lines 885-940 -->
+<!-- QINSTYPE (r1-r4, r7, r99) -->
+<!-- QINS_MEDICARE (r1 Traditional, r2 Medicare Advantage) -->
+
+<!-- Verify insurance classification valid (Step 1h test case 8: QINSTYPE=r99) -->
+<exec>
+# Check if QINSTYPE answered validly
+if QINSTYPE.r99:
+    # Hard screenout per existing XML behavior
+    ROUTER_STATUS.val = "r6"  # ERROR_INVALID_INSURANCE
+    ROUTER_DECISION_LOG.val = f"{datetime.now()}; XSEG={XSEG_ASSIGNED.val}; QINSTYPE=r99; DECISION=SCREENOUT; STATUS=ERROR_INVALID_INSURANCE"
+    # Route to term_QINSTYPE (existing termination logic)
+
+# XQINSTYPE derivation already exists in source XMLs (lines 2584-2602 PRISM_MA_ESI.xml)
+# Router reads existing XQINSTYPE value
+</exec>
+
+<suspend/>
+
+
+<!-- ========================================
+     SECTION 4: QUOTA ALLOCATOR
+     Step 1f: Read live quotas + compute availability
+     ======================================== -->
+
+<exec>
+# ========================================
+# ROUTER ALLOCATOR LOGIC
+# Source: Step 1f pseudocode
+# ========================================
+
+# Read respondent profile
+xseg = XSEG_ASSIGNED.val  # 1-16
+xqins = XQINSTYPE.val  # r1 (MA), r2 (Traditional), r3 (ESI), r4 (Other)
+
+# Initialize availability flags
+esi_open = 0
+ma_open = 0
+glp1_open = 0
+# al_vax_open = 0  # TODO: Add when AL_VAX quota sheet provided
+
+# ========================================
+# STEP 4a: Derive insurance eligibility flags (Step 1d)
+# ========================================
+ins_ma_flag = (xqins in ["r1", "r2"])  # Medicare Advantage or Traditional
+ins_esi_flag = (xqins == "r3")  # Employer-Sponsored Insurance
+ins_other_flag = (xqins == "r4")  # Other/no insurance
+
+# ========================================
+# STEP 4b: Check MA/ESI quotas (if eligible)
+# Source: Step 1c quota sheets
+# ========================================
+
+if ins_ma_flag or ins_esi_flag:
+    # Read Block_INSTYPE_Quota for this XQINSTYPE
+    # ASSUMPTION: Decipher quota sheets return (limit - current) as "remaining"
+    # quota_instype = getQuotaRemaining("Block_INSTYPE_Quota", f"XQINSTYPE_{xqins}")
+    
+    # ESI block availability
+    # esi_block_remaining = quota_instype["ESI_SEC"]
+    # ESI segment availability (Wave One Equal Allocation)
+    # esi_wave_remaining = getQuotaRemaining("Wave One Equal Allocation QUOTA", f"Segment_{xseg}_ESI")
+    # esi_open = min(esi_block_remaining, esi_wave_remaining)
+    
+    # MA block availability
+    # ma_block_remaining = quota_instype["MA_SEC"]
+    # MA segment availability
+    # ma_wave_remaining = getQuotaRemaining("Wave One Equal Allocation QUOTA", f"Segment_{xseg}_MA")
+    # ma_open = min(ma_block_remaining, ma_wave_remaining)
+    
+    # PLACEHOLDER: Replace with actual Decipher quota API calls
+    # For now, use dummy logic for XML structure demonstration
+    esi_open = 25  # REPLACE with actual quota check
+    ma_open = 20   # REPLACE with actual quota check
+
+elif ins_other_flag:
+    # XQINSTYPE=Other not eligible for MA/ESI (Step 1d, Step 1h test case 6)
+    esi_open = 0
+    ma_open = 0
+
+# ========================================
+# STEP 4c: Check GLP1 quotas (always check as fallback)
+# Source: Step 1c GLP1-quota.xls
+# ========================================
+
+# GLP1 has no insurance restrictions; all XQINSTYPE eligible
+# glp1_segment_remaining = getQuotaRemaining("Wave One Equal Allocation QUOTA", f"Segment_{xseg}_GLP1")
+# glp1_age_ok = checkAgeQuota("Age Quota", respondent_age)
+# glp1_gender_ok = checkGenderQuota("Gender Quota", respondent_gender)
+# glp1_open = glp1_segment_remaining if (glp1_age_ok and glp1_gender_ok) else 0
+
+# PLACEHOLDER: Replace with actual Decipher quota API calls
+glp1_open = 100  # REPLACE with actual quota check
+
+# ========================================
+# STEP 4d: Allocation priority decision (Step 1f flowchart)
+# ASSUMPTION: Priority = MA/ESI (constrained) > GLP1 (unconstrained)
+# See router/DESIGN_DECISIONS.md for rationale
+# ========================================
+
+route_block = None
+router_status = None
+allocation_reason = None
+
+# Priority 1: MA/ESI (if eligible and open)
+if ins_ma_flag or ins_esi_flag:
+    if esi_open > 0 and ma_open > 0:
+        # Both open: tie-break logic (Step 1f, Step 1h test cases 1-2)
+        # ASSUMPTION: Deterministic mod-based tie-break
+        # OPTION: Use Block Quota markers (c_1/c_2) for random 50/50
+        if xseg % 2 == 1:  # odd segments → ESI
+            route_block = "r1"  # ROI_ESI_FINAL
+            router_status = "r2"  # SUCCESS_ESI
+        else:  # even segments → MA
+            route_block = "r2"  # ROI_MA_FINAL
+            router_status = "r1"  # SUCCESS_MA
+        allocation_reason = "r1"  # QUOTA_AVAILABLE
+        
+    elif esi_open > 0:
+        # ESI only open (Step 1h test case 3)
+        route_block = "r1"  # ROI_ESI_FINAL
+        router_status = "r2"  # SUCCESS_ESI
+        allocation_reason = "r1"  # QUOTA_AVAILABLE
+        
+    elif ma_open > 0:
+        # MA only open (Step 1h test case 4, 9, 10)
+        route_block = "r2"  # ROI_MA_FINAL
+        router_status = "r1"  # SUCCESS_MA
+        allocation_reason = "r1"  # QUOTA_AVAILABLE
+        
+    elif glp1_open > 0:
+        # MA/ESI full, fallback to GLP1
+        route_block = "r3"  # ROI_GLP1_FINAL
+        router_status = "r3"  # SUCCESS_GLP1
+        allocation_reason = "r1"  # QUOTA_AVAILABLE (GLP1 available)
+        
+    else:
+        # All quotas full (Step 1h test case 5)
+        route_block = "r4"  # NONE
+        router_status = "r4"  # OVERQUOTA_NO_ALLOCATION
+        allocation_reason = "r2"  # QUOTA_FULL
+
+elif ins_other_flag:
+    # XQINSTYPE=Other: only eligible for GLP1 (Step 1h test case 6)
+    if glp1_open > 0:
+        route_block = "r3"  # ROI_GLP1_FINAL
+        router_status = "r3"  # SUCCESS_GLP1
+        allocation_reason = "r1"  # QUOTA_AVAILABLE
+    else:
+        route_block = "r4"  # NONE
+        router_status = "r4"  # OVERQUOTA_NO_ALLOCATION
+        allocation_reason = "r3"  # XQINSTYPE_OTHER_NO_ROUTE
+
+# ========================================
+# STEP 4e: Set hidden variables (Step 1g)
+# ========================================
+
+ROUTE_BLOCK_INTERNAL.val = route_block
+ROUTER_STATUS.val = router_status
+ROUTER_ALLOCATION_REASON.val = allocation_reason
+
+# Build decision log (Step 1g audit trail)
+timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+log_entry = f"{timestamp}; XSEG={xseg}; XQINS={xqins}; ESI_OPEN={esi_open}; MA_OPEN={ma_open}; GLP1_OPEN={glp1_open}; DECISION={'ROUTE' if route_block != 'r4' else 'OVERQUOTA'}; ROUTE={route_block}; STATUS={router_status}"
+ROUTER_DECISION_LOG.val = log_entry
+
+</exec>
+
+<suspend/>
+
+
+<!-- ========================================
+     SECTION 5: ROUTING DECISION
+     Step 1f: Branch to assigned block or soft-term
+     ======================================== -->
+
+<!-- Route to assigned study block -->
+<block label="b_router_dispatch">
+  <condition cond="ROUTE_BLOCK_INTERNAL.r1">Route to ESI</condition>
+  <goto block="ROI_ESI_FINAL"/>
+</block>
+
+<block label="b_router_dispatch_ma">
+  <condition cond="ROUTE_BLOCK_INTERNAL.r2">Route to MA</condition>
+  <goto block="ROI_MA_FINAL"/>
+</block>
+
+<block label="b_router_dispatch_glp1">
+  <condition cond="ROUTE_BLOCK_INTERNAL.r3">Route to GLP1</condition>
+  <goto block="ROI_GLP1_FINAL"/>
+</block>
+
+<!-- Soft-term if no allocation available (Step 1e) -->
+<block label="b_router_softterm">
+  <condition cond="ROUTE_BLOCK_INTERNAL.r4">No quota available</condition>
+  
+  <html label="softterm_message">
+    <title>Thank You</title>
+    <p>Thank you for your interest. Unfortunately, all slots for your profile are currently full.</p>
+    <p>We may contact you again if new opportunities become available.</p>
+  </html>
+  
+  <!-- Exit without hard termination (preserves Dynata eligibility) -->
+  <suspend/>
+  <!-- Complete survey with status flags set -->
+</block>
+
+
+<!-- ========================================
+     SECTION 6: STUDY BLOCKS (Placeholders)
+     These will reference actual study content from source XMLs
+     ======================================== -->
+
+<!-- ESI study block (PRISM_MA_ESI.xml block b1) -->
+<block label="ROI_ESI_FINAL" cond="ROUTE_BLOCK_INTERNAL.r1">
+  <comment>ESI study content goes here (copy from PRISM_MA_ESI.xml lines 2700+)</comment>
+  <!-- PLACEHOLDER: Insert actual ESI questions -->
+  <suspend/>
+</block>
+
+<!-- MA study block (PRISM_MA_ESI.xml block b3) -->
+<block label="ROI_MA_FINAL" cond="ROUTE_BLOCK_INTERNAL.r2">
+  <comment>MA study content goes here (copy from PRISM_MA_ESI.xml lines 2800+)</comment>
+  <!-- PLACEHOLDER: Insert actual MA questions -->
+  <suspend/>
+</block>
+
+<!-- GLP1 study block (PRISM_GLP1 main content) -->
+<block label="ROI_GLP1_FINAL" cond="ROUTE_BLOCK_INTERNAL.r3">
+  <comment>GLP1 study content goes here (copy from PRISM_GLP1)</comment>
+  <!-- PLACEHOLDER: Insert actual GLP1 questions -->
+  <suspend/>
+</block>
+
+
+<!-- ========================================
+     SECTION 7: COMPLETION & EXPORT
+     ======================================== -->
+
+<suspend/>
+
+<!-- Survey complete: all hidden variables export to data file -->
+<html label="completion_message">
+  <title>Thank You</title>
+  <p>Thank you for completing this survey. Your responses have been recorded.</p>
+</html>
+
+<suspend/>
+
